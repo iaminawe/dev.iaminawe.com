@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the single page website module.
+ *
+ * This file contains the functions required to perform install, update and
+ * uninstall operations.
+ *
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function single_page_website_uninstall() {
+  variable_del('single_page_website_sub_theme');  
+  variable_del('single_page_website_theme');  
+  variable_del('single_page_website_header');  
+  variable_del('single_page_website_footer');
+  variable_del('single_page_website_menu');
+  variable_del('single_page_website_content');
+}

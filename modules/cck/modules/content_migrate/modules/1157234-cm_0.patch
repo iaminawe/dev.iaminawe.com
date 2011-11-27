@@ -1,0 +1,169 @@
+diff --git a/modules/content_migrate/includes/content_migrate.admin.inc b/modules/content_migrate/includes/content_migrate.admin.inc
+index a996b52..88e7bde 100644
+--- a/modules/content_migrate/includes/content_migrate.admin.inc
++++ b/modules/content_migrate/includes/content_migrate.admin.inc
+@@ -213,12 +213,13 @@ function _content_migrate_batch_process_create_fields($field_name, &$context) {
+   
+   $context['message'] = t('"Creating field: %field', array('%field' => $field_name));
+   $field_value = content_migrate_get_field_values($field_name);
++  $instance_info = field_info_instances($entity_type = 'node');
+ 
+   // Create the field and store the new field 
+   // definition in $context so we can retrieve it later. 
+   try {
+     // A shared field may already have been created, check first.
+-    $field = field_info_field('node', $field_value['field_name']);
++    $field = field_info_field($field_value['field_name']);
+     if (empty($field)) {
+       unset($field_value['columns']);
+       unset($field_value['db_storage']);   
+@@ -239,20 +240,22 @@ function _content_migrate_batch_process_create_fields($field_name, &$context) {
+           drupal_set_message(t('The @widget widget is not available for the @field field, setting to default widget.', array('@widget' => $instance_value['widget']['type'], '@field' => $field_name)), 'warning');
+         }
+ 
+-        foreach ($instance_value['display'] as $context => $settings) {
+-          if ($context == 'label' || $context == 'parent' || $context == 'weight') {
++        foreach ($instance_value['display'] as $display_mode => $settings) {
++          // @todo Is the value being compared to $display_mode supposed to be compared to a key in $settings?
++          if ($display_mode == 'label' || $display_mode == 'parent' || $display_mode == 'weight') {
+             continue;
+           }
+-          if (!array_key_exists( $settings['type'], $allowed_formatters)) {
++          if (!array_key_exists($settings['type'], $allowed_formatters)) {
+             drupal_set_message(t('The @formatter formatter used in the @context context is not available for the @field field, setting to default formatter.', array('@formatter' => $settings['type'], '@context' => $context, '@field' => $field_name)), 'warning');
+           }
+         }
+ 
+-        $instance = field_create_instance($instance_value); 
+-        $context['instances'][$field_name][$instance['bundle']] = $instance;
+-        drupal_set_message(t("Created instance of @field_name in bundle @bundle.", array(
+-          '@field_name' => $field_name, '@bundle' => $type_names[$instance['bundle']])));
+-        
++        if (!isset($instance_info[$bundle][$field_name])) {
++          $instance = field_create_instance($instance_value);
++          $context['instances'][$field_name][$instance['bundle']] = $instance;
++          drupal_set_message(t("Created instance of @field_name in bundle @bundle.", array(
++            '@field_name' => $field_name, '@bundle' => $type_names[$instance['bundle']]))); // @todo Is this or next using wrong variable: $instance or $instance_value?
++        }
+       }
+       catch (Exception $e) {
+         drupal_set_message(t('Error creating instance of @field_name in bundle @bundle.', array(
+@@ -302,7 +305,7 @@ function _content_migrate_batch_process_migrate_data($field_name, &$context) {
+       ->orderBy('nid', 'ASC')
+       ->distinct()
+       ->execute();
+-    
++
+     $nodes = array();
+     foreach ($result as $row) {
+       $nodes[] = array('nid' => $row['nid'], 'title' => $row['title'], 'type' => $row['type'], 'vid' => $row['vid'], 'language' => $row['language']);
+@@ -348,7 +351,7 @@ function _content_migrate_batch_process_migrate_data($field_name, &$context) {
+   foreach ($context['sandbox']['old_cols'] as $key => $col) {
+     $query->addField('old_table', $col, $context['sandbox']['new_cols'][$key]);
+   }
+-    
++
+   // Add delta, or construct it if missing.
+   if ($context['sandbox']['add_delta']) {
+     $query->addField('old_table', 'delta', 'delta');
+@@ -361,16 +364,25 @@ function _content_migrate_batch_process_migrate_data($field_name, &$context) {
+ 
+   $field = field_info_field($field_name);
+   foreach ($result as $record) {
+-  
++
+     // Let modules alter this before the insert.
+     drupal_alter('content_migrate_data_record', $record, $context['sandbox']['field']);
+ 
+     // Don't save empty values.
+     if (!empty($record)) {
+       $function = $field['module'] . '_field_is_empty';
+-      function_exists($function);
+-      if ($function($record, $field)) {
+-        $record = NULL;
++      if (function_exists($function))  {
++        foreach ($record as $column => $value) {
++          if (strpos($column, $field_name) === 0) {
++            // Add an item for the field without the field_name prefix.
++            // Field API stores the column key without the field_name prefix,
++            // but drupal_write_record() wants the actual column name.
++            $record[str_replace($field_name . '_', '', $column)] = $value;
++          }
++        }
++        if ($function($record, $field)) {
++          $record = NULL;
++        }
+       }
+     }
+ 
+@@ -393,5 +405,3 @@ function _content_migrate_batch_process_migrate_data($field_name, &$context) {
+   }
+ 
+ }
+-
+-
+diff --git a/modules/content_migrate/includes/content_migrate.drush.inc b/modules/content_migrate/includes/content_migrate.drush.inc
+index ca75ff9..4ac3c84 100644
+--- a/modules/content_migrate/includes/content_migrate.drush.inc
++++ b/modules/content_migrate/includes/content_migrate.drush.inc
+@@ -23,7 +23,6 @@ function content_migrate_drush_help($section) {
+   }
+ }
+ 
+-
+ /**
+  * Implementation of hook_drush_command().
+  */
+@@ -56,7 +55,6 @@ function content_migrate_drush_command() {
+       'name' => 'A field system name.',
+     ),
+   );
+-
+   return $items;
+ }
+ 
+@@ -103,14 +101,14 @@ function drush_content_migrate_fields() {
+ }
+ 
+ function drush_content_migrate_field_structure($field_name) {
+-  drush_log(dt('Migrating structure for !field', array('!fields' => $field_name)), 'status');
++  drush_log(dt('Migrating structure for !field', array('!field' => $field_name)), 'status');
+   module_load_include('inc', 'content_migrate', 'includes/content_migrate.admin');
+   $context = array();
+   _content_migrate_batch_process_create_fields($field_name, $context);
+ }
+ 
+ function drush_content_migrate_field_data($field_name) {
+-  drush_log(dt('Migrating data for !field', array('!fields' => $field_name)), 'status');
++  drush_log(dt('Migrating data for !field', array('!field' => $field_name)), 'status');
+   module_load_include('inc', 'content_migrate', 'includes/content_migrate.admin');
+   $context = array(
+     'sandbox' => array(),
+@@ -140,7 +138,7 @@ function drush_content_migrate_rollback() {
+   drush_log(dt('Roll back complete'), 'status');
+ }
+ 
+-function drush_content_migrate_get_fields($requests = array(), $status) {
++function drush_content_migrate_get_fields($requests = array(), $status = 'available') {
+   module_load_include('inc', 'content_migrate', 'includes/content_migrate.admin');
+   $fields_info = content_migrate_get_options();
+   $field_names = array();
+@@ -155,4 +153,4 @@ function drush_content_migrate_get_fields($requests = array(), $status) {
+     }
+   }
+   return $field_names;  
+-}
+\ No newline at end of file
++}
+diff --git a/modules/content_migrate/modules/content_migrate.filefield.inc b/modules/content_migrate/modules/content_migrate.filefield.inc
+index a5b216b..fe50bed 100644
+--- a/modules/content_migrate/modules/content_migrate.filefield.inc
++++ b/modules/content_migrate/modules/content_migrate.filefield.inc
+@@ -28,7 +28,6 @@ function content_migrate_filefield_field_alter(&$field_value, $instance_value) {
+     // Module names and types changed.
+     $field_value['module'] = 'file';
+     $field_value['type'] = 'file';
+-    break;
+   }
+ }
+ 

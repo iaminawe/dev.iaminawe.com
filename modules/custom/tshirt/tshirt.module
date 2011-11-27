@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the tshirt feature.
+ */
+
+include_once('tshirt.features.inc');

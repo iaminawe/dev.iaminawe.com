@@ -1,0 +1,105 @@
+<?php
+/**
+ * @file
+ * Includes the FitVids.js jQuery plugin for fluid width video embeds.
+ */
+
+// Constants
+define("DEFAULT_REGIONS", '.region');
+
+/**
+ * Implements hook_help.
+ *
+ * Displays help and module information.
+ *
+ * @param path 
+ *   Which path of the site we're using to display help
+ * @param arg 
+ *   Array that holds the current path as returned from arg() function
+ */
+function fitvids_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#fitvids":
+	  $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>'.  t("FitVids is a jQuery plugin for fluid width video embeds.") .'</p>';
+      $output .= '<p>'.  t("It's useful if you are using a responsive theme (such as Omega), and want the videos to scale.") .'</p>';
+      $output .= '<h3>' . t('Further info') . '</h3>';
+      $output .= '<p>'.  t("There is an explanatory blog post at http://daverupert.com/2011/09/responsive-video-embeds-with-fitvids/") .'</p>';
+	  return $output;
+      break;
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function fitvids_permission(){
+  return array(
+    'administer fitvids' => array(
+      'title' => t('Administer the FitVids module'),
+    )  
+  );  
+}
+
+/**
+ * Implements hook_menu().
+ */
+function fitvids_menu() {
+  $items = array();  
+
+  $items['admin/config/media/fitvids'] = array(
+    'title' => 'FitVids',
+    'description' => 'Configuration for FitVids module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('fitvids_form'),
+    'access arguments' => array('administer fitvids'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
+  return $items;
+}
+
+/**
+ * Configuraton form, called by drupal_get_form() 
+ * in current_posts_menu().
+ */
+function fitvids_form($form, &$form_state) {
+  $form['fitvids_selectors'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Video containers'),
+    '#default_value' => variable_get('fitvids_selectors', DEFAULT_REGIONS),
+    '#rows' => 5,
+    '#description' => t('Enter some jQuery selectors for your video containers. Use a new line for each selector.'),
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Include the FitVids.js script on every page
+ */
+function fitvids_init() {
+  $installed = file_exists(drupal_get_path('module', 'fitvids') . '/jquery.fitvids.js');
+  if (!$installed)
+  {
+    return;
+  }
+  
+  // TODO User should be able to choose which paths this should/shouldn't run on
+  
+  $fitvids_selectors = variable_get('fitvids_selectors', DEFAULT_REGIONS);
+  $fitvids_selectors_array = explode(PHP_EOL, $fitvids_selectors);
+  
+  $inline_code = '// Output by FitVids module' . PHP_EOL;
+  
+  foreach ($fitvids_selectors_array as $selector) {
+    $selector = trim($selector);
+	$inline_code .= 'jQuery("' . $selector . '").fitVids();' . PHP_EOL;
+  }
+  
+  drupal_add_js($inline_code,
+    array('type' => 'inline', 'scope' => 'footer', 'weight' => 5)
+  );
+}

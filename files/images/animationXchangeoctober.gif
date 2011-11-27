@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Animation SA | The South African Animation Directory</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+      <!-- Additional IE/Win specific style sheet (Conditional Comments) -->
+      <!--[if IE]>
+      <style type="text/css" media="all">@import "/sites/all/modules/jstools/tabs/tabs-ie.css";</style>
+      <![endif]-->
+    
+<meta name="copyright" content="Copyright Animation SA 2008" />
+<meta name="DC.Title" content="Animation SA | The South African Animation Directory" />
+<meta name="keywords" content="animation south africa,africa,jobs,training,resources,education,community,video,images,strategy,forums" />
+<meta name="robots" content="index,follow" />
+<link rel="stylesheet" href="/sites/all/themes/zen/animationsa/print.css" type="text/css" media="print" />
+
+<link rel="shortcut icon" href="/files/animationsa_favicon.ico" type="image/x-icon" />
+  <style type="text/css" media="all">@import "/files/css/dc228a33138d06d1a39abe3dc6ff6d40.css";</style>
+  <!--[if IE]>
+    <link rel="stylesheet" href="/sites/all/themes/zen/ie.css" type="text/css">
+      <![endif]-->
+  <script type="text/javascript" src="/misc/jquery.js"></script>
+<script type="text/javascript" src="/misc/drupal.js"></script>
+<script type="text/javascript" src="/sites/all/modules/fivestar/js/fivestar.js"></script>
+<script type="text/javascript" src="/sites/all/modules/jquery_update/compat-1.0.js"></script>
+<script type="text/javascript" src="/sites/all/modules/jstools/jstools.js"></script>
+<script type="text/javascript" src="/sites/all/modules/jstools/tabs/jquery.tabs.pack.js"></script>
+<script type="text/javascript" src="/sites/all/modules/jstools/tabs/tabs.js"></script>
+<script type="text/javascript" src="/sites/all/modules/nice_menus/nice_menus.js"></script>
+<script type="text/javascript" src="/sites/all/modules/poormanscron/poormanscron.js"></script>
+<script type="text/javascript" src="/sites/all/modules/thickbox/thickbox_login.js"></script>
+<script type="text/javascript" src="/sites/all/modules/thickbox/thickbox.js"></script>
+<script type="text/javascript" src="/sites/all/modules/panels/js/panels.js"></script>
+<script type="text/javascript" src="/sites/all/scripts/jquery.curvycorners.packed.js"></script>
+<script type="text/javascript" src="/sites/all/modules/jquery_update/collapse-fix.js"></script>
+<script type="text/javascript">Drupal.extend({ settings: { "fivestar": { "titleUser": "Your rating: ", "titleAverage": "Average: ", "feedbackSavingVote": "Saving your vote...", "feedbackVoteSaved": "Your vote has been saved.", "feedbackDeletingVote": "Deleting your vote...", "feedbackVoteDeleted": "Your vote has been deleted." }, "jstools": { "cleanurls": true, "basePath": "/" }, "tabs": { "slide": true, "fade": true, "speed": "fast", "auto_height": false, "next_text": "next", "previous_text": "previous" }, "cron": { "basePath": "/poormanscron", "runNext": 1273434582 }, "thickbox": { "close": "Close", "next": "Next \x3e", "prev": "\x3c Prev", "esc_key": "or Esc Key", "next_close": "Next / Close on last", "image_count": "Image !current of !total" }, "base_path": "/" } });</script>
+<script type="text/javascript">$(document).ready(function() {
+      $("div.blockwrap").corner("round 10px");
+    });</script>
+</head>
+
+<body class="not-front not-logged-in no-sidebars page-images-animationxchangeoctober-gif section-images">
+
+  <div id="page"><div id="page-inner">
+
+    <a name="top" id="navigation-top"></a>
+
+    <div id="header"><div id="header-inner" class="clear-block">
+              <div id="logo-title">
+
+                      <div id="logo"><a href="/" title="Home" rel="home"><img src="/files/zen_logo.png" alt="Home" id="logo-image" /></a></div>
+          
+          
+          
+        </div> <!-- /#logo-title -->
+             <div id="loginstrip">
+ <div id="mainsearch"> <form action="/images/animationXchangeoctober.gif"  accept-charset="UTF-8" method="post" id="search-theme-form">
+<div><div id="search" class="container-inline"><div class="form-item" id="edit-search-theme-form-keys-wrapper">
+ <input type="text" maxlength="128" name="search_theme_form_keys" id="edit-search-theme-form-keys"  size="15" value="" title="Enter the terms you wish to search for." class="form-text" />
+</div>
+<input type="submit" name="op" id="edit-submit" value="Search"  class="form-submit" />
+<input type="hidden" name="form_id" id="edit-search-theme-form" value="search_theme_form"  />
+</div>
+</div></form>
+</div>
+ 
+   <form action="/images/animationXchangeoctober.gif?destination=login_redirect"  accept-charset="UTF-8" method="post" id="user-login-form">
+<div><div class="form-item" id="edit-name-wrapper">
+ <label for="edit-name">Username: <span class="form-required" title="This field is required.">*</span></label>
+ <input type="text" maxlength="60" name="name" id="edit-name"  size="15" value="" class="form-text required" />
+</div>
+<div class="form-item" id="edit-pass-wrapper">
+ <label for="edit-pass">Password: <span class="form-required" title="This field is required.">*</span></label>
+ <input type="password" name="pass" id="edit-pass"  maxlength="60"  size="15"  class="form-text required" />
+</div>
+<input type="submit" name="op" id="edit-submit" value="Log in"  class="form-submit" />
+<div class="item-list"><ul><li><a href="/user/register" title="Create a new user account.">Create new account</a></li><li><a href="/user/password" title="Request new password via e-mail.">Request new password</a></li></ul></div><input type="hidden" name="form_id" id="edit-user-login-block" value="user_login_block"  />
+
+</div></form>
+            </div>
+
+<div id="primarynav">
+<ul class="nice-menu nice-menu-downdown" id="nice-menu-primary"><li id="menu-326" class="menu-path-front"><a href="/">Home</a></li>
+<li id="menu-143" class="menuparent menu-path-about"><a href="/about" title="Information about Animation South Africa.">About</a><ul><li id="menu-230" class="menu-path-node-167"><a href="/about/strategy">Strategy</a></li>
+<li id="menu-234" class="menu-path-about-subscribe"><a href="/about/subscribe" title="Different ways you can receive updated content from the site.">Subscribe</a></li>
+<li id="menu-233" class="menu-path-node-168"><a href="/about/advertising" title="Find out how you can advertise on the website.">Advertising</a></li>
+<li id="menu-231" class="menu-path-about-partners"><a href="/about/partners" title="Our sponsors and affiliates">Partners</a></li>
+</ul>
+</li>
+<li id="menu-156" class="menuparent menu-path-community"><a href="/community" title="A overview of the different ways in which you can join and participate in our community.">Community</a><ul><li id="menu-564" class="menu-path-community-companies"><a href="/community/companies" title="A listing of all the companies on Animation SA">Companies</a></li>
+<li id="menu-563" class="menu-path-community-individuals"><a href="/community/individuals">Individuals</a></li>
+<li id="menu-565" class="menuparent menu-path-community-showcase"><a href="/community/showcase" title="A showcase of all the latest images and videos coming out of the community.">Showcase</a><ul><li id="menu-243" class="menu-path-community-images"><a href="/community/images" title="All the latest images from the community">Images</a></li>
+<li id="menu-242" class="menu-path-community-videos"><a href="/community/videos" title="The latest rated videos by the community.">Videos</a></li>
+</ul>
+</li>
+<li id="menu-566" class="menu-path-community-blogs"><a href="/community/blogs" title="A listing of all the member blog and recent postings.">Blogs</a></li>
+<li id="menu-154" class="menu-path-forum"><a href="/forum" title="A place to discuss stuff">Forums</a></li>
+<li id="menu-567" class="menu-path-community-press-releases"><a href="/community/press-releases" title="A listing of recent press releases made by companies and schools">Press Releases</a></li>
+<li id="menu-240" class="menu-path-user-register"><a href="/user/register" title="Signup and become a member of our community here.">Sign Up</a></li>
+</ul>
+</li>
+<li id="menu-150" class="menuparent menu-path-training-education-home"><a href="/training-education/home" title="How to get involved in learning or teaching Animation in South Africa">Training &amp; Education</a><ul><li id="menu-562" class="menu-path-training-education-schools"><a href="/training-education/schools">Schools</a></li>
+<li id="menu-236" class="menu-path-training-education-training-courses"><a href="/training-education/training-courses" title="All the courses currently running in South Africa.">Training Courses</a></li>
+<li id="menu-239" class="menu-path-taxonomy-term-564"><a href="/category/job-type/internship" title="Find out what companies are offering training internships.">Internships</a></li>
+<li id="menu-235" class="menu-path-community-resources"><a href="/community/resources" title="This is a list of online resources compiled by members of the site.">Resources</a></li>
+</ul>
+</li>
+<li id="menu-153" class="menuparent menu-path-news-and-events"><a href="/news-and-events" title="The latest happenings with Animation SA">News &amp; Events</a><ul><li id="menu-588" class="menuparent menu-path-all-events"><a href="/all-events">Events</a><ul><li id="menu-586" class="menu-path-taxonomy-term-46"><a href="/category/events/conference">Conferences</a></li>
+<li id="menu-585" class="menu-path-taxonomy-term-43"><a href="/category/events/film-festivals">Film Festivals</a></li>
+<li id="menu-244" class="menu-path-taxonomy-term-42"><a href="/category/events/workshops">Workshops</a></li>
+</ul>
+</li>
+<li id="menu-587" class="menuparent menu-path-news-all"><a href="/news/all">News</a><ul><li id="menu-590" class="menu-path-news-animationxchange"><a href="/news/animationxchange">Animation Xchange</a></li>
+<li id="menu-589" class="menu-path-news-industry-local"><a href="/news/industry/local" title="All the industry happenings in South Africa">Local Industry</a></li>
+<li id="menu-591" class="menu-path-aggregator"><a href="/aggregator">International Industry</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li id="menu-155" class="menu-path-articles-home"><a href="/articles/home" title="Articles profiling the Animation industry.">Articles</a></li>
+<li id="menu-151" class="menu-path-jobs-home"><a href="/jobs/home" title="The place to find and advertise employment in the animation industries">Jobs</a></li>
+</ul>
+</div>
+      
+    </div></div> <!-- /#header-inner, /#header -->
+
+    <div id="main"><div id="main-inner" class="clear-block">
+
+      <div id="content"><div id="content-inner">
+
+        
+        
+        
+        <div id="content-area">
+                  </div>
+
+        
+        
+      </div></div><!-- /#content-inner, /#content -->
+
+      
+      
+    </div></div> <!-- /#main-inner, /#main -->
+
+    <div id="footer"><div id="footer-inner">
+
+      <div id="footer-message">
+</div>
+
+    </div></div> <!-- /#footer-inner, /#footer -->
+
+    
+    
+  </div></div> <!-- /#page-inner, /#page -->
+
+</body>
+</html>

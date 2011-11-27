@@ -1,0 +1,8 @@
+name = Views Fluid Grid - jQuery Masonry
+description = Provides a fluid grid layout based on <a href="http://desandro.com/resources/jquery-masonry">jQuery Masonry</a>
+package = Views
+core = 7.x
+dependencies[] = views
+files[] = includes/views_fluidgrid_style_plugin.inc
+
+

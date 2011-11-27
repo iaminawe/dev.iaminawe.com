@@ -1,0 +1,13 @@
+name = Background Image
+description = Set a custom background for the different sections of the Site
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "bg_image"
+dependencies[] = "context"
+
+; Information added by drupal.org packaging script on 2011-07-05
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "bg_image"
+datestamp = "1309824244"
+

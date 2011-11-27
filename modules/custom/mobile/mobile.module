@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the mobile feature.
+ */
+
+include_once('mobile.features.inc');

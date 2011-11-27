@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the theatre feature.
+ */
+
+include_once('theatre.features.inc');

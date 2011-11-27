@@ -1,0 +1,107 @@
+<?php
+
+/**
+ * Implements hook_permission().
+ */
+function single_page_website_permission() {
+  return array(
+    'administer single page' => array(
+      'title' => t('Administer single page'), 
+      'description' => t('Configure Single Page Website settings.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function single_page_website_menu() {
+  $items = array();
+  $items['single_page'] = array(
+    'title' => '', 
+    'page callback' => 'single_page_website_front_page',
+    'access callback' => TRUE,
+  );
+  $items['admin/config/system/single-page'] = array(
+    'title' => 'Single Page Settings',
+    'description' => 'Configure HTML DOM #IDs for the fixed elements of the single page etc.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('single_page_website_settings_form'),
+    'access arguments' => array('administer single page'),
+    'file' => 'single_page_website.admin.inc',
+  );
+  return $items;
+}
+
+
+function single_page_website_front_page() {
+  global $base_url;
+  require(DRUPAL_ROOT . '/sites/all/libraries/phpQuery/phpQuery-onefile.php');
+  if (variable_get('single_page_website_theme') != variable_get('theme_default')) {
+    return "Please visit " . l("Single Page Website Configuration Page", "admin/config/system/single-page") . " to edit and save module settings.";
+  }
+  drupal_add_js(array('single_page' => array('header_element' => variable_get('single_page_website_header', '#header'), 
+  'footer_element' => variable_get('single_page_website_footer', '#footer-wrapper'), 'content_element' => variable_get('single_page_website_content', '#content .content'), 
+  'menu_element' => variable_get('single_page_website_menu', '#main-menu'))), 'setting');
+  drupal_add_js(drupal_get_path('module', 'single_page_website') . '/js/' . variable_get('single_page_website_sub_theme', 'bartik') . '.js');
+  drupal_add_js(drupal_get_path('module', 'single_page_website') . '/js/scroll.js');
+  if (module_exists('colorbox'))
+    drupal_add_js(drupal_get_path('module', 'single_page_website') . '/js/colorbox_fix.js');
+  $output = '';
+  $output .= '<div id="single_page_wrapper">';
+  foreach (menu_tree(drupal_substr(variable_get('single_page_website_menu', '#main-menu'), 1)) as $item) {  
+    if (isset($item['#title']) ) {
+      $output .= '<a name="' . str_replace(" ", "_", $item['#title']) . '"></a><div id="' . str_replace(" ", "_", $item['#title']) . '" class="single_page_wrapper"><div class="single_page">';
+      $href = ($item['#href'] == '<front>') ? '' : $item['#href'];
+      $page_callback_result = menu_execute_active_handler($href, FALSE);
+      $content = drupal_render_page($page_callback_result);
+      $document = phpQuery::newDocument($content);
+      $output .= $document->find(variable_get('single_page_website_content', '#content .content'))->html();
+      $output .= '</div></div>';
+    }  
+  }
+  $output .= '</div>';
+  if (variable_get('site_slogan')) {
+    drupal_set_title(trim(drupal_html_to_text(variable_get('site_slogan'))));
+  }
+  else {
+    drupal_set_title(t(''));
+  }
+  $path = libraries_get_path('jquery.autoanchor') . '/jquery.autoanchor.js';
+  if (file_exists($path)) {
+    drupal_add_js($path);  
+    drupal_add_js('
+	  (function($){
+        $(document).ready(function(){
+          $("a[name]").addanchors();
+	    });
+      })(jQuery);
+	', 'inline');
+  }
+  return $output;
+}
+
+/**
+ * Implements hook_init().
+ */
+function single_page_website_init() {
+  global $base_path;
+  drupal_add_js(array('single_page' => array('menu_element' => variable_get('single_page_website_menu', '#main-menu'), 'base_path' => $base_path)), 'setting');
+  drupal_add_js(drupal_get_path('module', 'single_page_website') . '/js/menu.js');
+}
+
+/**
+ * Implements form_alter().
+ */
+function single_page_website_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id != 'search_block_form') { // some forms that shold not leave user on the single page
+    if ((variable_get('site_frontpage') == 'single_page' && (drupal_is_front_page())) || arg(0) == 'single_page') {
+      $form['#action'] = 'single_page';
+      $form['#submit'][] = 'single_page_website_go_back';
+    }
+  }
+}
+
+function single_page_website_go_back() {
+    drupal_goto('single_page');  
+}

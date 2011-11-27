@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the logo feature.
+ */
+
+include_once('logo.features.inc');

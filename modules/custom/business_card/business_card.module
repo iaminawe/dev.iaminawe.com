@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the business_card feature.
+ */
+
+include_once('business_card.features.inc');
