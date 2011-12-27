@@ -70,15 +70,15 @@ function domain_theme_set_variables($theme) {
 function domain_theme_menu() {
   $items = array();
   // Menu items for configuring themes.
-  $items['admin/structure/domain/theme/%domain'] = array(
-    'title' => 'Domain theme settings',
-    'type' => MENU_VISIBLE_IN_BREADCRUMB,
+  $items['admin/structure/domain/view/%domain/theme'] = array(
+    'title' => 'Theme',
+    'type' => MENU_LOCAL_TASK,
     'access arguments' => array('administer domains'),
     'page callback' => 'domain_theme_page',
     'page arguments' => array(4),
     'file' => 'domain_theme.admin.inc',
   );
-  $items['admin/structure/domain/theme-reset/%domain'] = array(
+  $items['admin/structure/domain/view/%domain/theme-reset'] = array(
     'title' => 'Domain theme settings',
     'type' => MENU_VISIBLE_IN_BREADCRUMB,
     'access arguments' => array('administer domains'),
@@ -86,12 +86,12 @@ function domain_theme_menu() {
     'page arguments' => array(4),
     'file' => 'domain_theme.admin.inc',
   );
-  $items['admin/structure/domain/theme/%/%domain/theme-settings'] = array(
+  $items['admin/structure/domain/view/%domain/theme/%/theme-settings'] = array(
     'title' => 'Configure domain theme settings',
     'type' => MENU_VISIBLE_IN_BREADCRUMB,
     'access arguments' => array('administer domains'),
     'page callback' => 'domain_theme_settings',
-    'page arguments' => array(4, 5),
+    'page arguments' => array(4, 6),
     'file' => 'domain_theme.admin.inc',
   );
   return $items;
@@ -141,23 +141,9 @@ function domain_theme_lookup($domain_id, $theme = NULL, $reset = FALSE) {
 }
 
 /**
- * Implements hook_domainlinks()
+ * Implements hook_domain_form()
  */
-function domain_theme_domainlinks($domain) {
-  if ($domain['domain_id'] > 0) {
-    $links[] = array(
-      'title' => t('theme'),
-      'path' => 'admin/structure/domain/theme/' . $domain['domain_id']
-    );
-    return $links;
-  }
-  return FALSE;
-}
-
-/**
- * Implements hook_domainform()
- */
-function domain_theme_domainform(&$form) {
+function domain_theme_domain_form(&$form) {
   // Set the module weight for Domain Theme,
   $module_weight = variable_get('domain_theme_weight', 0);
   db_update('system')
@@ -186,66 +172,14 @@ function domain_theme_domainform(&$form) {
 }
 
 /**
- * Implements hook_domainbatch()
- */
-function domain_theme_domainbatch() {
-  $batch = array();
-  // Allows the deletion of all Domain Theme rows.
-  $batch['domain_theme'] = array(
-    '#form' => array(
-      '#title' => t('Reset themes'),
-      '#type' => 'checkbox',
-      '#options' => array(0 => 1, 1 => t('Reset')),
-      '#description' => t('Delete custom theme settings for this domain.'),
-    ),
-    '#permission' => 'administer themes',
-    '#domain_action' => 'domain_delete',
-    '#system_default' => 0,
-    '#meta_description' => t('Delete custom theme settings for domains as supplied by Domain Theme.'),
-    '#table' => 'domain_theme',
-    '#weight' => -10,
-  );
-  // Change themes for sites.
-  $themes = list_themes();
-  $options = array();
-  foreach ($themes as $theme) {
-    if ($theme->status == 1) {
-      $options[$theme->name] = $theme->name;
-    }
-  }
-  $batch['site_theme'] = array(
-    '#form' => array(
-      '#title' => t('Theme settings'),
-      '#type' => 'select',
-      '#options' => $options,
-      '#description' => t('Select the theme for this domain.'),
-    ),
-    '#domain_action' => 'custom',
-    '#lookup' => 'domain_theme_batch_lookup',
-    '#submit' => 'domain_theme_batch_submit',
-    '#system_default' => variable_get('theme_default', 'garland'),
-    '#variable' => 'theme_default',
-    '#meta_description' => t('Change the themes for all domains.'),
-    '#data_type' => 'string',
-    '#update_all' => TRUE,
-    '#weight' => -9,
-  );
-  foreach ($batch as $key => $value) {
-    $batch[$key]['#module'] = t('Domain Theme');
-  }
-
-  return $batch;
-}
-
-/**
- * Custom handler for domain_theme_domainbatch().
+ * Custom handler for domain_theme_domain_batch().
  *
  * @param $values
  * The form values passed by the FormsAPI.
  */
 function domain_theme_batch_submit($values) {
   foreach ($values['domain_batch'] as $key => $value) {
-    if ($key > 0) {
+    if ((int) $key != domain_default_id()) {
       // Clear out the old theme.
       db_update('domain_theme')
         ->fields(array('status' => 0))
@@ -276,33 +210,6 @@ function domain_theme_batch_submit($values) {
 }
 
 /**
- * Return a theme setting for batch processing.
- *
- * @param $domain
- *   The domain being processed.
- * @return
- *   A valid domain id.
- */
-function domain_theme_batch_lookup($domain) {
-  return domain_theme_lookup($domain['domain_id']);
-}
-
-/**
- * Implements hook_domainwarnings()
- */
-function domain_theme_domainwarnings() {
-  $forms =  array(
-    'system_themes_form',
-    'system_theme_settings',
-  );
-  $return = array();
-  foreach ($forms as $form) {
-    $return[$form] =  'admin/structure/domain/theme/%domain_id';
-  }
-  return $return;
-}
-
-/**
  * Return the unique string path element used by color.module.
  *
  * @param $path
@@ -318,7 +225,7 @@ function domain_theme_get_color_path($path) {
  * Implements hook_form_alter().
  *
  * This function is a helper to a normal hook_form_alter implementation,
- * where we add additonal form elemtns if we are dealing with domain-specific
+ * where we add additional form elements if we are dealing with domain-specific
  * form settings.
  */
 function domain_theme_form_alter(&$form, &$form_state, $form_id) {
@@ -327,8 +234,8 @@ function domain_theme_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id != 'system_theme_settings' || arg(2) != 'domain') {
     return;
   }
-  $theme = arg(4);
-  $domain_id = arg(5);
+  $theme = arg(6);
+  $domain_id = arg(4);
   $themes = list_themes();
 
   $domain = domain_load($domain_id);
@@ -397,4 +304,21 @@ function domain_theme_form_alter(&$form, &$form_state, $form_id) {
     $color_settings[$name] = isset($value) ? $value : NULL;
   }
   $form['domain_color_defaults'] = array('#type' => 'value', '#value' => $color_settings);
+}
+
+/**
+ * Implements hook_features_api().
+ */
+function domain_theme_features_api() {
+  $components = array(
+    'domain_theme' => array(
+      'name' => t('Domain themes'),
+      'default_hook' => 'domain_theme_default_themes',
+      'default_file' => FEATURES_DEFAULTS_CUSTOM,
+      'default_filename' => 'domains',
+      'features_source' => TRUE,
+      'file' => drupal_get_path('module', 'domain_theme') .'/domain_theme.features.inc',
+    ),
+  );
+  return $components;
 }

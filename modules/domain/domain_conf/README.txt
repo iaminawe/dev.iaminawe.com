@@ -18,7 +18,7 @@ CONTENTS
 2.3   Menu Blocks
 3.  Batch Updates
 4.  Developer Notes
-4.1   Extending Options with hook_domainconf()
+4.1   Extending Options with hook_domain_conf()
 4.2   Setting Variables for Domains
 4.3   Using domain_conf.inc
 4.4   Database Schema
@@ -71,7 +71,7 @@ Domain Conf requires the Domain Access module be installed and active.
 2.2   Configuration Options
 
 When active, the Domain Conf module provides a 'settings' link next to each
-entry in your Domain Acccess list (found at path 'admin/build/domain/list').
+entry in your Domain Access list (found at path 'admin/structure/domain').
 
 For each registered domain, you have the option of saving settings that will
 replace the system settings for your root site.  The currently available
@@ -133,7 +133,7 @@ Be sure to check the values in this form before saving.
 ----
 4.  Developer Notes
 
-The Domain Conf module is the model for extending Domain Acccess.
+The Domain Conf module is the model for extending Domain Access.
 
 The following form elements were removed during beta testing:
 
@@ -143,12 +143,12 @@ The following form elements were removed during beta testing:
 See http://drupal.org/node/197692 for the reasons.
 
 ----
-4.1   Extending Options with hook_domainconf()
+4.1   Extending Options with hook_domain_conf()
 
 The module works by applying hook_form_alter() to the form:
-'system_settings_form' and then adding addiitonal fields from other forms.
+'system_settings_form' and then adding additional fields from other forms.
 
-hook_domainconf() allows developers to add additional form elements.
+hook_domain_conf() allows developers to add additional form elements.
 
 Note that you may use this hook to create variables that are independent
 of other Drupal modules.  To do so, be sure to set the '#domain_setting' flag
@@ -158,7 +158,7 @@ to TRUE before returning your $form array.
 
 Please see the full documentation in the API.
 
-http://therickards.com/api/function/hook_domainconf/Domain
+http://therickards.com/api/function/hook_domain_conf/Domain
 
 ----
 4.2   Setting Variables for Domains
@@ -173,53 +173,7 @@ Complete documentation of this function is in API.php.
 ----
 4.3   Using domain_conf.inc
 
-The normal method for using hook_domainconf() is to have the hook implemented
-in other modules.
-
-However, the community development process may mean that it will take time for
-the hook to be implemented in modules that you may be using.
-
-To allow for this fact without harming the upgrade path for Domain
-Configuration, it is possible to create a domain_conf.inc file that you place
-inside the domain_conf directory.
-
-This file should be a PHP file, and it should conform to Drupal coding
-standards.
-
-For example, to add the user picture default setting to the module without
-patching user.module or domain_conf.module, you may create the following
-file:
-
-====
-<?php
-/**
- * Implements hook_domainconf() to add the user picture.
- */
-function user_domainconf() {
-  $form['pictures'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('User picture'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-  $form['pictures']['user_picture_default'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Default picture'),
-    '#default_value' => variable_get('user_picture_default', ''),
-    '#size' => 30,
-    '#maxlength' => 255,
-    '#description' => t('URL of picture to display for users with no custom
-      picture selected. Leave blank for none.')
-  );
-  return $form;
-}
-====
-
-NOTE: Before upgrading the Domain module, be sure to save this file
-so that it may be replaced in the event it is deleted.  Note also that the
-domain_conf.inc file is not included in the module package.
-
-See http://drupal.org/node/236877 for additional background.
+This functionality has been deprecated. Use hook_domain_conf() normally.
 
 ----
 4.4   Database Schema

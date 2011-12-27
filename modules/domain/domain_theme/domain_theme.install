@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_schema()
+ * Implements hook_schema().
  */
 function domain_theme_schema() {
   $schema['domain_theme'] = array(
@@ -26,16 +26,30 @@ function domain_theme_schema() {
 }
 
 /**
- * Implements hook_uninstall()
+ * Implements hook_uninstall().
  */
 function domain_theme_uninstall() {
   variable_del('domain_theme_weight');
 }
 
 /**
- * Update note.
- *
- * Upgrading from Drupal 5 to Drupal 7 is not supported.
- * You must first upgrade to Drupal 6.x.2.3 or higher, and then proceed to Drupal 7.
- *
+ * Implements hook_dependencies().
  */
+function domain_theme_update_dependencies() {
+  $dependencies['domain_theme'][7300] = array(
+    'domain' => 7303,
+  );
+  return $dependencies;
+}
+
+/**
+ * Remove references to row 0.
+ */
+function domain_theme_update_7300(&$sandbox) {
+  $default_id = db_query("SELECT domain_id FROM {domain} WHERE is_default = 1")->fetchField();
+  db_update('domain_theme')
+    ->fields(array('domain_id' => $default_id))
+    ->condition('domain_id', 0)
+    ->execute();
+  return t('Domain Theme zero records removed.');
+}

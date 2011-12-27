@@ -1,0 +1,13 @@
+name = Domain Content Types
+description = Restrict access to content type creation forms based on active domain.
+core = 7.x
+files[] = domain_content_types.module
+package = Domain Access
+dependencies[] = domain
+
+; Information added by drupal.org packaging script on 2011-11-04
+version = "7.x-1.0-beta1"
+core = "7.x"
+project = "domain_content_types"
+datestamp = "1320438930"
+

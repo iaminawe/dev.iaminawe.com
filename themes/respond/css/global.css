@@ -1,3 +1,5 @@
+/* @override http://dev.gregg.iaminawe.com/sites/dev.iaminawe.com/themes/respond/css/global.css?lvayvm */
+
 /* This file will hold the main styles for your website. */
 html,
 body,
@@ -7,7 +9,7 @@ body,
 body {
   font-size: 62.5%; /* 10px */
   color: #696969;
-  background: #000;
+
 }
 .element-invisible {
   position: absolute !important;
@@ -27,7 +29,7 @@ a,
 a:link,
 a:visited {
   text-decoration: none;
-  color: #006caf;
+  color: #00aeb2;
   border-bottom: 1px dotted #006caf;
 }
 .vertical-tab-button a,
@@ -61,16 +63,21 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
   letter-spacing: normal;
 }
+
+.views-fluidgrid-item-inner h3{
+  font-size: 16px;
+}
 .item-list ul li {
   margin: 0;
 }
 
 /* Header */ 
 header.section-header {
-  background: #EEE;
+
 }
 section.section-content {
-  background: #EEE;
+ 
+  background-color: rgba(0,0,0,0.28);
 }
 footer.section-footer {
   background: #EEE;
@@ -131,7 +138,7 @@ footer.section-footer {
 
 .navigation ul li a:hover,
 .navigation ul li a:focus {
-  background: #93c5e4; /* Old browsers */
+  background: #444; /* Old browsers */
   color: #FFF;
 }
 
@@ -141,7 +148,7 @@ footer.section-footer {
 .navigation ul li a.active-trail:hover
 .navigation ul li a.active:focus,
 .navigation ul li a.active-trail:focus {
-  background: #93c5e4; /* Old browsers */
+  background: #000; /* Old browsers */
   color: #FFF;
 }
 
@@ -197,7 +204,12 @@ h1#page-title,
   -moz-border-radius: 10px 10px 0 0;
   -o-border-radius: 10px 10px 0 0;
   border-radius: 10px 10px 0 0;
-  background: #93c5e4; /* Old browsers */
+
+}
+
+.masonry-brick{
+  padding: 10px;
+  background-color: black;
 }
 
 /* Trying to get a transform on the node link headers */

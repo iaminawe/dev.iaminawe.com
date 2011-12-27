@@ -4,6 +4,7 @@
 	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lv3q4s
 	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lv7g6h
 	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lvah34
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lw2n3n
 */
 
 /* This file will hold the main styles for your website. */
@@ -149,7 +150,10 @@ ol ol {
   font-size: 14px;
 }
 
-
+.view-mode-full{
+  background-color: rgba(0,0,0,0.73);
+  padding: 10px;
+}
 .node ol,
 .node ul {
   padding-left: 1.2em;

@@ -9,103 +9,156 @@
  */
 
 /**
- * The main administration page, a list of active domains.
- *
- * @return
- *  A sortable table of active domain records, or an error message.
+ * Create an overview form for sorting domains and other quick actions.
  */
-function domain_view() {
-  $build = array();
-  $_domain = domain_get_domain();
-  $build['header']['#prefix'] = '<p>';
-  $build['header']['#markup'] = t('The following domains have been created for your site.  
-    The currently active domain <strong>is shown in boldface</strong>.  You
-    may click on a domain to change the currently active domain.  Your default
-    domain has an ID of %id.', array('%id' => variable_get('domain_default', 0))
-  );
-  $build['header']['#suffix'] = '</p>';
-  $header = array(
-    array('data' => t('Id'), 'field' => 'd.domain_id'),
-    array('data' => t('Domain'), 'field' => 'd.subdomain'),
-    array('data' => t('Site name'), 'field' => 'd.sitename'),
-    array('data' => t('Status'), 'field' => 'd.valid'),
-    array('data' => t('Scheme'), 'field' => 'd.scheme'),
-  );
-  // Get header elements from other modules
-  $extra = module_invoke_all('domainview', 'header');
-  $header = array_merge($header, $extra);
-  $header[] = array('data' => t('Actions'));
+function domain_overview_form($form, &$form_state) {
+  $check = (bool) db_query("SELECT COUNT(domain_id) FROM {domain}")->fetchField();
+  if (empty($check)) {
+    domain_set_primary_domain();
+  }
+  // Check for the 7.x.3 update.
+  domain_check_for_update();
+  // Set the form.
+  $default = domain_default();
+  $active_domain = domain_get_domain();
+  $form = array();
 
+  $form['top'] = array(
+    '#markup' => t('<p>The following domains have been created for your site.  The currently active domain <strong>is shown in boldface</strong>.  You
+                    may click on a domain to change the currently active domain.  Your default domain is %name, which will be used for all requests that fail to resolve to a registered domain.</p>', array('%name' => $default['subdomain'])),
+  );
   // Cannot use domain_domains() here because we need to sort the output.
   $domains = array();
-  $actions = array();
-
+  $header = array(
+    array('data' => t('Order')),
+    array('data' => t('Weight')),
+    array('data' => t('Site name')),
+    array('data' => t('Domain')),
+    array('data' => t('Id')),
+    array('data' => t('Active')),
+    array('data' => t('Default')),
+    array('data' => t('Operations')),
+  );
   // Set up the base query.
+  $limit = variable_get('domain_list_size', DOMAIN_LIST_SIZE);
+  $page = isset($_GET['page']) ? $_GET['page'] : 0;
   $query = db_select('domain', 'd')
-    ->fields('d', array('domain_id', 'sitename', 'subdomain', 'scheme', 'valid'));
-  // Get any tablesort sql from other modules.
-  module_invoke_all('domainview', 'query', array(), $query);
-  // Add the tablesort.
-  $query = $query
-    ->extend('TableSort')
-    ->orderByHeader($header);
-  $query = $query->extend('PagerDefault')->limit(variable_get('domain_list_size', DOMAIN_LIST_SIZE));
+    ->fields('d', array('domain_id', 'sitename', 'subdomain', 'scheme', 'valid', 'weight', 'is_default'))
+    ->orderBy('weight')
+    ->extend('PagerDefault')
+    ->limit($limit);
   // Get the domains.
   $result = $query->execute();
   foreach ($result as $data) {
-    $domains[] = (array) $data;
+    $domains[] = $data;
   }
+  if (empty($domains)) {
+    $form['error'] = array(
+      '#markup' => t('No domains have been configured. <a href="!url">Add a new domain</a>.', array('!url' => url('admin/structure/domain/create'))),
+    );
+    return $form;
+  }
+  $delta = count(domain_domains());
+  $form['domain']['#tree'] = TRUE;
+  $form['header'] = array(
+    '#type' => 'value',
+    '#value' => $header,
+  );
+  $options = array();
+  $i = -1;
   foreach ($domains as $domain) {
-    // Let submodules overwrite the defaults, if they wish.
-    $domain = domain_api($domain);
-    $link = l($domain['subdomain'], domain_get_uri($domain), array('absolute' => TRUE));
-    $actions = array();
-    if ($domain['domain_id'] > 0) {
-      $actions = array();
-      $actions[] = l(t('edit'), 'admin/structure/domain/edit/' . $domain['domain_id']);
-      $actions[] = l(t('delete'), 'admin/structure/domain/delete/' . $domain['domain_id']);
+    // TODO: The object/array bit here is ugly.
+    $domain_array = (array) $domain;
+    $domain_array = domain_api($domain_array);
+    $domain = (object) $domain_array;
+    $options[$domain->domain_id] = '';
+    $form['domain'][$domain->domain_id]['values'] = array(
+      '#type' => 'value',
+      '#value' => $domain,
+    );
+    $form['domain'][$domain->domain_id]['weight'] = array(
+      '#type' => 'weight',
+      '#default_value' => ($page * $limit) + $i++,
+      '#delta' => $delta,
+      '#attributes' => array('class' => array('domain-weight')),
+    );
+    $form['domain'][$domain->domain_id]['sitename'] = array(
+      '#type' => 'markup',
+      '#markup' => ($active_domain['domain_id'] == $domain->domain_id) ? '<strong>' . check_plain($domain->sitename) . '</strong>' : check_plain($domain->sitename),
+    );
+    $form['domain'][$domain->domain_id]['subdomain'] = array(
+      '#type' => 'markup',
+      '#markup' => ($active_domain['domain_id'] == $domain->domain_id) ? '<strong>' . l($domain->subdomain, domain_get_uri($domain_array)) . '</strong>' : l($domain->subdomain, domain_get_uri($domain_array)),
+    );
+    $form['domain'][$domain->domain_id]['domain_id'] = array(
+      '#type' => 'markup',
+      '#markup' => check_plain($domain->domain_id),
+    );
+    $form['domain'][$domain->domain_id]['valid'] = array(
+      '#type' => 'checkbox',
+      // '#title' => !empty($domain->valid) ? t('Active') : t('Inactive'),
+      '#default_value' => !empty($domain->valid),
+    );
+    $form['domain_actions'][$domain->domain_id] = array(
+      '#type' => 'markup',
+      '#markup' => l(t('edit domain'), 'admin/structure/domain/view/' . $domain->domain_id . '/edit'),
+    );
+  }
+  $form['default_domain'] = array(
+    '#type' => 'radios',
+    '#options' => $options,
+    '#default_value' => $default['domain_id'],
+  );
+  $form['pager'] = array(
+    '#markup' => theme('pager'),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+  return $form;
+}
+
+/**
+ * Validate handler for the domain overview form.
+ */
+function domain_overview_form_validate($form, &$form_state) {
+  $values = $form_state['values']['domain'];
+  $default = $form_state['values']['default_domain'];
+  if (isset($values[$default])) {
+    $domain = (array) $values[$default]['values'];
+    $error = domain_check_response($domain);
+    if ($error) {
+      $error = t('%domain may not be set as your primary domain.', array('%domain' => domain_get_path($domain))) . '<br />' . $error;
+      form_set_error('default_domain', $error);
     }
-    // Add advanced settings from other modules.
-    $items = array();
-    $items = module_invoke_all('domainlinks', $domain);
-    if (!empty($items)) {
-      foreach ($items as $item) {
-        if (!empty($item)) {
-          $actions[] = l($item['title'], $item['path']);
-        }
+  }
+}
+
+/**
+ * Submit handler for the domain overview form.
+ */
+function domain_overview_form_submit($form, &$form_state) {
+  $values = $form_state['values']['domain'];
+
+  foreach ($values as $domain_id => $value) {
+    $default = 0;
+    $valid = $value['valid'];
+    // Process the default domain.
+    if ($form_state['values']['default_domain'] == $domain_id) {
+      $default = 1;
+      $valid = 1;
+      if ($domain_id != $form_state['complete form']['default_domain']['#default_value']) {
+        drupal_set_message(t('The primary domain has been set to %domain.', array('%domain' => domain_get_path((array) $value['values']))));
       }
     }
-    // Set the valid flag.
-    ($domain['valid'] == 1) ? $valid = t('Active') : $valid = t('Inactive');
-    $row = array($domain['domain_id'], ($domain['domain_id'] == $_domain['domain_id']) ? '<strong>' . $link . '</strong>' : $link, filter_xss_admin($domain['sitename']), $valid, $domain['scheme']);
-    // Let other modules add data.
-    $data = array();
-    foreach (module_implements('domainview') as $module) {
-      $add = module_invoke($module, 'domainview', 'data', $domain);
-      $row = array_merge($row, $add);
+    db_update('domain')
+      ->fields(array('weight' => $value['weight'], 'is_default' => $default, 'valid' => $valid))
+      ->condition('domain_id', $domain_id)
+      ->execute();
     }
-    // Add the actions.
-    $list = array('items' => $actions);
-    $row[] = theme('item_list', $list);
-    $rows[] = $row;
-  }
-  if (!empty($rows)) {
-    $build['content'] = array(
-      '#theme' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
-      '#attributes' =>  array('id' => 'domain-list'),
-    );
-    $build['pager']['#theme'] = 'pager';
-    return $build;
-  }
-  else {
-    $build = array();
-    $build['no_content']['#prefix'] = '<p>';
-    $build['no_content']['#markup'] = t('No domains have been configured.');
-    $build['no_content']['#suffix'] = '</p>';
-    return $build;
-  }
+
+  drupal_set_message(t('Domain settings updated'));
 }
 
 /**
@@ -114,7 +167,7 @@ function domain_view() {
 function domain_configure() {
   if (empty($_POST)) {
     // Is the module installed correctly?
-    module_invoke_all('domaininstall');
+    module_invoke_all('domain_install');
   }
   // Return the configuration form.
   return drupal_get_form('domain_configure_form');
@@ -124,63 +177,37 @@ function domain_configure() {
  * FormsAPI for configuring the domain module.
  */
 function domain_configure_form($form, &$form_state, $user_submitted = FALSE) {
-  $root = variable_get('domain_root', '');
-  if (empty($root)) {
-    domain_set_primary_domain();
-  }
-  $form = array();
-
-  $form['domain'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Default domain settings'),
-    '#collapsible' => TRUE
-  );
-  $sitename = variable_get('site_name', 'Drupal');
-  $form['domain']['domain_root'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Primary domain name'),
-    '#size' => 40,
-    '#maxlength' => 80,
-    '#required' => TRUE,
-    '#default_value' => variable_get('domain_root', ''),
-    '#description' => t('The primary domain for your site.  Typically <em>example.com</em> or <em>www.example.com</em>.  Do not use http or slashes.
-      <br />This domain will be used as the default URL for your site.
-      <br />If an invalid domain is requested, users will be sent next available domain or to the primary domain.')
-  );
-  $form['domain']['domain_sitename'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Site name'),
-    '#size' => 40,
-    '#maxlength' => 80,
-    '#required' => TRUE,
-    '#default_value' => variable_get('domain_sitename', $sitename),
-    '#description' => t('The site name to display for this domain.')
-  );
-  $form['domain']['domain_scheme'] = array(
-    '#type' => 'radios',
-    '#title' => t('Domain URL scheme'),
-    '#required' => TRUE,
-    '#options' => array('http' => 'http://', 'https' => 'https://'),
-    '#default_value' => variable_get('domain_scheme', 'http'),
-    '#description' => t('The URL scheme for accessing the primary domain.')
-  );
   $form['domain_behavior'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Domain module behaviors'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-
-  $form['domain_behavior']['domain_behavior'] = array(
     '#type' => 'radios',
     '#title' => t('New content settings'),
     '#required' => TRUE,
-    '#default_value' => variable_get('domain_behavior', DOMAIN_INSTALL_RULE),
+    '#default_value' => (int) variable_get('domain_behavior', DOMAIN_INSTALL_RULE),
     '#options' => array(1 => t('Show on all affiliate sites'), 2 => t('Only show on selected sites')),
-    '#description' => t('If set to <em>Show on all affiliate sites</em>, this value will automatically assign new content to all affiliates.<br />If set to <em>Only show on selected sites</em>, you must configure the <a href="!url">Node-type specific settings</a>.', array('!url' => url('admin/structure/domain/advanced')))
+    '#description' => t('If set to <em>Show on all affiliate sites</em>, this value will automatically assign new content to all affiliates.')
   );
-
-  $form['domain_behavior']['domain_debug'] = array(
+  $node_types = node_type_get_names();
+  $form['domain_node'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Send to all affiliates'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#states' => array(
+      'visible' => array(
+        ':input[name=domain_behavior]' => array('value' => '2'),
+      ),
+    ),
+  );
+  foreach ($node_types as $key => $value) {
+    $form['domain_node']['domain_node_' . $key] = array(
+      '#type' => 'checkbox',
+      '#title' => check_plain($value),
+      '#default_value' => variable_get('domain_node_' . $key, 0),
+    );
+  }
+  $form['domain_node']['message'] = array(
+    '#markup' => t('If new content is set to "Show on all affiliate sites," these settings will be ignored.'),
+  );
+  $form['domain_debug'] = array(
     '#type' => 'radios',
     '#title' => t('Debugging status'),
     '#required' => TRUE,
@@ -189,7 +216,7 @@ function domain_configure_form($form, &$form_state, $user_submitted = FALSE) {
     '#description' => t('If set, users with the <em>set domain access</em> permission will be able to view the node access rules for each node. See the README for more details.')
   );
 
-  $form['domain_behavior']['domain_force_admin'] = array(
+  $form['domain_force_admin'] = array(
     '#type' => 'radios',
     '#title' => t('Enforce rules on administrators'),
     '#required' => TRUE,
@@ -197,24 +224,7 @@ function domain_configure_form($form, &$form_state, $user_submitted = FALSE) {
     '#options' => array(0 => t('Do not enforce'), 1 => t('Restrict node views for administrators')),
     '#description' => t('If set, users with the <em>administer nodes</em> permission and user 1 <em>will view the site with Domain Access restrictions enforced</em>. See the README for more details.')
   );
-
-  $options = array(
-    'id' => t('Creation order, oldest > newest'),
-    'rid' => t('Creation order, newest > oldest'),
-    'name' => t('Sitename, A > Z'),
-    'rname' => t('Sitename, Z > A'),
-    'url' => t('URL, A > Z'),
-    'rurl' => t('URL, Z > A')
-  );
-  $form['domain_behavior']['domain_sort'] = array(
-    '#type' => 'radios',
-    '#title' => t('Sort domain lists'),
-    '#required' => TRUE,
-    '#default_value' => variable_get('domain_sort', 'id'),
-    '#options' => $options,
-    '#description' => t('Controls the display of domain lists to end users.')
-  );
-  $form['domain_behavior']['domain_list_size'] = array(
+  $form['domain_list_size'] = array(
     '#type' => 'select',
     '#title' => t('Domain list size'),
     '#required' => TRUE,
@@ -222,7 +232,15 @@ function domain_configure_form($form, &$form_state, $user_submitted = FALSE) {
     '#options' => drupal_map_assoc(array(5, 10, 20, 25, 30, 40, 50, 75, 100, 150, 200, 250, 500, 750, 1000)),
     '#description' => t('Sets a break point for the size of domain lists shown to users. After this point, user interfaces will use tables, pagination, and select lists to prevent too many domains from appearing in a list. <em>Note: setting this value higher than 200 may cause memory and display issues for your site.</em>')
   );
-  $form['domain_behavior']['domain_select_format'] = array(
+  $form['domain_vertical_tab'] = array(
+    '#type' => 'radios',
+    '#title' => t('Display in vertical tabs'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('domain_vertical_tab', 0),
+    '#options' => array(t('No'), t('Yes')),
+    '#description' => t('Present the domain form options in a vertical tab.')
+  );
+  $form['domain_select_format'] = array(
     '#type' => 'select',
     '#title' => t('Domain selection format'),
     '#required' => TRUE,
@@ -235,7 +253,7 @@ function domain_configure_form($form, &$form_state, $user_submitted = FALSE) {
     '#type' => 'fieldset',
     '#title' => t('Advanced settings'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE
+    '#collapsed' => TRUE,
   );
 
   $form['domain_advanced']['domain_www'] = array(
@@ -262,6 +280,15 @@ function domain_configure_form($form, &$form_state, $user_submitted = FALSE) {
     '#options' => array(0 => t('Do not rewrite URLs'), 1 => t('Rewrite all URLs to point to a single source')),
     '#description' => t('If rewrite is turned on, all node links will point to a single instance of the node.  This
       option reduces the chance that search engines will recognize duplicate content.')
+  );
+
+  $form['domain_advanced']['domain_edit_on_primary'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Force domain editing from the primary domain'),
+    '#default_value' => variable_get('domain_edit_on_primary', 1),
+    '#description' => t('When editing a domain, you will be redirected to the primary domain. Doing so ensures that
+      the server can handle changes to the domain record. <br /><em>Disabling this feature may make development environments
+      easier to support. Use at your own risk.</em>'),
   );
 
   $options = array('-1' => t('Do not change domain'));
@@ -327,65 +354,51 @@ function domain_configure_form($form, &$form_state, $user_submitted = FALSE) {
       Enter one path per line.  See the README for more details.')
   );
 
+  $form['domain_classes'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Domain-specific CSS classes'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE
+  );
+  $form['domain_classes']['domain_classes'] = array(
+    '#type' => 'textarea',
+    '#rows' => 5,
+    '#cols' => 40,
+    '#default_value' => variable_get('domain_classes', 'domain-[current-domain:machine_name]'),
+  );
+  if (module_exists('token')) {
+    $form['domain_classes']['domain_classes']['#description'] = t('Add the following classes to the <em>body</em> tag of every page. Enter one class per line. This field supports tokens.');
+    $form['domain_classes']['token_help'] = array(
+      '#theme' => 'token_tree',
+      '#token_types' => array('current-domain'),
+      '#global_types' => FALSE,
+    );
+  }
+  else {
+    $tokens = domain_get_tokens(array('current-domain'));
+    $form['domain_classes']['domain_classes']['#description'] = t('Add the following classes to the <em>body</em> tag of every page. Enter one class per line. The following token replacements are allowed: !tokens', array('!tokens' => theme('item_list', array('items' => $tokens))));
+  }
+
   // Allow submodules to add elements to the form.
-  $modules = module_implements('domainform');
+  $modules = module_implements('domain_form');
   if (!empty($modules)) {
     foreach ($modules as $module) {
-      $func = $module . '_domainform';
+      $func = $module . '_domain_form';
       $func($form);
     }
   }
-  // Add our additional submit handlers.
-  $form['#submit'] = array('domain_configure_form_submit');
   return system_settings_form($form);
-}
-
-/**
- * Validate the primary domain string.
- */
-function domain_configure_form_validate($form, &$form_state) {
-  if (!isset($form_state['values']['domain_root'])) {
-    return;
-  }
-  $subdomain = $form_state['values']['domain_root'];
-  $domain_changed = (bool) strcmp($form_state['values']['domain_root'], $form['domain']['domain_root']['#default_value']);
-  if ($domain_changed) {
-    $error_list = domain_validate($subdomain);
-    foreach ($error_list as $error) {
-      form_set_error('domain_root', $error);
-    }
-  }
-}
-
-/**
- * Save any changes to the primary domain record.
- */
-function domain_configure_form_submit($form, &$form_state) {
-  if (!isset($form_state['values']['domain_root'])) {
-    return;
-  }
-  $subdomain = $form_state['values']['domain_root'];
-  db_update('domain')
-    ->condition('domain_id', 0)
-    ->fields(array(
-      'subdomain' => $subdomain,
-      'sitename' => $form_state['values']['domain_sitename'],
-      'scheme' => $form_state['values']['domain_scheme'],
-      'valid' => 1,
-    ))
-    ->execute();
-  // Allow other modules to respond to changes.
-  module_invoke_all('domainupdate', 'update', domain_default(TRUE));
 }
 
 /**
  * Return an array of values suitable for both create and update sql statements
  *
  * The last element on this array is ignored by the create sql because it has
- * one fewer placeholder argument as it doesnt require a WHERE clause.
+ * one fewer placeholder argument as it doesn't require a WHERE clause.
  *
  * @param $form_state
  *   From state from the submit_hook
+ *
  * @return array
  *   Array of domain values for insert and update sql operations
  */
@@ -396,6 +409,9 @@ function domain_values_from_form_state($form_state) {
     'scheme'    => $form_state['values']['scheme'],
     'valid'     => $form_state['values']['valid'],
     'domain_id' => $form_state['values']['domain_id'],
+    'weight' => $form_state['values']['weight'],
+    'is_default' => $form_state['values']['is_default'],
+    'machine_name' => $form_state['values']['machine_name'],
   );
 }
 
@@ -419,10 +435,16 @@ function domain_values_from_form_state($form_state) {
 function domain_form($form, &$form_state, $domain = array(), $arguments = array()) {
   $_domain = domain_get_domain();
   // This action should be performed from the primary domain unless overridden.
+  $error = FALSE;
   if (!isset($arguments['ignore_domain_status_check'])) {
-    domain_check_primary();
-    if (empty($_POST) && !empty($domain)) {
-      domain_check_response($domain);
+    if (variable_get('domain_edit_on_primary', 1)) {
+      domain_check_primary();
+    }
+    if (!empty($domain)) {
+      $error = domain_check_response($domain);
+      if ($error && empty($_POST)) {
+        drupal_set_message($error, 'warning', FALSE);
+      }
     }
   }
   // Ensure indexes are set.
@@ -432,18 +454,13 @@ function domain_form($form, &$form_state, $domain = array(), $arguments = array(
     }
   }
   $form = array();
-  
-  $form['#domain'] = $domain; 
-  // The $arguments arrray allows other modules to pass values to change the bahavior
+  drupal_set_title(t('Edit !domain', array('!domain' => $domain['subdomain'])));
+  $form['#domain'] = $domain;
+  // The $arguments array allows other modules to pass values to change the behavior
   // of submit and validate functions.
   if (!empty($arguments)) {
     $form['domain_arguments'] = array('#type' => 'value', '#value' => $arguments);
   }
-  $form['domain'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Domain record'),
-    '#collapsible' => TRUE
-  );
   $form['domain_id'] = array('#type' => 'value', '#value' => $domain['domain_id']);
   if (!variable_get('domain_allow_non_ascii', FALSE)) {
     $description = t('Must contain only dots, lowercase alphanumeric characters, dashes and a colon (if using alternative ports).');
@@ -451,7 +468,7 @@ function domain_form($form, &$form_state, $domain = array(), $arguments = array(
   else {
     $description = t('Must contain only dots, lowercase alphanumeric and ASCII characters, dashes and a colon (if using alternative ports).');
   }
-  $form['domain']['subdomain'] = array(
+  $form['subdomain'] = array(
     '#type' => 'textfield',
     '#title' => t('Domain'),
     '#size' => 40,
@@ -460,7 +477,16 @@ function domain_form($form, &$form_state, $domain = array(), $arguments = array(
     '#default_value' => $domain['subdomain'],
     '#description' => t('The allowed domain, using the full <em>path.example.com</em> format.') . '<br />' . t('Leave off the http:// and the trailing slash and do not include any paths.') . '<br />' . $description
   );
-  $form['domain']['sitename'] = array(
+  $form['machine_name'] = array(
+    '#type' => 'machine_name',
+    '#machine_name' => array(
+      'source' => array('subdomain'),
+      'exists' => 'domain_check_machine_name',
+    ),
+    '#default_value' => $domain['machine_name'],
+    '#disabled' => !empty($domain['machine_name']),
+  );
+  $form['sitename'] = array(
     '#type' => 'textfield',
     '#title' => t('Site name'),
     '#size' => 40,
@@ -469,7 +495,7 @@ function domain_form($form, &$form_state, $domain = array(), $arguments = array(
     '#default_value' => $domain['sitename'],
     '#description' => t('The human-readable name of this domain.')
   );
-  $form['domain']['scheme'] = array(
+  $form['scheme'] = array(
     '#type' => 'radios',
     '#title' => t('Domain URL scheme'),
     '#required' => TRUE,
@@ -477,7 +503,7 @@ function domain_form($form, &$form_state, $domain = array(), $arguments = array(
     '#default_value' => !empty($domain['scheme']) ? $domain['scheme'] : 'http',
     '#description' => t('The URL scheme for accessing this domain.')
   );
-  $form['domain']['valid'] = array(
+  $form['valid'] = array(
     '#type' => 'radios',
     '#title' => t('Domain status'),
     '#required' => TRUE,
@@ -485,7 +511,37 @@ function domain_form($form, &$form_state, $domain = array(), $arguments = array(
     '#default_value' => isset($domain['valid']) ? $domain['valid'] : 1,
     '#description' => t('Must be set to "Active" for users to navigate to this domain.')
   );
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Save domain record'));
+  $next_weight = 0;
+  foreach (domain_domains() as $record) {
+    if ($record['weight'] > $next_weight) {
+      $next_weight = $record['weight'];
+    }
+  }
+  $form['weight'] = array(
+    '#type' => 'weight',
+    '#title' => t('Weight'),
+    '#required' => TRUE,
+    '#delta' => count(domain_domains()) + 1,
+    '#default_value' => isset($domain['weight']) ? $domain['weight'] : $next_weight + 1,
+    '#description' => t('The sort order for this record. Lower values display first.'),
+  );
+  $form['is_default'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Default domain'),
+    '#default_value' => isset($domain['is_default']) ? $domain['is_default'] : 0,
+    '#description' => t('If a URL request fails to match a domain record, the settings for this domain will be used.'),
+  );
+  // If the server did not respond properly, do not allow this record to be set
+  // as the default domain.
+  if ($error) {
+    $form['is_default']['#description'] .= '<br />' . t('<strong>This domain did not respond correctly. It cannot be set as your primary domain unless you select <em>Ignore server response warning</em></strong>.');
+    $form['ignore'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Ignore server response warning'),
+      '#default_value' => 0,
+    );
+  }
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Save domain record'), '#prefix' => '<br />');
   $form['#validate'][] = 'domain_form_validate';
   $form['#redirect'] = array('admin/structure/domain/view');
   return $form;
@@ -497,7 +553,7 @@ function domain_form($form, &$form_state, $domain = array(), $arguments = array(
 function domain_form_validate($form, &$form_state) {
   $subdomain = $form_state['values']['subdomain'];
   $error_list = array();
-  $domain_changed = (bool) strcmp($form_state['values']['subdomain'], $form['domain']['subdomain']['#default_value']);
+  $domain_changed = (bool) strcmp($form_state['values']['subdomain'], $form['subdomain']['#default_value']);
   if ($domain_changed && !domain_unique_domain($subdomain)) {
     $error_list[] = t('The domain value must be unique.');
   }
@@ -508,6 +564,13 @@ function domain_form_validate($form, &$form_state) {
   foreach ($error_list as $error) {
     form_set_error('subdomain', $error);
   }
+  if (!empty($form_state['values']['is_default']) && empty($form_state['values']['ignore'])) {
+    $error = domain_check_response($form_state['values']);
+    if ($error) {
+      $error = t('This domain may not be set as your primary domain.') . '<br />' . $error;
+      form_set_error('is_default', $error);
+    }
+  }
 }
 
 /**
@@ -515,13 +578,18 @@ function domain_form_validate($form, &$form_state) {
  */
 function domain_form_submit($form, &$form_state) {
   $values = domain_values_from_form_state($form_state);
-  // Set the proper message
-  if (!empty($values['domain_id'])) {
+  // Set the proper message.
+  if (!empty($values['domain_id']) || $values['domain_id'] == 0) {
     $message = t('Domain record updated.');
   }
   else {
     $message = t('Domain record created.');
   }
+
+  if (!empty($values['is_default'])) {
+    $message .= t(' Set as primary domain.');
+  }
+
   // Run the save routine.
   $domain = domain_save($values, $form_state);
 
@@ -529,12 +597,16 @@ function domain_form_submit($form, &$form_state) {
   if ($domain == -1) {
     $message = t('Domain record failed.');
   }
-
+  else {
+    // Update the domain_id in $form_state for any submit handlers that need it.
+    if (empty($form_state['values']['domain_id'])) {
+      $form_state['values']['domain_id'] =  $domain['domain_id'];
+    }
+  }
   // Hide the message for the Domain User module.
   if (empty($form_state['values']['domain_arguments']['user_submitted'])) {
     drupal_set_message($message);
   }
-
   return $domain;
 }
 
@@ -556,14 +628,42 @@ function domain_form_submit($form, &$form_state) {
 function domain_delete_form($form, &$form_state, $domain, $arguments = array()) {
   // This action should be performed from the primary domain.
   domain_check_primary();
-
+  drupal_set_title(t('Delete !domain', array('!domain' => $domain['sitename'])));
   $form = array();
-  // The $arguments arrray allows other modules to pass values to change the bahavior
+  // The $arguments array allows other modules to pass values to change the behavior
   // of submit and validate functions.
   if (!empty($arguments)) {
     $form['domain_arguments'] = array('#type' => 'value', '#value' => $arguments);
   }
   $form['domain'] = array('#type' => 'value', '#value' => $domain);
+
+  if (!empty($domain['is_default'])) {
+    drupal_set_message(t('The primary domain may not be deleted. <a href="!url">Select a new primary domain</a> before deleting this record.', array('!url' => url('admin/structure/domain'))), 'warning');
+    return $form;
+  }
+
+  // Allow for data resets.
+  $domains = domain_domains();
+  $options = array('none' => t('Do not reassign'));
+  foreach ($domains as $record) {
+    if ($record['domain_id'] != $domain['domain_id']) {
+      $options[$record['domain_id']] = $record['sitename'];
+    }
+  }
+  $form['domain_access'] = array(
+    '#title' => t('Reassign content'),
+    '#type' => 'select',
+    '#options' => $options,
+    '#default_value' => domain_default_id(),
+    '#description' => t('All content assigned to %domain will be re-assigned to your selection.', array('%domain' => $domain['sitename'])),
+  );
+  $form['domain_editor'] = array(
+    '#title' => t('Reassign editors'),
+    '#type' => 'select',
+    '#options' => $options,
+    '#default_value' => domain_default_id(),
+    '#description' => t('All users assigned to %domain will be re-assigned to your selection.', array('%domain' => $domain['sitename'])),
+  );
 
   return confirm_form(
     $form,
@@ -611,7 +711,7 @@ function domain_advanced_form($form, &$form_state) {
     '#title' => t('Domain node types'),
     '#collapsible' => TRUE
   );
-  $form['domain_node']['intro'] = array('#markup' => t('<p>Check the content types that should be published to all affiliates when new content is created.</p>'));
+  $form['domain_node']['intro'] = array('#value' => t('<p>Check the content types that should be published to all affiliates when new content is created.</p>'));
   foreach ($node_types as $key => $value) {
     $form['domain_node']['domain_node_' . $key] = array(
       '#type' => 'checkbox',
@@ -626,7 +726,7 @@ function domain_advanced_form($form, &$form_state) {
     '#title' => t('Domain node editing'),
     '#collapsible' => TRUE
   );
-  $form['domain_form']['intro'] = array('#markup' => t('<p>When editors view domain-access restricted nodes, which form elements should be exposed?</p>'));
+  $form['domain_form']['intro'] = array('#value' => t('<p>When editors view domain-access restricted nodes, which form elements should be exposed?</p>'));
   $options = array(
     'log' => t('Log messages'),
     'options' => t('Publishing options'),
@@ -644,28 +744,12 @@ function domain_advanced_form($form, &$form_state) {
 }
 
 /**
- * Checks to see if the webserver returns a valid response
- * for a request to a domain.
- *
- * @param $domain
- * An array containing the record from the {domain} table
- */
-function domain_check_response($domain) {
-  $url = domain_get_path($domain) . drupal_get_path('module', 'domain') . '/tests/200.png';
-  $response = drupal_http_request($url);
-  if ($response->code != 200) {
-    drupal_set_message(t('%server is not responding as expected and may not be configured correctly at the server level.
-      Server code !code was returned.',
-    array('%server' => $url, '!code' => $response->code)), 'warning');
-  }
-}
-
-/**
  * Allows for the batch update of certain elements.
  *
  * @param $action
  *   The name of the action to perform; corresponds to the keys of the $batch array
- *   returned by hook_domainbatch().
+ *   returned by hook_domain_batch().
+ *
  * @return
  *   The appropriate form, or a list of actions, or an error.
  */
@@ -676,7 +760,7 @@ function domain_batch($action = NULL) {
     return t('There are no domains configured for this site.');
   }
 
-  $batch = module_invoke_all('domainbatch');
+  $batch = domain_batch_actions();
   // We must have some actions, otherwise, no point.
   if (empty($batch)) {
     return t('There are no batch actions configured.');
@@ -687,10 +771,6 @@ function domain_batch($action = NULL) {
     return domain_batch_list($batch);
   }
 
-  // If #variable is not set, eliminate the root domain.
-  if (empty($batch[$action]['#variable'])) {
-    unset($domains[0]);
-  }
   // If we are doing a delete action, only valid domains can be acted upon.
   $allowed = array();
   if (!empty($batch[$action]['#table'])) {
@@ -714,7 +794,8 @@ function domain_batch($action = NULL) {
  * Lists available batch updates for the domain module.
  *
  * @param $batch
- *   An array of batch actions, as defined by hook_domainbatch().
+ *   An array of batch actions, as defined by hook_domain_batch().
+ *
  * @return
  *   A themed table of links and descriptions for batch actions.
  */
@@ -729,7 +810,7 @@ function domain_batch_list($batch) {
   }
   uasort($batch, 'domain_batch_sort');
   $group = '';
-  
+
   foreach ($batch as $key => $value) {
     $permission = isset($value['#permission']) ? $value['#permission'] : 'administer domains';
     if (!user_access($permission)) {
@@ -778,11 +859,12 @@ function domain_batch_sort($a, $b) {
  *   The current form state, passed by FormsAPI.
  * @param $action
  *   The name of the action to perform; corresponds to the keys of the $batch array
- *   returned by hook_domainbatch().
+ *   returned by hook_domain_batch().
  * @param $batch
- *   The batch data for this $action, as defined by hook_domainbatch().
+ *   The batch data for this $action, as defined by hook_domain_batch().
  * @param $domains
  *   The current settings for each domain.
+ *
  * @return
  *   A themed table of links and descriptions for batch actions.
  */
@@ -949,10 +1031,6 @@ function domain_batch_form_submit($form, &$form_state) {
           ->fields(array($item => $value))
           ->condition('domain_id', $domain_id)
           ->execute();
-        // Update the variable for the root domain
-        if (!empty($form_state['values']['variable']) && $domain_id == 0) {
-          variable_set($form_state['values']['variable'], $value);
-        }
       }
       break;
     case 'domain_conf':
@@ -1026,20 +1104,28 @@ function domain_roles_form($form, &$form_state) {
   );
   $domains = array();
   foreach (domain_domains() as $key => $value) {
-    if ($key > 0) {
-      $domains[$key] = $value['sitename'];
-    }
-    else {
-      $domains[-1] = $value['sitename'];
-    }
+    $domains[$key] = $value['sitename'];
   }
   foreach ($roles as $rid => $role) {
     $form['domain_roles'][$rid]['#tree'] = TRUE;
+    $title = t('All domains');
+    $form['#domain_roles']['all'] = $title;
+    $form['domain_roles'][$rid]['all'] = array(
+      '#title' => $title,
+      '#type' => 'checkbox',
+      '#default_value' => (isset($defaults[$rid]['all'])) ? $defaults[$rid]['all'] : 0,
+    );
     foreach ($domains as $domain_id => $domain) {
+      $form['#domain_roles'][$domain_id] = $domain_id;
       $form['domain_roles'][$rid][$domain_id] = array(
         '#title' => filter_xss_admin($domain),
         '#type' => 'checkbox',
         '#default_value' => (isset($defaults[$rid][$domain_id])) ? $defaults[$rid][$domain_id] : 0,
+        '#states' => array(
+          'disabled' => array(
+            'input[name="domain_roles[' . $rid . '][all]"]' => array('checked' => TRUE),
+          ),
+        ),
       );
     }
   }
@@ -1065,12 +1151,9 @@ function theme_domain_roles_form($variables) {
   foreach ($roles as $rid => $role) {
     $header[] = $role;
   }
-  foreach ($domains as $domain_id => $domain) {
+  foreach ($form['#domain_roles'] as $domain_id => $title) {
     $row = array();
-    if ($domain_id == 0) {
-      $domain_id = -1;
-    }
-    $row[] = filter_xss_admin($domain['sitename']);
+    $row[] = isset($domains[$domain_id]) ? filter_xss_admin($domains[$domain_id]['sitename']) : $title;
     foreach ($roles as $rid => $role) {
       $form['domain_roles'][$rid][$domain_id]['#title'] = '';
       $row[] = drupal_render($form['domain_roles'][$rid][$domain_id]);
@@ -1081,4 +1164,93 @@ function theme_domain_roles_form($variables) {
   $output .= theme('table', array('header' => $header, 'rows' => $rows));
   $output .= drupal_render_children($form);
   return $output;
+}
+
+/**
+ * Theme the domain overview form.
+ */
+function theme_domain_overview_form($variables) {
+  $form = $variables['form'];
+  if (!empty($form['error'])) {
+    $output = drupal_render($form['error']);
+    return $output;
+  }
+  // Add table javascript.
+  drupal_add_js('misc/tableheader.js');
+  drupal_add_tabledrag('domains', 'order', 'sibling', 'domain-weight');
+
+  $header = $form['header']['#value'];
+  $output = '';
+  $output .= drupal_render($form['top']);
+  $rows = array();
+  foreach (element_children($form['domain']) as $key) {
+    $row = array();
+    foreach (element_children($form['domain'][$key]) as $item) {
+      $row[] = array(
+        'data' => drupal_render($form['domain'][$key][$item]),
+        'class' => array($item),
+      );
+    }
+    $row[] = drupal_render($form['default_domain'][$key]);
+    $row[] = drupal_render($form['domain_actions'][$key]);
+    $rows[] = array(
+      'data' => $row,
+      'class' => array('draggable'),
+    );
+  }
+  $attributes = array(
+    'id' => 'domains',
+    'sticky' => TRUE,
+  );
+  $output .= theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => $attributes));
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+/**
+ * Repairs and updates instances of domain_id 0 after the update to 7.x.3.
+ */
+function domain_repair_form($form, &$form_state) {
+  $list = domain_update_module_check();
+  if (empty($list)) {
+    $form['list'] = array(
+      '#markup' => '<p>' . t('No updates are required. <a href="!url">return to domain administration</a>.', array('!url' => url('admin/structure/domain'))) . '</p>',
+    );
+  }
+  else {
+    $form['intro'] = array(
+      '#markup' => '<p>' . t('The following modules have data that references domain_id 0 and will be updated:') . '</p>',
+    );
+    $modules = array();
+    foreach ($list as $item) {
+      $modules[] = check_plain($item['name']);
+    }
+    $form['list'] = array(
+      '#markup' => theme('item_list', array('items' => $modules)),
+    );
+    $form['outro'] = array(
+      '#markup' => '<p>' . t('All records marked with domain_id 0 will be assigned to the default domain.') .'</p>',
+    );
+    $form['tables'] = array(
+      '#type' => 'value',
+      '#value' => domain_update_tables($list),
+    );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Update database tables'),
+    );
+  }
+  return $form;
+}
+
+/**
+ * Repairs references to domain_id 0.
+ */
+function domain_repair_form_submit($form, &$form_state) {
+  $tables = $form_state['values']['tables'];
+  $success = domain_update_zero_records($tables);
+  if ($success) {
+    drupal_set_message(t('!count database table(s) were updated.', array('!count' => count($form_state['values']['tables']))));
+  }
+  $form_state['redirect'] = 'admin/structure/domain';
 }

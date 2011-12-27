@@ -31,7 +31,7 @@ function domain_alias_schema() {
         'default' => '',
         ),
       'redirect' => array('type' => 'int',
-        'description' => 'Boolean flag indicating whether the alias should be redireced to the main domain.',
+        'description' => 'Boolean flag indicating whether the alias should be redirected to the main domain.',
         'size' => 'tiny',
         'unsigned' => TRUE,
         'not null' => TRUE,
@@ -47,4 +47,26 @@ function domain_alias_schema() {
   );
 
   return $schema;
+}
+
+/**
+ * Implements hook_dependencies().
+ */
+function domain_alias_update_dependencies() {
+  $dependencies['domain_alias'][7300] = array(
+    'domain' => 7303,
+  );
+  return $dependencies;
+}
+
+/**
+ * Remove references to row 0.
+ */
+function domain_alias_update_7300(&$sandbox) {
+  $default_id = db_query("SELECT domain_id FROM {domain} WHERE is_default = 1")->fetchField();
+  db_update('domain_alias')
+    ->fields(array('domain_id' => $default_id))
+    ->condition('domain_id', 0)
+    ->execute();
+  return t('Domain Alias zero records removed.');
 }

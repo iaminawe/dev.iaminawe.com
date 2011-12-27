@@ -4,11 +4,12 @@ package = Domain Access
 dependencies[] = domain
 core = 7.x
 files[] = domain_content.admin.inc
+files[] = domain_content.domain.inc
 files[] = domain_content.module
 
 ; Information added by drupal.org packaging script on 2011-11-13
-version = "7.x-2.16"
+version = "7.x-3.0-rc5"
 core = "7.x"
 project = "domain"
-datestamp = "1321193429"
+datestamp = "1321193131"
 

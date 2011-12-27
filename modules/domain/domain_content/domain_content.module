@@ -3,8 +3,8 @@
 /**
  * @defgroup domain_content Domain Content : administer nodes for affiliate sites
  *
- * Allows for the batch editing of select node settings.  Refactors the default content
- * editng screen to show content only from selected domains.
+ * Allows for the batch editing of select node settings.  Re-factors the default content
+ * editing screen to show content only from selected domains.
  */
 
 /**
@@ -125,29 +125,17 @@ function domain_content_check($domain_id) {
   if (user_access('bypass node access') || user_access('review content for all domains')) {
     return TRUE;
   }
-  // Otherwise, the user must be able to edit domain nodes.
+  // Otherwise, the user must be able to edit domain content.
   $rule = user_access('edit domain content');
   if (!$rule) {
     return FALSE;
   }
   $domains = domain_get_user_domains($user);
-  $key = ($domain_id == 0) ? -1 : $domain_id;
   // Can this user see the requested site?
-  if (!empty($domains[$key])) {
+  if (!empty($domains[$domain_id])) {
     return TRUE;
   }
   return FALSE;
-}
-
-/**
- * Implements hook_domainlinks()
- */
-function domain_content_domainlinks($domain) {
-  $links[] = array(
-    'title' => t('content'),
-    'path' => 'admin/domain/content/'. $domain['domain_id']
-  );
-  return $links;
 }
 
 /**
@@ -218,12 +206,10 @@ function domain_content_add_form_widget(&$form) {
   $options = array();
   $format = domain_select_format();
   foreach (domain_domains() as $data) {
-    // Cannot pass zero in checkboxes.
-    $key = $data['domain_id'] == 0 ? -1 : $data['domain_id'];
     // The domain must be valid.
     if ($data['valid'] || user_access('access inactive domains')) {
       // Filter checkboxes but not select lists.
-      $options[$key] = empty($format) ? check_plain($data['sitename']) : $data['sitename'];
+      $options[$data['domain_id']] = empty($format) ? check_plain($data['sitename']) : $data['sitename'];
     }
   }
   $form['domain'] = array(
@@ -255,7 +241,7 @@ function domain_content_add_form_widget(&$form) {
     '#options' => $options,
     '#required' => FALSE,
     '#description' => t('Select which affiliates can access this content.'),
-    '#default_value' => array(($_domain['domain_id'] == 0) ? -1 : $_domain['domain_id']), // Can't use 0 as a checkbox value.
+    '#default_value' => array($_domain['domain_id']),
   );
   if ($format) {
     $form['domain']['domains']['#multiple'] = TRUE;

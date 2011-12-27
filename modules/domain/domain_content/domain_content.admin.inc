@@ -39,6 +39,7 @@ function domain_content_page() {
  */
 function domain_content_list() {
   global $user;
+  $build = array();
   $show_all = user_access('bypass node access') || user_access('review content for all domains');
 
   if (!$show_all) {
@@ -46,11 +47,6 @@ function domain_content_list() {
       return drupal_access_denied();
     }
     $user_domains = array_filter($user->domain_user);
-    // We don't bother to unset the -1 here, since it won't matter to the query.
-    // Cast the -1 as domain 0 for the query.
-    if (!empty($user->domain_user[-1])) {
-      $user_domains[] = 0;
-    }
   }
   // Table information
   $header = array(
@@ -61,7 +57,7 @@ function domain_content_list() {
   );
   // Set up the base query.
   $query = db_select('domain', 'd')
-    ->fields('d', array('domain_id', 'sitename', 'subdomain', 'scheme', 'valid'));
+    ->fields('d', array('is_default', 'domain_id', 'sitename', 'subdomain', 'scheme', 'valid'));
   // Filter by user access to assigned domains.
   if (!$show_all) {
     $query->condition('domain_id', $user_domains, 'IN');
@@ -69,6 +65,7 @@ function domain_content_list() {
   // Add the tablesort.
   $query = $query
     ->extend('TableSort')
+    ->orderBy('is_default', 'DESC')
     ->orderByHeader($header);
   $query = $query->extend('PagerDefault')->limit(variable_get('domain_list_size', DOMAIN_LIST_SIZE));
   // Get the domains.
@@ -76,20 +73,18 @@ function domain_content_list() {
   foreach ($result as $data) {
     $domains[] = (array) $data;
   }
-
   // Create the table.
   $rows = array();
   foreach ($domains as $domain) {
     $path = trim(domain_get_path($domain), '/');
     $rows[] = array(
-      $domain['domain_id'],
-      l(t('@sitename content', array('@sitename' => $domain['sitename'])), 'admin/domain/content/'. $domain['domain_id']),
+      $domain['domain_id'] . (($domain['is_default']) ? ' * ' : ''),
+      l(t('@sitename content', array('@sitename' => $domain['sitename'])), 'admin/domain/content/' . $domain['domain_id']),
       number_format((int) db_query("SELECT COUNT(nid) FROM {domain_access} WHERE gid = :gid AND realm = :realm", array(':gid' => $domain['domain_id'], ':realm' => 'domain_id'))->fetchField()),
-      l(t('view site'), $path),
+      l(t('View @domain', array('@domain' => $domain['subdomain'])), $path),
     );
   }
 
-  // Add entry for 'all affiliates'
   $all = array(
     '-',
     l(t('Content assigned to all affiliates'), 'admin/domain/content/all'),
@@ -97,11 +92,8 @@ function domain_content_list() {
     '',
   );
   array_unshift($rows, $all);
-
-  // Build result table for UI
-  $build = array();
   if (!empty($rows)) {
-    $output = '<p>'. t('The table below shows all the affiliates sites whose content you may edit. Click on the site name link to see all content assigned to that affiliate.') .'</p>';
+    $output = '<p>' . t('The table below shows all the affiliates sites whose content you may edit. Click on the site name link to see all content assigned to that affiliate.') . '</p>';
     $build['header'] = array(
       '#markup' => $output,
     );
@@ -123,14 +115,16 @@ function domain_content_list() {
 
 /**
  * Content administration for a specific domain.
+ *
  * This callback puts the user on the current domain and then
- * fetches the appropirate content for batch editing.
+ * fetches the appropriate content for batch editing.
  *
  * @param $domain_id
  *   The unique identifier for the currently active domain.
  * @param $all_affiliates
  *   A boolean flag that indicates whether to grant the domain_site node access
  *   realm for this content view.
+ *
  * @return
  *   A link group for each domain the user can access.
  */
@@ -175,7 +169,7 @@ function domain_content_view($domain_id = NULL, $all_affiliates = FALSE) {
  */
 function domain_content_admin() {
   // Load the form basics for administering nodes.
-  include_once drupal_get_path('module', 'node') .'/node.admin.inc';
+  include_once drupal_get_path('module', 'node') . '/node.admin.inc';
   $form = array();
   $form['#attached']['css'] = array(drupal_get_path('module', 'domain_content') . '/domain_content.css');
 
@@ -273,7 +267,7 @@ function domain_content_form() {
   domain_alter_node_query($query, FALSE);
 
   $nids = $query
-    ->fields('n',array('nid'))
+    ->fields('n', array('nid'))
     ->limit(50)
     ->orderByHeader($header)
     ->execute()
@@ -377,10 +371,8 @@ function domain_content_view_domains($node) {
     $node_domains = array();
     if (!empty($node->domains)) {
       foreach ($node->domains as $domain) {
-        // The root domain is stored as -1, but cast as zero in the global variable.
-        $key = ($domain == -1) ? 0 : $domain;
         // Convert the domain ids to data so we can print them.
-        $node_domains[] = domain_lookup($key);
+        $node_domains[] = domain_lookup($domain);
       }
     }
     // If we have multiple domains, print them.
@@ -408,6 +400,7 @@ function domain_content_view_domains($node) {
  *
  * @param &$operations
  *   The complete list of operations, passed by reference.
+ *
  * @return
  *   No return value. Modify by reference.
  */

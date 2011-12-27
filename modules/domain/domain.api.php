@@ -18,8 +18,9 @@
  *
  * Modules may overwrite or add to the $domain array for each domain.
  *
- * When loading lists of domains or generating domain information, either use the proper
- * functions -- domain_default(), domain_lookup(), and domain_domains() -- or invoke this hook.
+ * When loading lists of domains or generating domain information, either use
+ * the proper functions -- domain_default(), domain_lookup(), and
+ * domain_domains() -- or invoke this hook.
  *
  * Invoked by domain_lookup() and domain_default().
  *
@@ -31,79 +32,59 @@
  *
  * @ingroup domain_hooks
  */
-function hook_domainload(&$domain) {
+function hook_domain_load(&$domain) {
   // Add a variable to the $domain array.
   $domain['myvar'] = 'mydomainvar';
-  // Remove the site_grant flag, making it so users can't see content for 'all affiliates.'
+  // Remove the site_grant flag, removing access to 'all affiliates.'
   $domain['site_grant'] = FALSE;
 }
 
 /**
- * Notify other modules that we have created a new domain or
- * updated a domain record.
+ * Notify other modules that we have created a new domain.
  *
- * For 'update' and 'delete' operations, the $domain array holds the
- * original values of the domain record.  The $edit array will hold the
- * new, replacement values.  This is useful when making changes to
- * records, such as in domain_user_domainupdate().
- *
- * @param $op
- *   The operation being performed: 'create', 'update', 'delete'
  * @param $domain
  *  The domain record taken from {domain}, as an array.
  * @param $form_values
- *   The form values processed by the form.  Note that these are not editable since
- *   module_invoke_all() cannot pass by reference.  We set $form_values to an array
- *   by default in case this hook gets called by a non-form function.
+ *   The form values processed by the form.  Note that these are not editable
+ *   since module_invoke_all() cannot pass by reference. They are passed in
+ *   case some module needs to check the original form input.
  *
  * @ingroup domain_hooks
  */
-function hook_domainupdate($op, $domain, $form_values = array()) {
-  switch ($op) {
-    case 'create':
-      db_query("INSERT INTO {mytable} (subdomain, sitename) VALUES ('%s', '%s')", $domain['subdomain'], $domain['sitename']);
-      break;
-    case 'update':
-      db_query("UPDATE {mytable} SET subdomain = '%s', sitename = '%s' WHERE domain_id = %d", $domain['subdomain'], $domain['sitename'], $domain['domain_id']);
-      break;
-    case 'delete':
-      db_query("DELETE FROM {mytable} WHERE subdomain = '%s'", $domain['subdomain']);
-      break;
-  }
+function hook_domain_insert($domain, $form_values = array()) {
+  db_query("INSERT INTO {mytable} (subdomain, sitename) VALUES ('%s', '%s')", $domain['subdomain'], $domain['sitename']);
 }
 
 /**
- * Returns links to additional functions for the Domain Access module's admin screen
- *
- * Note that if your page requires a user_access check other than 'administer domains'
- * you should explictly check permissions before returning the array.
+ * Notify other modules that we have updated a domain.
  *
  * @param $domain
- *   An array of data for the active domain, taken from the {domain} table.
- *   - domain_id -- the unique identifier of this domain
- *   - subdomain -- the host path of the url for this domain
- *   - sitename -- the human-readable name of this domain
- *
- * @return
- *   An array of links to append to the admin screen, in the format:
- *   - title -- the link title
- *   - path -- the link path (a Drupal-formatted path)
- *   The data returned by this function will be passed through the l() function.
- *
- *  If you do not provide a link for a specific domain, return FALSE.
+ *  The domain record taken from {domain}, as an array.
+ * @param $form_values
+ *   The form values processed by the form.  Note that these are not editable
+ *   since module_invoke_all() cannot pass by reference. They are passed in
+ *   case some module needs to check the original form input.
  *
  * @ingroup domain_hooks
  */
-function hook_domainlinks($domain) {
-  // These actions do not apply to the primary domain.
-  if (user_access('my permission') && $domain['domain_id'] > 0) {
-    $links[] = array(
-      'title' => t('settings'),
-      'path' => 'admin/structure/domain/myaction/' . $domain['domain_id']
-    );
-    return $links;
-  }
-  return FALSE;
+function hook_domain_update($domain, $form_values = array()) {
+  db_query("UPDATE {mytable} SET subdomain = '%s', sitename = '%s' WHERE domain_id = %d", $domain['subdomain'], $domain['sitename'], $domain['domain_id']);
+}
+
+/**
+ * Notify other modules that we have deleted a domain.
+ *
+ * @param $domain
+ *  The domain record taken from {domain}, as an array.
+ * @param $form_values
+ *   The form values processed by the form.  Note that these are not editable
+ *   since module_invoke_all() cannot pass by reference. They are passed in
+ *   case some module needs to check the original form input.
+ *
+ * @ingroup domain_hooks
+ */
+function hook_domain_delete($domain, $form_values = array()) {
+  db_query("DELETE FROM {mytable} WHERE subdomain = '%s'", $domain['subdomain']);
 }
 
 /**
@@ -126,7 +107,7 @@ function hook_domainlinks($domain) {
  *
  * @ingroup domain_hooks
  */
-function hook_domainnav($domain) {
+function hook_domain_nav($domain) {
   $extra = array();
   $extra['test'] = 'test';
   return $extra;
@@ -152,7 +133,7 @@ function hook_domainnav($domain) {
  *
  * @ingroup domain_hooks
  */
-function hook_domaincron($domain) {
+function hook_domain_cron($domain) {
   // Run a node query.
   $result = db_query_range(db_rewrite_sql("SELECT n.nid FROM {node} n ORDER BY n.changed"), 0, 1);
   $node = db_fetch_object($result);
@@ -167,53 +148,14 @@ function hook_domaincron($domain) {
  * This hook allows those modules to check to see if they have been installed
  * correctly.  Usually the module is enabled, but the required function is not.
  *
- * @see domain_conf_domaininstall()
+ * @see domain_conf_domain_install()
  *
  * @ingroup domain_hooks
  */
-function hook_domaininstall() {
+function hook_domain_install() {
   // If MyModule is being used, check to see that it is installed correctly.
   if (module_exists('mymodule') && !function_exists('_mymodule_load')) {
     drupal_set_message(t('MyModule is not installed correctly.  Please edit your settings.php file as described in <a href="!url">INSTALL.txt</a>', array('!url' => drupal_get_path('module', 'mymodule') . '/INSTALL.txt')));
-  }
-}
-
-/**
- * Allows Domain modules to add columns to the domain list view at
- * path 'admin/structure/domain/view'.
- *
- * @param $op
- *   The operation being performed.  Valid requests are:
- *   -- 'header' defines a column header according to theme_table.
- *   -- 'query' passes the query object that defines the table structure.
- *       Your module should add its joins and fields here.
- *   -- 'data' defines the data to be written in the column for the
- *       specified domain. These will match the order of your $header.
- * @param $domain
- *   The $domain object prepared by hook_domainload().
- * @return
- *   Return values vary based on the $op value.
- *   -- 'header' return a $header array formatted as per theme_table().
- *   -- 'query' modify the $query object. For details see
- *       @link http://drupal.org/node/310075
- *   -- 'data' return an array of $data elements to print in the row.
- *
- * @see domain_user_domaininfo()
- *
- * @ingroup domain_hooks
- */
-function hook_domainview($op, $domain = array(), $query = NULL) {
-  switch ($op) {
-    case 'header':
-      return array(array('data' => t('UID'), 'field' => 'de.uid'));
-      break;
-    case 'query':
-      $query->leftJoin('domain_editor', 'de', 'd.domain_id = de.domain_id');
-      $query->addField('de', 'uid');
-      break;
-    case 'data':
-      return array($domain['uid']);
-      break;
   }
 }
 
@@ -222,12 +164,13 @@ function hook_domainview($op, $domain = array(), $query = NULL) {
  *
  * @param &$form
  *   The $form array generated for the Domain settings page.  This must
- *   be passed by reference.
- *   Normally, you should include your form elements inside a new fieldset.
+ *   be passed by reference. Normally, you should include your form elements
+ *   inside a new fieldset.
+ *
  * @return
  *   No return value.  The $form is modified by reference, as needed.
  */
-function hook_domainform(&$form) {
+function hook_domain_form(&$form) {
   // Add the form element to the main screen.
   $form['domain_mymodule'] = array(
     '#type' => 'fieldset',
@@ -260,7 +203,7 @@ function hook_domainform(&$form) {
  *
  * @ingroup domain_hooks
  */
-function hook_domainwarnings() {
+function hook_domain_warning() {
   // These are the forms for variables set by Domain Conf.
   $forms = array(
     'system_admin_theme_settings',
@@ -282,6 +225,7 @@ function hook_domainwarnings() {
  *   The domain array from domain_get_node_match(), passed by reference.
  * @param $nid
  *   The node id.
+ *
  * @return
  *   No return value; modify $source by reference.
  */
@@ -302,8 +246,9 @@ function hook_domain_source_alter(&$source, $nid) {
  * @param &$source
  *   The domain array from domain_get_node_match(), passed by reference.
  * @param $nid
- *   The identifier of the obect being rewritten. For nodes, this is the node id.
- *   In other instances, we may pass a $path string or other variable.
+ *   The identifier of the object being rewritten. For nodes, this is the node
+ *   id. In other instances, we may pass a $path string or other variable.
+ *
  * @return
  *   No return value; modify $source by reference.
  */
@@ -317,7 +262,9 @@ function hook_domain_source_path_alter(&$source, $path) {
 
 /**
  * Allows modules to add additional form elements for saving as domain-specific
- * settings.
+ * settings. Note that this is a "convenience function" to use in place of
+ * hook_form_alter(), so you may use either. Versions prior to 7.x.3 are not
+ * complete replacements for hook_form_alter().
  *
  * When naming your form arrays, remember that the final key is the name of
  * the variable that you wish to alter.  The example below changes the default
@@ -328,35 +275,32 @@ function hook_domain_source_path_alter(&$source, $path) {
  *
  *  This hook is implemented by the Domain Conf module.
  *
- * You may wish to pair this hook with hook_domainbatch() to allow the mass update
- * of your settings.
+ * You may wish to pair this hook with hook_domain_batch() to allow the mass
+ * update of your settings.
  *
- * If you wish to store settings that are not related to another module, you must pass
- * the following parameter:
+ * If you wish to store settings that are not related to another module, you
+ * must pass the following parameter:
  *
  * $form['myform']['#domain_setting'] = TRUE;
  *
- * Doing so will tell Domain Access that no default settings page exists, and that values
- * must be stored for the primary domain.  This feature is useful for creating special data
- * that needs to be associated with a domain record but does not need a separate table.
+ * Doing so will tell Domain Access that no default settings page exists, and
+ * that values must be stored for the primary domain.  This feature is useful
+ * for creating special data that needs to be associated with a domain record
+ * but does not need a separate table.
  *
- * Using the variable override of hook_domainconf() is an alternative to creating a module
- * and database table for use with hook_domainload().
+ * Using the variable override of hook_domain_conf() is an alternative to
+ * creating a module and database table for use with hook_domain_load().
  *
- * For site managers who wish to implement this hook in other modules, but cannot wait for
- * patches, you do not need to hack the code.  Simply put your functions inside a domain_conf.inc
- * file and place that inside the domain_conf directory.  This file should begin with <?php and conform
- * to Drupal coding standards.
- *
- * NOTE: The responding module is required to check that the user has access to this form
- * setting. Failure to check access on the form elements may introduce a security risk.
+ * NOTE: The responding module is required to check that the user has access to
+ * this form setting. Failure to check access on the form elements may introduce
+ * a security risk.
  *
  * @return
  *   A $form array element as defined by the FormsAPI.
  *
  *  @ingroup domain_hooks
  */
-function hook_domainconf() {
+function hook_domain_conf() {
   $form['pictures'] = array(
     '#type' => 'fieldset',
     '#title' => t('User picture'),
@@ -383,77 +327,104 @@ function hook_domainconf() {
  *
  * The function works by defining a $batch array that serves as a combination
  * of menu hook and form element.  The $batch array contains all the information
- * needed to create an administrative page and form that will process your settings.
+ * needed to create an administrative page and form that will process your
+ * settings.
  *
- * For a basic example, see domain_domainbatch().
+ * For a basic example, see domain_domain_batch().
  *
- * For a more complex example, with custom processing, see domain_theme_domainbatch().
+ * For a more complex example, with custom processing, see
+ * domain_theme_domain_batch().
  *
  * The $batch array is formatted according to the following rules:
  *
- * - '#form' [required] An array that defines the form element for this item.  It accepts any
- * values defined by the FormsAPI.  Do not, however, pass the #default_value element
- * here.  That value will be computed dynamically for each domain when the hook is processed.
+ * - '#form' [required] An array that defines the form element for this item.
+ *  It accepts any values defined by the FormsAPI.  Do not, however, pass the
+ *  #default_value element here.  That value will be computed dynamically for
+ *  each domain when the hook is processed.
  *
- *  - '#system_default' [required] Used to fill the #default_value parameter for domains that do not have custom settings.
- *  Typically, this will be the result of a variable_get().  For domain_delete operations, this value should be set to zero (0).
+ *  - '#system_default' [required] Used to fill the #default_value parameter for
+ *  domains that do not have custom settings. Typically, this will be the result
+ *  of a variable_get().  For domain_delete operations, this value should be set
+ *  to zero (0).
  *
  * - '#meta_description' [required] Used to describe your action to end users.
  *
- *  - '#override_default' [optional] A boolean value used to tell whether to use variable_get() to retrieve the current value.
- *  Use this when complex variables do not allow a normal usage.
- * - '#domain_action' [required] Indicates what submit action will be invoked for this setting.  Allowed values are:
- * --- 'domain' == writes the value to the {domain} table.  Normally, contributed modules will not use this option.
- * --- 'domain_conf' == writes the value to the {domain_conf} table.  Use in connection with hook_domainconf().
- * --- 'domain_delete' == used to delete rows from specific tables.  If this is used, the #table value must be present.
- * --- 'custom' == used if you need your own submit handler. Must be paired with a #submit parameter.
+ *  - '#override_default' [optional] A boolean value used to tell whether to use
+ *  variable_get() to retrieve the current value. Use this when complex
+ *  variables do not allow a normal usage.
+ * - '#domain_action' [required] Indicates what submit action will be invoked
+ *  for this setting.  Allowed values are:
+ *   --- 'domain' == writes the value to the {domain} table.  Normally,
+ *   contributed modules will not use this option.
+ *   --- 'domain_conf' == writes the value to the {domain_conf} table.  Use in
+ *   connection with hook_domain_conf().
+ *   --- 'domain_delete' == used to delete rows from specific tables.  If this
+ *   is used, the #table value must be present.
+ *   --- 'custom' == used if you need your own submit handler. Must be paired
+ *   with a #submit parameter.
  *
- * - '#permission' [optional] A string identifying the permission required to access this setting.
- *    If not provided, defaults to 'administer domains'.
+ * - '#permission' [optional] A string identifying the permission required to
+ * access this setting. If not provided, defaults to 'administer domains'.
  *
- * - '#submit' [optional] Used with the 'custom' #domain_action to define a custom submit handler for the form.  This value
- * should be a valid function name.  It will be passed the $form_values array for processing.
+ * - '#permission' [optional] A string identifying the permission required to
+ * access this setting. If not provided, defaults to 'administer domains'. Your
+ * module should ensure that the proper permission is set here.
  *
- * - '#validate' [optional] Used to define a validate handler for the form.  This value
- * should be a valid function name.  It will be passed the $form_values array for processing.
+ * - '#submit' [optional] Used with the 'custom' #domain_action to define a
+ * custom submit handler for the form.  This value should be a valid function
+ * name.  It will be passed the $form_values array for processing.
  *
- * - '#lookup' [optional] Used with the 'custom' #domain_action to perform a default value lookup against a custom function.
- * This value should be a valid function name.  Your function must accept the $domain array as a parameter.
+ * - '#validate' [optional] Used to define a validate handler for the form.
+ * This value
+ * should be a valid function name.  It will be passed the $form_values array
+ * for processing.
  *
- * - '#table' [optional] Used with the 'domain_delete' #domain_action to specify which table a row should be deleted from.
- * This value may be a string or an array, if you need to perform multiple deletes.  Deletes are performed against the domain_id
- * of the selected domains.
+ * - '#lookup' [optional] Used with the 'custom' #domain_action to perform a
+ * default value lookup against a custom function. This value should be a valid
+ * function name.  Your function must accept the $domain array as a parameter.
  *
- * - '#variable' [optional] Used to perform changes for the default domain, which is stored in the {variables} table. If this
- * value is not set, the root domain will not be exposed for batch editing.
+ * - '#table' [optional] Used with the 'domain_delete' #domain_action to specify
+ * which table a row should be deleted from. This value may be a string or an
+ * array, if you need to perform multiple deletes.  Deletes are performed
+ * against the domain_id of the selected domains.
  *
- * - '#data_type' [optional] Used to tell the system how to build your data entry query.  Defaults to 'string'; possible values are:
- * --- 'string' == the query will use '%s' to insert the data.
- * --- 'integer' == the query will use %d to insert the data.
- * --- 'float' == the query will use %f to insert the data.
- * --- 'binary' == the query will use %b to insert the data.
+ * - '#variable' [optional] Used to perform changes for the default domain,
+ * which is stored in the {variables} table. If this value is not set, the root
+ * domain will not be exposed for batch editing.
+ *
+ * - '#data_type' [optional] Used to tell the system how to build your data
+ * entry query.  Defaults to 'string'; possible values are:
+ *   --- 'string' == the query will use '%s' to insert the data.
+ *   --- 'integer' == the query will use %d to insert the data.
+ *   --- 'float' == the query will use %f to insert the data.
+ *   --- 'binary' == the query will use %b to insert the data.
  * For more information, see db_query() in the Drupal API documentation.
  *
- * - '#weight' [optional] Used to weight the item in the menu system.  Should normally be set to zero.  Negative values
- * are reserved for use by the core Domain Access module.  The following values are in use:
+ * - '#weight' [optional] Used to weight the item in the menu system.  Should
+ * normally be set to zero.  Negative values are reserved for use by the core
+ * Domain Access module.  The following values are in use:
  * --- (-10) items used by Domain Access core.
  * --- (-8) items used by Domain Configuration.
  * --- (-6) items used by Domain Theme.
  * --- (-2) items reserved for batch delete actions.
  *
- * - '#group' [optional] Used to place elements into fieldsets for the main domain configuration page. If not set, any
- *   new element will be added to the 'Site configuration' fieldset.
+ * - '#group' [optional] Used to place elements into fieldsets for the main
+ * domain configuration page. If not set, any new element will be added to the
+ * 'Site configuration' fieldset.
  *
- * - '#collapsed' [optional] Indicates that the form fieldset should appear collapsed on the configuration page.
+ * - '#collapsed' [optional] Indicates that the form fieldset should appear
+ * collapsed on the configuration page.
  *
- * - '#update_all' [optional] Allows the batch settings form to use one input field to reset all values. This should beginLogging
- * set to TRUE in most cases. If your value must be unique per domain, set this to FALSE or leave empty.
+ * - '#update_all' [optional] Allows the batch settings form to use one input
+ * field to reset all values. This should be set to TRUE in most cases. If your
+ * value must be unique per domain, set this to FALSE or leave empty.
  *
- * - '#module' [optional] Used to group like elements together on the batch action list.
+ * - '#module' [optional] Used to group like elements together on the batch
+ * action list.
  *
  * @ingroup domain_hooks
  */
-function hook_domainbatch() {
+function hook_domain_batch() {
   // A simple function to rename my setting in Domain Configuration.
   $batch = array();
   $batch['mysetting'] = array(
@@ -481,11 +452,27 @@ function hook_domainbatch() {
 }
 
 /**
+ * Allow modules to modify the batch editing functions.
+ *
+ * @see drupal_alter()
+ *
+ * @param &$batch
+ *   An array of batch editing functions, passed by reference.
+ * @return
+ *   No return value. Modify $batch by reference.
+ */
+function hook_domain_batch_alter(&$batch) {
+  // Rename 'Put site into maintenance mode'.
+  $batch['maintenance_mode']['#form']['#title'] = t('Take site offline');
+}
+
+/**
  * Return an array of forms for which we cannot run hook_form_alter().
+ *
  * @return
  *   An array of form ids that should not run through domain_form_alter.
  */
-function hook_domainignore() {
+function hook_domain_ignore() {
   // User login should always be from the current domain.
   return array('user_login');
 }
@@ -524,10 +511,16 @@ function hook_domain_bootstrap() {
 }
 
 /**
- * Hook domain_bootstrap_lookup allows modules to modify the domain record used on the
- * current page on bootstrap level, that is, before it is used anywhere else.
+ * Allow modules to modify the lookup of the domain record.
  *
- * This allows modules like Domain Alias to change the domain_id matched to the current
+ * During the bootstrap phase, Domain Access will try to assign the active
+ * domain based on the inbound HTTP_HOST request. Modules using this
+ * hook may alter this behavior in order to account for special conditions.
+ *
+ * This alteration happens before any other module functions are called, so it
+ * allows you to modify which domain is loaded at the start of a page request.
+ *
+ * For example, Domain Alias can change the domain_id matched to the current
  * domain name before related information is retrieved during domain_init().
  *
  * Note: Because this function is usually called VERY early, many Drupal
@@ -548,8 +541,7 @@ function hook_domain_bootstrap_lookup($domain) {
 }
 
 /**
- * Hook hook_domain_bootstrap_full allows modules to execute code after the domain
- * bootstrap phases which is called before drupal's hook_boot().
+ * Allows modules to execute code before Drupal's hook_boot().
  *
  * This hook can be used to modify drupal's variables system or prefix database
  * tables, as used in the modules domain_conf and domain_prefix.
@@ -559,16 +551,16 @@ function hook_domain_bootstrap_lookup($domain) {
  *
  * @param $domain
  *   An array containing current domain and domain_id and any other values
- *   added during domain bootstrap phase 2 (DOMAIN_BOOTSTRAP_DOMAINNAME_RESOLVE).
+ *   added during domain bootstrap phase DOMAIN_BOOTSTRAP_DOMAINNAME_RESOLVE.
  *
  * @return
- *   No return value. However, if you wish to set an error message on failure, you
- *   should load and modify the $_domain global and add an 'error' element to the array.
- *   This element should only include the name of your module.
+ *   No return value. However, if you wish to set an error message on failure,
+ *   you should load and modify the $_domain global and add an 'error' element
+ *   to the array. This element should only include the name of your module.
  *   We do this because drupal_set_message() and t() are not yet loaded.
  *
- * Normally, you do not need to validate errors, since this function will not
- * be called unless $domain is set properly.
+ *   Normally, you do not need to validate errors, since this function will not
+ *   be called unless $domain is set properly.
  */
 function hook_domain_bootstrap_full($domain) {
   global $conf;
@@ -600,11 +592,11 @@ function hook_domain_bootstrap_full($domain) {
  * @param $options
  *   The path options.
  * @param $original_path
- *   The raw path request from the URL. 
+ *   The raw path request from the URL.
  *
  * @ingroup domain_hooks
  */
-function hook_domainpath($domain_id, &$path, &$options, $original_path) {
+function hook_domain_path($domain_id, &$path, &$options, $original_path) {
   // Give a normal path alias
   $path = drupal_get_path_alias($path);
   // In D7, path alias lookups are done after url_alter, so if the
@@ -613,15 +605,14 @@ function hook_domainpath($domain_id, &$path, &$options, $original_path) {
 }
 
 /**
- * Demonstrates domain_conf_variable_set().
- *
  * Allows module to reset domain-specific variables.
- * This function is not a hook, it is a helper function
- * that is implemented by the Domain Configuration module.
+ *
+ * This function is not a hook, it is a helper function that is implemented by
+ * the Domain Configuration module.
  *
  * Use this function if you need to reset a domain-specific variable
  * from your own code. It is especially useful in conjunction with
- * hook_domainupdate().
+ * hook_domain_update().
  *
  * @link http://drupal.org/node/367963
  *
@@ -653,7 +644,7 @@ function mymodule_form_submit($form_state) {
  * to introduce additional access controls on those links.
  *
  * Note that "inactive" domains are already filtered before this
- * hook is called, so you would have to explcitly add them again.
+ * hook is called, so you would have to explicitly add them again.
  *
  * @see drupal_alter()
  * @see theme_domain_nav_default()
@@ -671,8 +662,7 @@ function hook_domain_nav_options_alter(&$options) {
   }
   else {
     foreach ($options as $key => $value) {
-      $check = ($key == 0) ? -1 : $key; // Account for -1.
-      if (!in_array($check, $user->domain_user)) {
+      if (!in_array($key, $user->domain_user)) {
         unset($options[$key]);
       }
     }
@@ -681,14 +671,14 @@ function hook_domain_nav_options_alter(&$options) {
 
 /**
  * Allows modules to remove form_ids from the list set
- * by hook_domainwarnings().
+ * by hook_domain_warning().
  *
  * Required by Domain Settings, whose code is shown below.
  *
  * @param &$forms
  *   An array of form_ids, passed by reference.
  */
-function hook_domain_warnings_alter(&$forms) {
+function hook_domain_warning_alter(&$forms) {
   // Forms which Domain Settings handles and are set as warnings.
   $core_forms = array(
     'system_admin_theme_settings',
@@ -711,6 +701,7 @@ function hook_domain_warnings_alter(&$forms) {
  *   the current domain.
  * @param $values
  *   The form values being submitted, an array in the format $name => $value.
+ *
  *  @return
  *   No return required.
  */
@@ -733,7 +724,7 @@ function hook_domain_settings($domain_id, $values) {
  * NOTE: This does not apply to Domain Alias records.
  *
  * @param &$error_list
- *   The list of current vaidation errors. Modify this value by reference.
+ *   The list of current validation errors. Modify this value by reference.
  *   If you return an empty array or NULL, the domain is considered valid.
  * @param $subdomain
  *   The HTTP_HOST string value being validated, such as one.example.com.
@@ -758,7 +749,7 @@ function hook_domain_validate_alter(&$error_list, $subdomain) {
  * hook_domain_grant_all_alter() fires _after_ Domain Access has
  * determined if a page should ignore Domain Access rules or not. It
  * can be used to extend the core functionality. For a use-case see the
- * discussion about autocomplete callbacks.
+ * discussion about auto-complete callbacks.
  *
  * @link http://drupal.org/node/842338
  *
@@ -794,5 +785,31 @@ function hook_domain_grant_all_alter(&$grant, $options) {
   $base_path = arg(0);
   if ($base_path == 'admin') {
     $grant = TRUE;
+  }
+}
+
+/**
+ * Allows content or users to be reassigned to a new domain.
+ *
+ * @param $old_domain
+ *   The current domain record, most commonly passed during a domain deletion.
+ * @param $new_domain
+ *   The target domain record.
+ * @param $table
+ *   The database table being affected. This value indicates the type of update
+ *   being performed. Core module values are 'domain_access' (indicating that
+ *   node records are being affected, and 'domain_editor' (indicating user
+ *   records).
+ *
+ * @return
+ *   No return value.
+ */
+function hook_domain_reassign($old_domain, $new_domain, $table) {
+  // On node changes, update {domain_source}.
+  if ($table == 'domain_access') {
+    db_update('domain_source')
+      ->fields(array('domain_id' => $new_domain['domain_id']))
+      ->condition('domain_id', $old_domain['domain_id'])
+      ->execute();
   }
 }

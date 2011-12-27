@@ -3,14 +3,15 @@ description = Creates a canonical source domain for linking to content from othe
 package = Domain Access
 dependencies[] = domain
 core = 7.x
+files[] = domain_source.domain.inc
 files[] = domain_source.install
 files[] = domain_source.module
 files[] = domain_source.views.inc
 
 
 ; Information added by drupal.org packaging script on 2011-11-13
-version = "7.x-2.16"
+version = "7.x-3.0-rc5"
 core = "7.x"
 project = "domain"
-datestamp = "1321193429"
+datestamp = "1321193131"
 
