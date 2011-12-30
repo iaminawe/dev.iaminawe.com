@@ -12,6 +12,17 @@ function flexslider_schema() {
 
   $schema['flexslider_optionset'] = array(
     'description' => 'Store option sets for flexslider instances.',
+    'export' => array(
+      'key' => 'name',
+      'identifier' => 'preset',
+      'default hook' => 'flexslider_default_presets',
+      'api' => array(
+        'owner' => 'flexslider',
+        'api' => 'flexslider_default_preset',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
     'fields' => array(
       'name' => array(
         'description' => 'The machine-readable option set name.',
@@ -58,6 +69,7 @@ function flexslider_schema() {
  * Adds a 'default' option set for fresh installs.
  */
 function flexslider_install() {
+/*
   $optionset = array(
     'name' => 'default',
     'title' => 'Default',
@@ -68,6 +80,7 @@ function flexslider_install() {
   );
 
   flexslider_optionset_save($optionset, TRUE);
+*/
 }
 
 /**

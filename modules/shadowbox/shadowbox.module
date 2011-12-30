@@ -45,7 +45,7 @@ function shadowbox_library() {
       ),
       array(
         'type' => 'inline',
-        'scope' => 'header',
+        'scope' => 'footer',
         'data' => '
           Shadowbox.path = "' . base_path() . $shadowbox_location . '/";
 	      Shadowbox.init(Drupal.settings.shadowbox);
@@ -173,7 +173,7 @@ function _shadowbox_construct_header() {
 
   $shadowbox_enabled = variable_get('shadowbox_enabled', TRUE);
   $shadowbox_auto = variable_get('shadowbox_auto_enable_all_images', 0);
-  $shadowbox_enable_globally = variable_get('shadowbox_enable_globally', 0);
+  $shadowbox_enable_globally = variable_get('shadowbox_enable_globally', TRUE);
 
   // Add shadowbox library files.
   if ($shadowbox_enabled

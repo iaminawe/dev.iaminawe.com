@@ -20,13 +20,13 @@ define("DEFAULT_REGIONS", '.region');
 function fitvids_help($path, $arg) {
   switch ($path) {
     case "admin/help#fitvids":
-	  $output = '';
+      $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>'.  t("FitVids is a jQuery plugin for fluid width video embeds.") .'</p>';
-      $output .= '<p>'.  t("It's useful if you are using a responsive theme (such as Omega), and want the videos to scale.") .'</p>';
+      $output .= '<p>' . t("FitVids is a jQuery plugin for fluid width video embeds.") . '</p>';
+      $output .= '<p>' . t("It's useful if you are using a responsive theme (such as Omega), and want the videos to scale.") . '</p>';
       $output .= '<h3>' . t('Further info') . '</h3>';
-      $output .= '<p>'.  t("There is an explanatory blog post at http://daverupert.com/2011/09/responsive-video-embeds-with-fitvids/") .'</p>';
-	  return $output;
+      $output .= '<p>' . t("There is an explanatory blog post at http://daverupert.com/2011/09/responsive-video-embeds-with-fitvids/") . '</p>';
+      return $output;
       break;
   }
 }
@@ -34,7 +34,7 @@ function fitvids_help($path, $arg) {
 /**
  * Implements hook_permission().
  */
-function fitvids_permission(){
+function fitvids_permission() {
   return array(
     'administer fitvids' => array(
       'title' => t('Administer the FitVids module'),
@@ -82,8 +82,7 @@ function fitvids_form($form, &$form_state) {
  */
 function fitvids_init() {
   $installed = file_exists(drupal_get_path('module', 'fitvids') . '/jquery.fitvids.js');
-  if (!$installed)
-  {
+  if (!$installed) {
     return;
   }
   
@@ -96,7 +95,7 @@ function fitvids_init() {
   
   foreach ($fitvids_selectors_array as $selector) {
     $selector = trim($selector);
-	$inline_code .= 'jQuery("' . $selector . '").fitVids();' . PHP_EOL;
+    $inline_code .= 'jQuery("' . $selector . '").fitVids();' . PHP_EOL;
   }
   
   drupal_add_js($inline_code,

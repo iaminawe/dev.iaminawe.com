@@ -3,6 +3,12 @@ Shadowbox x.x-x.x, xxxx-xx-xx
 -----------------------------
 
 
+Shadowbox 7.x-3.0-beta6, 2011-06-27
+-----------------------------------
+Issue #1187974 by szaszg: Fixed dont add rel attribute when it exits.
+Issue #1191716 by manfer: Fixed shadowbox settings not working.
+
+
 Shadowbox 7.x-3.0-beta5, 2011-03-28
 -----------------------------------
 by manfer: Added disable warning in settings page.

@@ -23,7 +23,10 @@ class bg_image_context_reaction_bg_image extends context_reaction {
         $node_options[$record->nid] = $record->title . ' [nid:' . $record->nid. ']';
       }
       if (!$node_options) {
-        $node_options = array('' => 'no nodes available for this content type');
+        $form['no_nodes_msg'] = array(
+          '#markup' => t('There are no nodes yet for the configured node type. You must create at least one @type node before you can apply a background image reaction.', array('@type' => variable_get('bg_image_node_type', ''))),
+        );
+        return $form;
       }
       $form['bg_image_node_ref_nid'] = array(
         '#type' => 'select',
@@ -95,7 +98,7 @@ class bg_image_context_reaction_bg_image extends context_reaction {
     }
     else {
       $form['settings_first_msg'] = array(
-        '#markup' => 'You must specify a content type and field on the <a href="/admin/config/content/background_image">settings page</a> before you can set a background image. Once configured you will be able to reference a specific node here, whose image field will be used to set the background image.',
+        '#markup' => t('You must specify a content type and field on the <a href="/admin/config/content/background_image">settings page</a> before you can set a background image. Once configured you will be able to reference a specific node here, whose image field will be used to set the background image.'),
       );
     }
     return $form;
@@ -107,6 +110,7 @@ class bg_image_context_reaction_bg_image extends context_reaction {
    * image with the highest weight for each selector
    */
   function execute() {
+    //dpm(context_enabled_contexts());
     $bg_image_nodes = array();
     $contexts = $this->get_contexts();
     foreach ($contexts as $context) {
@@ -114,7 +118,7 @@ class bg_image_context_reaction_bg_image extends context_reaction {
           bg_image_field_has_image($context->reactions[$this->plugin]['bg_image_node_ref_nid'])) {
         $weight = $context->reactions[$this->plugin]['bg_image_weight'];
         $selector = $context->reactions[$this->plugin]['css_settings']['bg_image_selector'];
-        $bg_image_nodes[$selector][$weight] = array(
+        $bg_image_nodes[$weight][$selector] = array(
           'nid' => $context->reactions[$this->plugin]['bg_image_node_ref_nid'],
           'css_settings' => $context->reactions[$this->plugin]['css_settings'],
         );

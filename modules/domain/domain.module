@@ -76,7 +76,7 @@ function domain_api_version() {
  */
 function domain_init() {
   global $_domain, $conf;
- 
+
   if (!is_array($_domain)) {
     $_domain = array();
   }
@@ -329,15 +329,6 @@ function domain_permission() {
     'assign domain editors' => array(
       'title' => t('Assign editors to domains'),
     ),
-    'edit domain content' => array(
-      'title' => t('Edit any content on assigned domains'),
-    ),
-    'delete domain content' => array(
-      'title' => t('Delete any content on assigned domains'),
-    ),
-    'view unpublished domain content' => array(
-      'title' => t('View unpublished content on assigned domains'),
-    ),
     'set domain access' => array(
       'title' => t('Set domain access status for all content'),
     ),
@@ -350,8 +341,53 @@ function domain_permission() {
     'publish from default domain' => array(
       'title' => t('Publish content only from the default domain'),
     ),
+    'edit domain content' => array(
+      'title' => t('Edit any content on assigned domains'),
+    ),
+    'delete domain content' => array(
+      'title' => t('Delete any content on assigned domains'),
+    ),
+    'view unpublished domain content' => array(
+      'title' => t('View unpublished content on assigned domains'),
+    ),
   );
+
+  // Generate standard node permissions for all applicable node types.
+  foreach (node_permissions_get_configured_types() as $type) {
+    $permissions += domain_editor_list_permissions($type);
+  }
+
   return $permissions;
+}
+
+/**
+ * Helper function to generate standard node permission list for a given type.
+ *
+ * Shamelessly lifted from node_list_permissions().
+ *
+ * @param $type
+ *   The machine-readable name of the node type.
+ * @return array
+ *   An array of permission names and descriptions.
+ */
+function domain_editor_list_permissions($type) {
+  $info = node_type_get_type($type);
+  $type = check_plain($info->type);
+
+  // Build standard list of node permissions for this type.
+  $perms = array(
+    "create $type content on assigned domains" => array(
+      'title' => t('%type_name: Create new content on assigned domains', array('%type_name' => $info->name)),
+    ),
+    "update $type content on assigned domains" => array(
+      'title' => t('%type_name: Edit any content on assigned domains', array('%type_name' => $info->name)),
+    ),
+    "delete $type content on assigned domains" => array(
+      'title' => t('%type_name: Delete any content on assigned domains', array('%type_name' => $info->name)),
+    ),
+  );
+
+  return $perms;
 }
 
 /**
@@ -1637,7 +1673,7 @@ function domain_node_delete($node) {
  * Allows devel generate to add domains.
  */
 function domain_node_presave($node) {
-  if (empty($node->devel_generate)) {
+  if (empty($node->devel_generate['domains'])) {
     return;
   }
   // Build $domains array based on domains checked in the generate form
@@ -1673,6 +1709,22 @@ function domain_node_presave($node) {
 }
 
 /**
+ * Implements hook_node_insert().
+ */
+function domain_node_insert($node) {
+  // Any function that tries to call domain_get_node_domains() or
+  // domain_get_node_match() needs this data.
+  domain_node_access_records($node);
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function domain_node_update($node) {
+  domain_node_access_records($node);
+}
+
+/**
  * Get the best matching domain for a node link.
  *
  * @param $nid
@@ -1694,9 +1746,14 @@ function domain_get_node_match($nid) {
   $source = NULL;
   if ($id !== FALSE) {
     $source = domain_lookup($id);
-    drupal_alter('domain_source', $source, $nid);
-    $domain[$nid] = $source;
   }
+  else {
+    $source = domain_get_domain();
+  }
+
+  // Allow other modules to intervene.
+  drupal_alter('domain_source', $source, $nid);
+  $domain[$nid] = $source;
 
   return $source;
 }
@@ -1730,19 +1787,14 @@ function domain_get_path_match($path) {
  *
  * @param $nodes
  *   An array of nodes, keyed by node id, or a single node id.
- * @param $reset
- *   A boolean flag indicating the need to reset the static variable for the node.
  *
  * @return
  *   An array of data, keyed by node id, or a single array for a single node.
  *   The data array, consists of two parts. 'domain_id' is an array of active domain ids.
  *   'domain_site' is a TRUE/FALSE boolean indicating affiliate status.
  */
-function domain_get_node_domains($nodes, $reset = FALSE) {
-  $lookup = &drupal_static(__FUNCTION__);
-  if (!isset($lookup) || $reset) {
-    $lookup = array();
-  }
+function domain_get_node_domains($nodes) {
+  $lookup = &drupal_static(__FUNCTION__, array());
   // Ensure we form our data properly.
   if (!is_array($nodes)) {
     $node_ids[$nodes] = $nodes;
@@ -1969,8 +2021,9 @@ function _domain_store_grants($nid, $grants = array()) {
     $query->execute();
   }
 
-  // Reset the static lookup for this node.
-  domain_get_node_domains($nid, TRUE);
+  // Reset the node-related domain static variables.
+  drupal_static_reset('domain_get_node_domains');
+  drupal_static_reset('domain_get_node_match');
 
   // Ensure that our default grant is present.
   domain_set_default_grant();
@@ -2009,11 +2062,26 @@ function domain_set_default_grant($reset = FALSE) {
 /**
  * Implements hook_node_access().
  *
- * Only used to check if a user can view unpublished nodes assigned to her
- * domain(s).
+ * Splits the access checks by operation.
  */
 function domain_node_access($node, $op, $account) {
-  if ($op != 'view' || !empty($node->status)) {
+  if (empty($account->domain_user)) {
+    return NODE_ACCESS_IGNORE;
+  }
+  $function = "domain_node_access_$op";
+  if (function_exists($function)) {
+    return $function($node, $op, $account);
+  }
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Checks if a user can view unpublished nodes assigned to her domain(s).
+ *
+ * @see domain_node_access().
+ */
+function domain_node_access_view($node, $op, $account) {
+  if (!empty($node->status)) {
     return NODE_ACCESS_IGNORE;
   }
   if (empty($node->domains) || empty($account->domain_user)) {
@@ -2029,6 +2097,73 @@ function domain_node_access($node, $op, $account) {
     }
   }
   return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Checks if a user can create content of a specific type on the current domain.
+ *
+ * @see domain_node_access().
+ */
+function domain_node_access_create($node, $op, $account) {
+  $_domain = domain_get_domain();
+  if (!isset($account->domain_user[$_domain['domain_id']])) {
+    return NODE_ACCESS_IGNORE;
+  }
+  // Build the permission string.
+  $permission = "$op $node content on assigned domains";
+
+  // Run the access check.
+  if (user_access($permission, $account)) {
+    return NODE_ACCESS_ALLOW;
+  }
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Checks if a user can edit content of a specific type based on domain.
+ *
+ * @see domain_node_access().
+ */
+function domain_node_access_update($node, $op, $account) {
+  // The node must be assigned to a domain to continue.
+  if (empty($node->domains)) {
+    return NODE_ACCESS_IGNORE;
+  }
+  // If the node falls outside this user's assigned domains, do nothing.
+  else {
+    $ignore = TRUE;
+    foreach ($node->domains as $domain_id) {
+      if (isset($account->domain_user[$domain_id])) {
+        $ignore = FALSE;
+        break;
+      }
+    }
+    if ($ignore) {
+      return NODE_ACCESS_IGNORE;
+    }
+  }
+
+  // Build the permission string.
+  $permission = "$op $node->type content on assigned domains";
+
+  // Run the access check.
+  if (user_access($permission, $account)) {
+    return NODE_ACCESS_ALLOW;
+  }
+
+  // If the check fails, do nothing.
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Checks if a user can delete content of a specific type based on domain.
+ *
+ * This is just a wrapper around the update function, which uses the same logic.
+ *
+ * @see domain_node_access().
+ */
+function domain_node_access_delete($node, $op, $account) {
+  return domain_node_access_update($node, $op, $account);
 }
 
 /**
@@ -2803,6 +2938,12 @@ function domain_domain_batch() {
  *
  * If our module changes $conf settings, they may be reflected
  * on admin pages when we don't want them to be.
+ *
+ * @param $form_id
+ *  The form_id of the active form.
+ *
+ * @return
+ *  No return value. Set the proper message to the user.
  */
 function domain_warning_check($form_id) {
   $_warning = &drupal_static(__FUNCTION__);
@@ -2815,9 +2956,6 @@ function domain_warning_check($form_id) {
     drupal_alter('domain_warnings', $forms);
     if ($form_id == 'domain_batch_form' || (arg(2) != 'domain' && in_array($form_id, array_keys($forms)))) {
       $default = domain_default();
-      if ($_domain['domain_id'] == $default['domain_id']) {
-        return;
-      }
       $link_text = '';
       $link = isset($forms[$form_id]) ? $forms[$form_id] : NULL;
       if (!empty($link)) {
@@ -2833,7 +2971,12 @@ function domain_warning_check($form_id) {
         $link_text = t('You may submit changes to the current domain at <a href="!url">%link</a>.', array('!url' => url($link), '%link' => $link));
       }
       $_path = domain_get_uri($default);
-      drupal_set_message(t('This form submits changes to your primary domain and <a href="!url">may need to be entered from !domain</a>. !link', array('#this' => $_domain['subdomain'], '!url' => $_path, '!domain' => $default['subdomain'], '!link' => $link_text)), 'warning', FALSE);
+      $message = '';
+      if ($_domain['domain_id'] != $default['domain_id']) {
+        $message = t(' and <a href="!url">may need to be entered from !domain</a>', array('!url' => $_path, '!domain' => $default['subdomain']));
+      }
+      drupal_set_message(t('This form submits changes to your default
+      configuration!message. !link', array('!message' => $message, '!link' => $link_text)), 'warning', FALSE);
     }
     $_warning = TRUE;
   }
@@ -2988,45 +3131,187 @@ function domain_simpletest() {
  * If enabled, force admins to use Domain Access rules.
  */
 function domain_query_node_access_alter(QueryAlterableInterface $query) {
-  $admin_force = variable_get('domain_force_admin', FALSE);
-  // In any of the following cases, do not enforce any rules.
-  if (empty($admin_force) || !user_access('bypass node access') || domain_grant_all()) {
-    return;
+  if (domain_admin_filter()) {
+    domain_alter_node_query($query, 'node');
   }
-  domain_alter_node_query($query);
+}
+
+/**
+ * Determines if node lists should be filtered for admins.
+ *
+ * @return
+ *   Boolean TRUE or FALSE.
+ */
+function domain_admin_filter() {
+  static $return, $i;
+  if (!isset($return)) {
+    $admin_force = variable_get('domain_force_admin', FALSE);
+    // In any of the following cases, do not enforce any rules.
+    if (empty($admin_force) || !user_access('bypass node access') || domain_grant_all()) {
+     $return = FALSE;
+    }
+    $return = TRUE;
+  }
+  return $return;
 }
 
 /**
  * Abstraction to allow query alters outside of node access.
  *
+ * This entire function is stolen from node.module. We should fix this in core.
+ *
+ * @link http://drupal.org/node/1363062
+ *
  * @param $query
  *   A dynamic node query.
- * @param $all_affiliates
- *   Boolean value indicating whether to grant the 'domain_site' grant.
+ * @param $type
+ *   Either 'node' or 'entity' depending on what sort of query it is. See
+ *   node_query_node_access_alter() and node_query_entity_field_access_alter()
+ *   for more. Currently, we only support 'node'.
  */
-function domain_alter_node_query(QueryAlterableInterface $query, $all_affiliates = TRUE) {
-  $_domain = domain_get_domain();
-  $domain_id = (int) $_domain['domain_id'];
+function domain_alter_node_query(QueryAlterableInterface $query, $type) {
+  global $user;
+  // Read meta-data from query, if provided.
+  if (!$account = $query->getMetaData('account')) {
+    $account = $user;
+  }
+  if (!$op = $query->getMetaData('op')) {
+    $op = 'view';
+  }
+  // Only act on view.
+  if ($op != 'view') {
+    return;
+  }
   $tables = $query->getTables();
+  $base_table = $query->getMetaData('base_table');
+  // If no base table is specified explicitly, search for one.
+  if (!$base_table) {
+    $fallback = '';
+    foreach ($tables as $alias => $table_info) {
+      if (!($table_info instanceof SelectQueryInterface)) {
+        $table = $table_info['table'];
+        // If the node table is in the query, it wins immediately.
+        if ($table == 'node') {
+          $base_table = $table;
+          break;
+        }
+        // Check whether the table has a foreign key to node.nid. If it does,
+        // do not run this check again as we found a base table and only node
+        // can triumph that.
+        if (!$base_table) {
+          // The schema is cached.
+          $schema = drupal_get_schema($table);
+          if (isset($schema['fields']['nid'])) {
+            if (isset($schema['foreign keys'])) {
+              foreach ($schema['foreign keys'] as $relation) {
+                if ($relation['table'] === 'node' && $relation['columns'] === array('nid' => 'nid')) {
+                  $base_table = $table;
+                }
+              }
+            }
+            else {
+              // At least it's a nid. A table with a field called nid is very
+              // very likely to be a node.nid in a node access query.
+              $fallback = $table;
+            }
+          }
+        }
+      }
+    }
+    // If there is nothing else, use the fallback.
+    if (!$base_table) {
+      if ($fallback) {
+        watchdog('security', 'Your node listing query is using @fallback as a base table in a query tagged for node access. This might not be secure and might not even work. Specify foreign keys in your schema to node.nid ', array('@fallback' => $fallback), WATCHDOG_WARNING);
+        $base_table = $fallback;
+      }
+      else {
+        throw new Exception(t('Query tagged for node access but there is no nid. Add foreign keys to node.nid in schema to fix.'));
+      }
+    }
+  }
+
+  // Prevent duplicate records.
+  $query->distinct();
+
+  // Find all instances of the base table being joined -- could appear
+  // more than once in the query, and could be aliased. Join each one to
+  // the node_access table.
+
+  $grants = node_access_grants($op, $account);
+  if ($type == 'entity') {
+    // The original query looked something like:
+    // @code
+    //  SELECT nid FROM sometable s
+    //  INNER JOIN node_access na ON na.nid = s.nid
+    //  WHERE ($node_access_conditions)
+    // @endcode
+    //
+    // Our query will look like:
+    // @code
+    //  SELECT entity_type, entity_id
+    //  FROM field_data_something s
+    //  LEFT JOIN node_access na ON s.entity_id = na.nid
+    //  WHERE (entity_type = 'node' AND $node_access_conditions) OR (entity_type <> 'node')
+    // @endcode
+    //
+    // So instead of directly adding to the query object, we need to collect
+    // in a separate db_and() object and then at the end add it to the query.
+    $entity_conditions = db_and();
+  }
   foreach ($tables as $nalias => $tableinfo) {
     $table = $tableinfo['table'];
-    if (!($table instanceof SelectQueryInterface) && $table == 'node') {
-      $access_alias = $query->join('domain_access', 'da_admin', "da_admin.nid = {$nalias}.nid");
-      $or = db_or();
-      if ($all_affiliates) {
-        $or->condition(db_and()
-          ->condition("{$access_alias}.gid", 0)
-          ->condition("{$access_alias}.realm", 'domain_site')
-        );
+    if (!($table instanceof SelectQueryInterface) && $table == $base_table) {
+
+      // The node_access table has the access grants for any given node so JOIN
+      // it to the table containing the nid which can be either the node
+      // table or a field value table.
+      if ($type == 'node') {
+        $access_alias = $query->join('node_access', 'na', '%alias.nid = ' . $nalias . '.nid');
       }
-      $or->condition(db_and()
-        ->condition("{$access_alias}.gid", $domain_id)
-        ->condition("{$access_alias}.realm", 'domain_id')
-      );
-      $query->condition($or);
-      // Node module will not have run, so add the distinct.
-      $query->distinct();
+      else {
+        $access_alias = $query->leftJoin('node_access', 'na', '%alias.nid = ' . $nalias . '.entity_id');
+        $base_alias = $nalias;
+      }
+
+      $grant_conditions = db_or();
+      // If any grant exists for the specified user, then user has access
+      // to the node for the specified operation.
+      foreach ($grants as $realm => $gids) {
+        foreach ($gids as $gid) {
+          $grant_conditions->condition(db_and()
+            ->condition($access_alias . '.gid', $gid)
+            ->condition($access_alias . '.realm', $realm)
+          );
+        }
+      }
+
+      $count = count($grant_conditions->conditions());
+      if ($type == 'node') {
+        if ($count) {
+          $query->condition($grant_conditions);
+        }
+        $query->condition($access_alias . '.grant_' . $op, 1, '>=');
+      }
+      else {
+        if ($count) {
+          $entity_conditions->condition($grant_conditions);
+        }
+        $entity_conditions->condition($access_alias . '.grant_' . $op, 1, '>=');
+      }
     }
+  }
+
+  if ($type == 'entity' && count($entity_conditions->conditions())) {
+    // All the node access conditions are only for field values belonging to
+    // nodes.
+    $entity_conditions->condition("$base_alias.entity_type", 'node');
+    $or = db_or();
+    $or->condition($entity_conditions);
+    // If the field value belongs to a non-node entity type then this function
+    // does not do anything with it.
+    $or->condition("$base_alias.entity_type", 'node', '<>');
+    // Add the compiled set of rules to the query.
+    $query->condition($or);
   }
 }
 

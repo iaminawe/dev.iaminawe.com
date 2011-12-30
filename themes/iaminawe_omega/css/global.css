@@ -5,6 +5,16 @@
 	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lv7g6h
 	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lvah34
 	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lw2n3n
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lwvw7e
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lwvwpd
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lwvx8r
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lww3ql
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lww78n
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lwwius
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lwy2wk
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lwy562
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lwzywe
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lx008u
 */
 
 /* This file will hold the main styles for your website. */
@@ -23,12 +33,21 @@ a{
   text-decoration: none;
 }
 
+.logo-img{
+  width: 50%;
+}
+
 .logo-img img{
   max-width: 100%;
   margin: none !important;
 }
 .flexslider{
   background-color: black;
+}
+
+#superfish-2{
+  width: 70%;
+  font-size: 14px;
 }
 
 body {
@@ -72,7 +91,7 @@ hr {
 
 h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.05em;
-  font-family: Georgia, 'Times New Roman', serif;
+  
 }
 
 h1 {
@@ -80,22 +99,52 @@ h1 {
 }
 
 h1#page-title{
-  float: left;
+  
   color: black;
-  background-color: white;
+  background-color: rgba(255,254,255,0.6);
   padding: 5px;
-  letter-spacing: 1px;
+line-height: 0.8em;
 }
+
+.node-type-design h1#page-title,
+.node-type-packaging h1#page-title,
+.node-type-business-card h1#page-title,
+.node-type-logo h1#page-title,
+.node-type-tshirt h1#page-title,
+.node-type-mobile h1#page-title,
+.node-type-video h1#page-title,
+.node-type-theatre h1#page-title,
+.node-type-mobile h1#page-title,
+.node-type-website h1#page-title{
+  display: none;
+}
+
+.view-mode-avatar{
+  width: 80px;
+  float:left;
+  margin-right: 20px;
+}
+
 h2 {
   font-size: 28px;
 }
 
+.group-middle h2{
+  line-height: .9em;
+}
+
 /* Make site titles the same size if it's an H1 (home) or H2 (internal) */
 h1.site-name,
-h2.site-name {
+h2.site-name a {
   font-size: 36px;
-
+  color: black !important;
+  position: absolute;
+  top: 160px;
+  left: 20px;
+  background-color: white;
+  padding: 3px;
 }
+
 
 /* Make it a bit smaller for block headers */
 h2.block-title {
@@ -109,6 +158,18 @@ h2.node-title {
 
 h3 {
   font-size: 18px;
+}
+
+h3.nodetype{
+  color: black;
+  position: absolute;
+  right: 20px;
+  top: -40px;
+  font-size: 35px;
+z-index: 999;
+  text-transform: capitalize;
+  background-color: white;
+height: 40px;
 }
 
 h4 {
@@ -131,6 +192,17 @@ ul {
   list-style: disc;
 }
 
+.tabs.primary a{
+  background-color: black;
+  padding: 5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border: none;
+}
+ul.primary{
+  border-bottom: none;
+}
+
 ul ul,
 ol ol {
   padding-top: 0.5em;
@@ -138,6 +210,117 @@ ol ol {
 
 .views-fluidgrid-processed{
 
+}
+
+.group-header{
+	padding-bottom: 3px;
+  border-bottom: thin white solid;
+  margin-bottom: 30px;
+}
+
+.group-header span{
+ margin-left: 10px;
+ margin-right: 5px;
+ padding-left: 10px;
+  border-left: thin white solid ;
+
+}
+
+.group-header a{
+  margin-right: 5px;
+}
+
+.group-header .flippy{
+  float: right;
+  position: absolute;
+  right: 10px;
+  top:20px
+
+}
+
+.group-left fieldset{
+  clear: both;
+  border-top: thin solid white;
+  margin-top: 10px !important;
+
+}
+.group-left .collapse-processed{
+height: 20px !important;
+  margin-top: 30px;
+
+
+}
+
+.group-left .label-inline{
+    border-top: thin solid white;
+    margin-top: 10px;
+}
+
+.node-type-design .group-left,
+.node-type-website .group-left,
+.node-type-packaging .group-left
+{
+  width: 60%;
+  margin-right: 20px;
+}
+
+.node-type-design .group-middle,
+.node-type-website .group-middle,
+.node-type-packaging .group-middle{
+  width: 35%;
+  margin-left: 20px;
+}
+
+.node-type-video .group-left{
+  width: 100%;
+
+  margin: auto;
+ 
+}
+.node-type-video .group-middle{
+  width: 50%;
+}
+
+.node-type-video .group-right{
+  width: 50%;
+}
+
+#media-vimeo-1{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.media-viemo-preview-wrapper{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.media-vimeo-outer-wrapper{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.vimeo-player{
+    width: 100% !important;
+  height: 100% !important;
+}
+.fitvidwrap{
+  width: 98% !important;
+  margin-bottom: 20px;
+  margin: auto;
+  padding:20px;
+
+}
+
+ul.links{
+  clear: both;
+}
+
+ul.links .comment-add{
+  display: none;
+}
+ul.links .comment_forbidden{
+  display: none !important;
 }
 
 .masonry-brick{
@@ -150,8 +333,13 @@ ol ol {
   font-size: 14px;
 }
 
+.node-page{
+  background-color: rgba(0,0,0,0.80);
+  padding: 10px;
+}
+
 .view-mode-full{
-  background-color: rgba(0,0,0,0.73);
+  background-color: rgba(0,0,0,0.80);
   padding: 10px;
 }
 .node ol,
@@ -181,6 +369,8 @@ dd {
   margin-bottom: 20px;
 }
 
+
+
 #block-system-main-menu{
   background-color: black;
   font-size: 18px;
@@ -198,6 +388,8 @@ dd {
 .block-main-menu ul li{
   display: inline;
 }
+
+
 
 .block-main-menu{
   float: left;

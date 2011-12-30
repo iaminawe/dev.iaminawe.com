@@ -1,5 +1,143 @@
+2011-11-10
+New stable relase 7.x-1.6
+[#1337064] Fix Fatal error: Call to undefined function db_fetch_object()
+
+2011-11-09
+New stable relase 7.x-1.5
+
+Bug fixes:
+[#1334140] by michal_cksource: CKEditor is cut off in comments form
+[#1331728] by michal_cksource: Remove unnecessary Drupal Page Break button if there is no module to support this feature
+[#1331720] by michal_cksource: Fix broken link to Global Profile in CKEditor configuration main page
+[#1331716] by michal_cksource: Fix missing version number in report status
+[#1324554] by dczepierga: Fix adding custom plugin - change in ckeditor.api.php
+[#1283918] by michal_cksource: Fix UTF-8 issues
+[#1327540] by michal_cksource: Fix hook_file_download allows downloading of private files created by another module
+[#1325412] by michal_cksource: Fix problem with list-style-type in ckeditor.css
+
+
+2011-10-26
+New stable relase 7.x-1.4
+
+-- 2011-10-24
+- [#1319658] by michal_cksource: Correct language list in the CKEditor profile configuration
+
+-- 2011-10-20
+- [#1259510] by michal_cksource: Fix for setting a private files folder breaks CKEditor file uploads
+
+-- 2011-10-17
+- [#1310280] by dczepierga: Improve icons detection from CKEditor plugins (part 2)
+- [#1298972] by michal_cksource: Correct messages and add language fixes
+- [#1311928] by dczepierga: Add jquery_ui support to the Drag & Drop toolbar configuration
+
+-- 2011-10-14
+- [#1310280] by dczepierga: Improve icons detection from CKEditor plugins
+- [#1295176] by dczepierga: Fix Notice: Undefined index: default in ckeditor_admin_profile_form() - when editing CKEditor profile
+- [#1310198] by duozersk: Add plugin to count symbols and words inside CKEditor
+
+-- 2011-10-04
+- [#1298972] by michal_cksource: Correct messages and add language fixes
+
+-- 2011-09-26
+- [#1154264] by dczepierga: Fix for deleting profle - after deleting the Advanced profile, Full HTML profile doesn't load
+
+-- 2011-09-23
+- [#1288084] by dczepierga: Disable Media and IMCE module selection if these modules are not installed
+
+-- 2011-09-20
+- [#1283788] by dczepierga: Fix Notice: Undefined index: buttons in ckeditor_toolbar_buttons_all()
+
+-- 2011-09-19
+- [#1219348] by dczepierga: Fix for WYSIWYG filter - add missing argument
+
+-- 2011-09-15
+- [#1280298] by dczepierga: Add configuration option to disable text format filters in filter/xss request
+- [#1270792] by dczepierga: Further improvements to the Drag & Drop toolbar configuration
+
+-- 2011-09-13
+- [#1173294] by dczepierga: Fix for incorrect file path for uploaded Images
+
+-- 2011-09-12
+- [#1270792] by michal_cksource: Improved Drag & Drop toolbar configuration - fixed css styles
+- [#1270792] by michal_cksource: Improved Drag & Drop toolbar configuration - fixed errors (dragged item was to low in Firefox and validation failed when 'group' button was first in buttons row)
+
+-- 2011-09-06
+- [#1270792] by dczepierga: Add Drag & Drop toolbar configuration
+
+-- 2011-08-31
+- [#1264884] by dczepierga: Fix warning: is_dir(): open_basedir restriction in effect
+
+-----------------------------
+ 2011-08-29
+ Released CKEditor 7.x-1.3
+-----------------------------
+
+-- 2011-08-29
+- [#1260892] by dczepierga: Add regex to work with new CKEditor toolbar format (toolbar groups compatible with WAI-ARIA)
+- [#1258326] by dczepierga: Add configuration option for setting CKEditor plugins directory
+
+-- 2011-08-25
+- [#1257308] by dczepierga: Add loading sample toolbar to profile configuration
+- [#1192622] by dczepierga: Replace static paths to plugins in the database with dynamic paths
+
+-- 2011-08-16
+- [#1250496] by dczepierga: 'CKEDITOR' is not defined - problem with ckeditor.styles.js
+
+-- 2011-08-11
+- [#1231130] by dczepierga: The "Use theme style" setting now always uses the "seven" theme (admin menu theme)
+
+-- 2011-08-10
+- [#1245306] by dczepierga: "Custom JavaScript configuration" field description is wrong
+
+-- 2011-08-08
+- [#1231338] by dczepierga: Features module support for Drupal 7 (exporting profiles)
+
+-- 2011-08-02
+- [#1235142] by madmanmax: README.TXT - Installing CKFinder - wrong permission name
+
+-- 2011-07-12
+- [#1216104] by dczepierga: Bug in custom JavaScript configuration - semicolon problem
+- [#1215032] by dczepierga: Bad location of the configuration file in the description of CKEditor profile
+
+-- 2011-07-04
+- [#1190278] by dczepierga: CKEditor does not work with the Insert module
+
+-- 2011-06-28
+- [#1198068] by michal_cksource: Confusing behavior with IMCE button implementation
+
+-- 2011-06-27
+- [#1201180] by dczepierga: SCAYT spelling language does not match node language
+
+-- 2011-06-22
+- [#1196166] by dczepierga: Bug in custom JavaScript configuration - editor not showing in some cases
+
+-- 2011-06-17
+- [#1032120] by dczepierga: Formatting is lost when editing a node
+
+-- 2011-06-14
+- [#1187808] by RolandK: Not formatting text between code tags
+
+-- 2011-06-13
+- [#1186880] by dczepierga: Handling arrays in the "Custom JavaScript configuration"
+
+-- 2011-06-09
+- [#1183218] by neclimdul: Fix broken teasers for long paragraphs
+
+-- 2011-06-06
+- [#1179880] by dczepierga: Add hook to register a plugin
+- [#1063646] by dczepierga: Fix calling Undefined index: "loadPlugins" in ckeditor_admin_values_to_settings()
+
+-- 2011-06-02
+- [#1176212] by dczepierga: Remove not supported linktomenu and linktonode plugins
+- [#1176208] by dczepierga: Add plugins management in profile settings
+
+-----------------------------
+ 2011-05-30
+ Released CKEditor 7.x-1.2
+-----------------------------
+
 -- 2011-05-27
-- [#1170612] by dczepierga: Add support for autogrow and tableresize plugin 
+- [#1170612] by dczepierga: Add support for autogrow and tableresize plugin
 
 -- 2011-05-26
 - [#1169402] by dczepierga:  Fix duplicated path in the error message displayed when CKEditor is not installed correctly
@@ -23,7 +161,7 @@
 - [#1142600] by taite11: Readme file edit - there is no core upload module in Drupal 7
 
 -- 2011-04-28
-- [#1022986] by dczepierga: Add integration with Media Module
+- [#1022986] by dczepierga: Add integration with Media Module  (http://drupal.org/project/media)
 
 -- 2011-04-11
 - [#1116516] by weboide: Fix to CKEditor and Profile2 - remove call to undefined function ckeditor_user_customize_form_validate() on uid=1

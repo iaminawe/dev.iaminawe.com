@@ -5,9 +5,9 @@ core = 7.x
 dependencies[] = field
 dependencies[] = ctools
 
-; Information added by drupal.org packaging script on 2011-10-16
+; Information added by drupal.org packaging script on 2011-12-21
 version = "7.x-1.x-dev"
 core = "7.x"
 project = "media"
-datestamp = "1318767084"
+datestamp = "1324427512"
 

@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * Implements hook_install()
+ */
+function bg_image_enable() {
+  // Clear the cache so that the reaction appears in the reaction list
+  cache_clear_all();
+}

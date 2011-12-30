@@ -177,6 +177,15 @@ function flexslider_image_default_styles() {
 }
 
 /**
+ * Implements hook_ctools_plugin_api().
+ */
+function flexslider_ctools_plugin_api($owner, $api) {
+  if ($owner == 'flexslider' && $api == 'flexslider_default_preset') {
+    return array('version' => 1);
+  }
+}
+
+/**
  * Fetches all option sets from the database and returns them as an associative array.
  */
 function flexslider_optionsets() {
@@ -188,13 +197,11 @@ function flexslider_optionsets() {
 }
 
 /**
- * Fetches the given option set and returns it as an associative array or FALSE, if no set could be found.
+ * Fetches the given option set and returns it as an object or NULL, if no set could be found.
  */
 function flexslider_optionset_load($optionset_name) {
-  $optionset = db_query("SELECT * FROM {flexslider_optionset} WHERE name = :name", array(':name' => $optionset_name))->fetchAssoc();
-  if ($optionset !== FALSE) {
-    $optionset['options'] = empty($optionset['options']) ? array() : unserialize($optionset['options']);
-  }
+  ctools_include('export');
+  $optionset = ctools_export_crud_load('flexslider_optionset', $optionset_name);
   return $optionset;
 }
 
@@ -202,7 +209,8 @@ function flexslider_optionset_load($optionset_name) {
  * Checks whether an option set with the given name already exists.
  */
 function flexslider_optionset_exists($optionset_name) {
-  return (flexslider_optionset_load($optionset_name) !== FALSE);
+  ctools_include('export');
+  return (ctools_export_crud_load('flexslider_optionset', $optionset_name) !== NULL);
 }
 
 /**
@@ -287,10 +295,10 @@ function flexslider_add($id, $optionset) {
   $js_settings = array(
     //'themepath' => file_create_url($cache['theme']),
     'optionsets' => array(
-      $optionset['name'] => $optionset['options'],
+      $optionset->name => $optionset->options,
     ),
     'instances' => array(
-      'flexslider-' . $id => $optionset['name'],
+      'flexslider-' . $id => $optionset->name,
     ),
   );
 

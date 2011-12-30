@@ -415,7 +415,7 @@ function shadowbox_automatic_settings() {
     '#type' => 'checkbox',
     '#title' => t('Enable shadowbox globally'),
     '#description' => t('Add shadowbox library on all nodes.'),
-    '#default_value' => variable_get('shadowbox_enable_globally', 0),
+    '#default_value' => variable_get('shadowbox_enable_globally', TRUE),
   );
 
   return system_settings_form($form);

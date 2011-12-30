@@ -11,5 +11,5 @@ Setup is fairly straightforward, but you will need to configure a few things to 
 - Create a new content type with an image field and create a node with an image uploaded.
 - Go to the settings page (admin/config/content/background-image) and in the 'Node Settings' section select the node type you created as well as the image field you uploaded. Now you have an image field mapped directly to the background image module.
 - Still in the settings page, provide a css selector and color and repeat attributes in the 'Default CSS Settings' section.
-Create a context, and add the reaction 'Background Image'. There will be a select list with all the nodes of the specified type to choose from. Additionally you can override any css setting here as well.
+- Create a context, and add the reaction 'Background Image'. You may need to clear the cache before the reaction becomes available in the reactino list. There will be a select list with all the nodes of the specified type to choose from. Additionally you can override any css setting here as well.
 - If you want, you can also set a weight for the background image. The weight helps the module decide which background image to use if there are overlapping contexts. Useful if you want to setup a default image as a site-wide context, and have other more specific contexts override it.

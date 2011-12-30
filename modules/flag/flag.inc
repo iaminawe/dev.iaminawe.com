@@ -39,23 +39,24 @@ function flag_flag_definitions() {
  * Returns a flag definition.
  */
 function flag_fetch_definition($content_type = NULL) {
-  static $cache;
-  if (!isset($cache)) {
-    $cache = module_invoke_all('flag_definitions');
-    if (!isset($cache['node'])) {
+  static $defintions;
+  if (!isset($defintions)) {
+    $defintions = module_invoke_all('flag_definitions');
+    drupal_alter('flag_definitions', $defintions);
+    if (!isset($defintions['node'])) {
       // We want our API to be available in hook_install, but our module is not
       // enabled by then, so let's load our implementation directly:
-      $cache += flag_flag_definitions();
+      $defintions += flag_flag_definitions();
     }
   }
 
   if (isset($content_type)) {
-    if (isset($cache[$content_type])) {
-      return $cache[$content_type];
+    if (isset($defintions[$content_type])) {
+      return $defintions[$content_type];
     }
   }
   else {
-    return $cache;
+    return $defintions;
   }
 }
 
@@ -193,6 +194,7 @@ class flag_flag {
         'flag' => array(DRUPAL_AUTHENTICATED_RID),
         'unflag' => array(DRUPAL_AUTHENTICATED_RID),
       ),
+      'weight' => 0,
     );
 
     // Merge in options from the current link type.
@@ -405,6 +407,9 @@ class flag_flag {
   /**
    * Returns TRUE if the user can flag, or unflag, the given content.
    *
+   * This method typically should not be overridden by child classes. Instead
+   * they should implement type_access(), which is called by this method.
+   *
    * @param $content_id
    *   The content ID to flag/unflag.
    * @param $account
@@ -433,6 +438,12 @@ class flag_flag {
     // Base initial access on the user's basic permission to use this flag.
     $access = $this->user_access($action, $account);
 
+    // Check for additional access rules provided by sub-classes.
+    $child_access = $this->type_access($content_id, $action, $account);
+    if (isset($child_access)) {
+      $access = $child_access;
+    }
+
     // Allow modules to disallow (or allow) access to flagging.
     $access_array = module_invoke_all('flag_access', $this, $content_id, $action, $account);
 
@@ -452,6 +463,10 @@ class flag_flag {
    * test in the Views query, is to make 'many to one' tests possible without
    * interfering with the rows, and also to reduce the complexity of the code.
    *
+   * This method typically should not be overridden by child classes. Instead
+   * they should implement type_access_multiple(), which is called by this
+   * method.
+   *
    * @param $content_ids
    *   The array of content IDs to check. The keys are the content IDs, the
    *   values are the actions to test: either 'flag' or 'unflag'.
@@ -468,6 +483,16 @@ class flag_flag {
       $access[$content_id] = $this->user_access($content_ids[$content_id], $account);
     }
 
+    // Check for additional access rules provided by sub-classes.
+    $child_access = $this->type_access_multiple($content_ids, $account);
+    if (isset($child_access)) {
+      foreach ($child_access as $content_id => $content_access) {
+        if (isset($content_access)) {
+          $access[$content_id] = $content_access;
+        }
+      }
+    }
+
     // Merge in module-defined access.
     foreach (module_implements('flag_access_multiple') as $module) {
       $module_access = module_invoke($module, 'flag_access_multiple', $this, $content_ids, $account);
@@ -479,6 +504,24 @@ class flag_flag {
     }
 
     return $access;
+  }
+
+  /**
+   * Implements access() implemented by each child class.
+   *
+   * @abstract
+   */
+  function type_access($content_id, $action, $account) {
+    return NULL;
+  }
+
+  /**
+   * Implements access_multiple() implemented by each child class.
+   *
+   * @abstract
+   */
+  function type_access_multiple($content_ids, $account) {
+    return array();
   }
 
   /**
@@ -560,7 +603,7 @@ class flag_flag {
       $sid = 0;
     }
     else {
-      $sid = flag_get_sid($uid);
+      $sid = flag_get_sid($uid, TRUE);
       // Anonymous users must always have a session id.
       if ($sid == 0 && $account->uid == 0) {
         return FALSE;
@@ -679,7 +722,7 @@ class flag_flag {
         'timestamp' => REQUEST_TIME,
       ))
       ->execute();
-    $this->_update_count($content_id);
+    $this->_increase_count($content_id);
     return $fcid;
   }
 
@@ -706,38 +749,67 @@ class flag_flag {
       ->fetchField();
     if ($fcid) {
       db_delete('flag_content')->condition('fcid', $fcid)->execute();
-      $this->_update_count($content_id);
+      $this->_decrease_count($content_id);
     }
     return $fcid;
   }
 
   /**
-   * Updates the flag count for this content
+   * Increases the flag count for a piece of content.
+   *
+   * @param $content_id
+   *   For which item should the count be increased.
+   * @param $number
+   *   The amount of counts to increasing. Defaults to 1.
    *
    * @private
-   */
-  function _update_count($content_id) {
-    $count = db_select('flag_content', 'fc')->fields('fc', array('fcid'))
+  */
+  function _increase_count($content_id, $number = 1) {
+    db_merge('flag_counts')
+      ->key(array(
+        'fid' => $this->fid,
+        'content_id' => $content_id,
+      ))
+      ->fields(array(
+        'content_type' => $this->content_type,
+        'count' => $number,
+        'last_updated' => REQUEST_TIME,
+      ))
+      ->updateFields(array(
+        'last_updated' => REQUEST_TIME,
+      ))
+      ->expression('count', 'count + :inc', array(':inc' => $number))
+      ->execute();
+  }
+
+  /**
+   * Decreases the flag count for a piece of content.
+   *
+   * @param $content_id
+   *   For which item should the count be descreased.
+   * @param $number
+   *   The amount of counts to decrease. Defaults to 1.
+   *
+   * @private
+  */
+  function _decrease_count($content_id, $number = 1) {
+    // Delete rows with count 0, for data consistency and space-saving.
+    // Done before the db_update() to prevent out-of-bounds errors on "count".
+    db_delete('flag_counts')
       ->condition('fid', $this->fid)
       ->condition('content_id', $content_id)
-      ->countQuery()->execute()->fetchField();
-    if ($count == 0) {
-      db_delete('flag_counts')->condition('fid', $this->fid)->condition('content_id', $content_id)->execute();
-    }
-    else {
-      $num_updated = db_update('flag_counts')->fields(array('count' => $count))
-        ->condition('fid', $this->fid)
-        ->condition('content_id', $content_id)
-        ->execute();
-      if (!$num_updated) {
-        db_insert('flag_counts')->fields(array(
-          'fid' => $this->fid,
-          'content_type' => $this->content_type,
-          'content_id' => $content_id,
-          'count' => $count))
-          ->execute();
-      }
-    }
+      ->condition('count', $number, '<=')
+      ->execute();
+
+    // Update the count with the new value otherwise.
+    db_update('flag_counts')
+      ->expression('count', 'count - :inc', array(':inc' => $number))
+      ->fields(array(
+        'last_updated' => REQUEST_TIME,
+      ))
+      ->condition('fid', $this->fid)
+      ->condition('content_id', $content_id)
+      ->execute();
   }
 
   /**
@@ -910,31 +982,6 @@ class flag_flag {
 
   /**
    * @} End of "addtogroup actions".
-   */
-
-  /**
-   * Methods that can be overridden to support the Rules module.
-   *
-   * @addtogroup rules
-   * @{
-   */
-
-  /**
-   * Defines the Rules arguments involved in a flag event.
-   */
-  function rules_get_event_arguments_definition() {
-    return array();
-  }
-
-  /**
-   * Defines the Rules argument for flag actions or conditions
-   */
-  function rules_get_element_argument_definition() {
-    return array();
-  }
-
-  /**
-   * @} End of "addtogroup rules".
    */
 
   /**
@@ -1267,13 +1314,13 @@ class flag_node extends flag_flag {
     return FALSE;
   }
 
-  function access_multiple($content_ids, $account = NULL) {
-    $access = parent::access_multiple($content_ids, $account);
+  function type_access_multiple($content_ids, $account = NULL) {
+    $access = array();
 
     // Ensure that only flaggable node types are granted access. This avoids a
     // node_load() on every type, usually done by applies_to_content_id().
     $result = db_select('node', 'n')->fields('n', array('nid'))
-      ->condition('nid', $content_ids, 'IN')
+      ->condition('nid', array_keys($content_ids), 'IN')
       ->condition('type', $this->types, 'NOT IN')
       ->execute();
     foreach ($result as $row) {
@@ -1369,20 +1416,6 @@ class flag_node extends flag_flag {
     );
   }
 
-  function rules_get_event_arguments_definition() {
-    return array(
-      'node' => array(
-        'type' => 'node',
-        'label' => t('flagged content'),
-        'handler' => 'flag_rules_get_event_argument',
-      ),
-    );
-  }
-
-  function rules_get_element_argument_definition() {
-    return array('type' => 'node', 'label' => t('Flagged content'));
-  }
-
   function get_views_info() {
     return array(
       'views table' => 'node',
@@ -1445,9 +1478,8 @@ class flag_comment extends flag_flag {
     return FALSE;
   }
 
-  function access_multiple($content_ids, $account = NULL) {
-    $account = isset($account) ? $account : $GLOBALS['user'];
-    $access = parent::access_multiple($content_ids, $account);
+  function type_access_multiple($content_ids, $account) {
+    $access = array();
 
     // Ensure node types are granted access. This avoids a
     // node_load() on every type, usually done by applies_to_content_id().
@@ -1504,25 +1536,6 @@ class flag_comment extends flag_flag {
       'comment' => $comment,
       'node' => node_load($comment->nid),
     );
-  }
-
-  function rules_get_event_arguments_definition() {
-    return array(
-      'comment' => array(
-        'type' => 'comment',
-        'label' => t('flagged comment'),
-        'handler' => 'flag_rules_get_event_argument',
-      ),
-      'node' => array(
-        'type' => 'node',
-        'label' => t("the flagged comment's content"),
-        'handler' => 'flag_rules_get_comment_content',
-      ),
-    );
-  }
-
-  function rules_get_element_argument_definition() {
-    return array('type' => 'comment', 'label' => t('Flagged comment'));
   }
 
   function get_views_info() {
@@ -1593,29 +1606,23 @@ class flag_user extends flag_flag {
     return FALSE;
   }
 
-  function access($content_id, $action = NULL, $account = NULL) {
-    $access = parent::access($content_id, $action, $account);
-    $account = isset($account) ? $account : $GLOBALS['user'];
-
+  function type_access($content_id, $action, $account) {
     // Prevent users from flagging themselves.
     if ($this->access_uid == 'others' && $content_id == $account->uid) {
-      $access = FALSE;
+      return FALSE;
     }
-
-    return $access;
   }
 
-  function access_multiple($content_ids, $account = NULL) {
-    $account = isset($account) ? $account : $GLOBALS['user'];
-    $access = parent::access_multiple($content_ids, $account);
+  function type_access_multiple($content_ids, $account) {
+    $access = array();
 
     // Exclude anonymous.
-    if (array_key_exists(0, $access)) {
+    if (array_key_exists(0, $content_ids)) {
       $access[0] = FALSE;
     }
 
     // Prevent users from flagging themselves.
-    if ($this->access_uid == 'others' && array_key_exists($account->uid, $access)) {
+    if ($this->access_uid == 'others' && array_key_exists($account->uid, $content_ids)) {
       $access[$account->uid] = FALSE;
     }
 
@@ -1656,20 +1663,6 @@ class flag_user extends flag_flag {
     return array(
       'user' => $this->fetch_content($content_id),
     );
-  }
-
-  function rules_get_event_arguments_definition() {
-    return array(
-      'account' => array(
-        'type' => 'user',
-        'label' => t('flagged user'),
-        'handler' => 'flag_rules_get_event_argument',
-      ),
-    );
-  }
-
-  function rules_get_element_argument_definition() {
-    return array('type' => 'user', 'label' => t('Flagged user'));
   }
 
   function get_views_info() {
@@ -1868,4 +1861,3 @@ class FlagNonGlobalCookieStorage extends FlagCookieStorage {
     }
   }
 }
-

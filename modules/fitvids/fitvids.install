@@ -39,18 +39,21 @@ function fitvids_enable() {
     $message = t('You need to download the FitVids.js jQuery plugin to use this module. Download it from !fitvids-site, copy it to the module directory, and rename it to !fitvids-filename.', array(
       '!fitvids-site' => l(t('here'), PLUGIN_URL),
       '!fitvids-filename' => PLUGIN_FILENAME,
-	));
-    drupal_set_message($message, $type = 'warning');
+    ));
+    drupal_set_message(check_plain($message), $type = 'warning');
   }
   else {
     $message = t('You already have the FitVids.js jQuery plugin installed. Configure the module !fitvids-configuration', array(
       '!fitvids-configuration' => l(t('here'), 'admin/config/media/fitvids'),
     ));
-    drupal_set_message($message);
+    drupal_set_message(check_plain($message));
   }
 }
 
 /**
  * Uninstall the module
  */
-// TODO delete the variable: fitvids_selectors
+function fitvids_uninstall() {
+	// Delete module variables
+	variable_del('fitvids_selectors');
+}

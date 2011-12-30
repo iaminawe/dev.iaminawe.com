@@ -163,7 +163,7 @@ function bg_image_settings_form($form, &$form_state) {
     '#title' => t('Background Repeat'),
     '#description' => t('Define the repeat settings for the background image. [<a href="http://www.w3schools.com/css/pr_background-repeat.asp">css property: background-repeat</a>]'),
     '#options' => $repeat_options,
-    '#default_value' => variable_get('bg_image_repeat', 0),
+    '#default_value' => variable_get('bg_image_repeat', 'no-repeat'),
   );
   
   return system_settings_form($form);
@@ -278,12 +278,12 @@ function bg_image_change_background_image($nid, $css_settings = array()) {
   $node = node_load($nid);
   
   // All our parts of the background property
-  $selector = $css_settings['bg_image_selector'];
-  $bg_color = $css_settings['bg_image_color'];
-  $bg_x = $css_settings['bg_image_x'];
-  $bg_y = $css_settings['bg_image_y'];
-  $attachment = $css_settings['bg_image_attachment'];
-  $repeat = $css_settings['bg_image_repeat'];
+  $selector = isset($css_settings['bg_image_selector']) ? $css_settings['bg_image_selector'] : variable_get('bg_image_selector', '');
+  $bg_color = isset($css_settings['bg_image_color']) ? $css_settings['bg_image_color'] : variable_get('bg_image_color', '#FFFFFF');
+  $bg_x = isset($css_settings['bg_image_x']) ? $css_settings['bg_image_x'] : variable_get('bg_image_x', 'left');
+  $bg_y = isset($css_settings['bg_image_y']) ? $css_settings['bg_image_y'] : variable_get('bg_image_y', 'top');
+  $attachment = isset($css_settings['bg_image_attachment']) ? $css_settings['bg_image_attachment'] : variable_get('bg_image_attachment', 'scroll');
+  $repeat = isset($css_settings['bg_image_repeat']) ? $css_settings['bg_image_repeat'] : variable_get('bg_image_repeat', 'no-repeat');
   
   $field_name = variable_get('bg_image_node_field', '');
   $admin = variable_get('bg_image_exclude_admin', 0) ? !path_is_admin($_GET['q']) : TRUE;
@@ -294,7 +294,8 @@ function bg_image_change_background_image($nid, $css_settings = array()) {
     $fields = field_info_fields();
     if (isset($fields[$field_name]) && $fields[$field_name]['type'] == 'media') {
       if ($node->{$field_name}) {
-        $file = file_load($node->{$field_name}[$node->language][0]['fid']);
+        $items = field_get_items('node', $node, $field_name);
+        $file = file_load($items[0]['fid']);
         if ($file && $file->type == 'image') {
           $image_path = file_create_url($file->uri);
         }
@@ -302,8 +303,9 @@ function bg_image_change_background_image($nid, $css_settings = array()) {
     }
     elseif (isset($fields[$field_name]) && $fields[$field_name]['type'] == 'image') {
       if ($node->{$field_name}) {
-        if (isset($node->{$field_name}[$node->language][0]['uri'])) {
-          $image_path = file_create_url($node->{$field_name}[$node->language][0]['uri']);
+        $items = field_get_items('node', $node, $field_name);
+        if (isset($items[0]['uri'])) {
+          $image_path = file_create_url($items[0]['uri']);
         }
       }
     }
@@ -327,7 +329,7 @@ function bg_image_change_background_image($nid, $css_settings = array()) {
 function bg_image_field_has_image($nid) {
   $node = node_load($nid);
   $field_name = variable_get('bg_image_node_field', '');
-  if ($node->{$field_name}) {
+  if ($node && $node->{$field_name}) {
     return TRUE;
   }
   else {
@@ -335,29 +337,25 @@ function bg_image_field_has_image($nid) {
   }
 }
 
+/**
+ * Returns all the active contexts with
+ * bg_image reactions
+ */
+function bg_image_get_contexts() {
+  $contexts = array();
+  foreach (context_enabled_contexts() as $context) {
+    if (array_key_exists('bg_image', $context->reactions)) {
+      $contexts[] = $context;
+    }
+  }
+  return $contexts;
+}
+
 
 /*****************************************************************************
 * BLOCK CONTENTS
 *****************************************************************************/
 
-/**
- * Generates the link for the block
- */
- 
-function bg_image_block_content() {
-  $path = drupal_get_path_alias($_GET['q']);
-  $sql = "SELECT nid FROM {node} WHERE title = '%s'";
-  $nid = db_result(db_query($sql, $path));
-  $output = '<ul class="menu"><li><a href="/admin/content/block-bg-images">Manage Front Page BG Images</a></li>';
-  $output .= '<li><a href="/admin/content/background-images">Manage Main BG Images</a></li>';
-  if ($nid) {
-    $output .= '<li><a href="/node/'.$nid.'/edit?destination='.$path.'">Change Background Image</a></li>';
-  }
-  else {
-    $output .= '<li><a href="/node/add/bg-image?edit[title]='.$path.'&destination='.$path.'">Set Background Image</a></li>';
-  }
-  return $output . '</ul>';
-}
 
 /**
  * Returns an options list of css repeat options

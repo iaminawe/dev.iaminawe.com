@@ -9,9 +9,9 @@ dependencies[] = views_slideshow
 files[] = flexslider_views_slideshow.module
 files[] = flexslider_views_slideshow.views_slideshow.inc
 files[] = theme/flexslider_views_slideshow.theme.inc
-; Information added by drupal.org packaging script on 2011-11-17
+; Information added by drupal.org packaging script on 2011-12-24
 version = "7.x-1.x-dev"
 core = "7.x"
 project = "flexslider"
-datestamp = "1321489422"
+datestamp = "1324686144"
 

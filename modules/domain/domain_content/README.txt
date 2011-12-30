@@ -84,17 +84,18 @@ The relevant permissions to Domain Content are:
   - 'edit domain content'
   - 'set domain access'
   - 'review content for all domains'
+  - 'access the domain content page'
   - 'administer nodes'
 
-Users with the 'edit domain content' permission can view content for domains where
-they are assigned editors.  Users with the 'set domain access' permission can
-view content for domains where they are assigned editors _and_ reassign content
-to one or more affiliates.
+Users with the 'access the domain content page' permission can view content for
+domains where they are assigned editors.  Users with the 'set domain access'
+permission can view content for domains where they are assigned editors _and_
+reassign content to one or more affiliates.
 
-Users with the core 'administer nodes' permission may view and edit content on any
-affiliate.
+Users with the core 'administer nodes' permission may perform additional
+operations (such as deleting or promoting content).
 
-Either the 'administer nodes', 'edit domain content' or the 'review content for all
+Either the 'access the domain content page'' or the 'review content for all
 domains' permission is required to access the 'Affiliated content' screen.
 
 ----
