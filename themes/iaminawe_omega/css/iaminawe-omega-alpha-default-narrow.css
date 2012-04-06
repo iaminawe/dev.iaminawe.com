@@ -1,1 +1,53 @@
 /* This file will hold styles that are loaded using the same media query as the narrow grid. */
+
+.group-left{
+  width: 50% !important;
+}
+.group-middle{
+  width: 43% !important;
+}
+.group-right{
+  
+}
+
+.twocolumn{
+  -moz-column-count: 2;
+-moz-column-gap: 2em;
+-webkit-column-count: 2;
+-webkit-column-gap: 2em;
+
+}
+.group-header .flippy{
+  float: right;
+  padding:5px;
+  font-weight: bold;
+  background-color: white;
+  margin-bottom: 5px !important;
+  margin-top: -30px !important;
+  margin-left: 0px !important;
+  margin-right: -10px !important;
+}
+
+
+h1.site-name,
+h2.site-name a {
+  font-size: 86px;
+  line-height: 50px;
+  padding: 3px;
+  position: relative;
+  top: -20px;
+ text-shadow: 0px 1px 5px #888;
+ color: white;
+  
+}
+
+h6.site-slogan{
+  color: #888;
+  font-style: italic;
+  font-size: 24px;
+  text-shadow: white 0 0 5px;
+  padding: 10px;
+  margin-top: -30px;
+  width: 80%;
+
+}

@@ -1,5 +1,8 @@
 (function ($) {
 
+// Check that shadowbox library is available
+if (typeof Shadowbox === 'undefined') return;
+
 Drupal.behaviors.shadowbox = {
   attach: function(context, settings) {
     if (settings.shadowbox.auto_enable_all_images == 1) {

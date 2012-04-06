@@ -192,7 +192,10 @@ function media_field_formatter_view($entity_type, $entity, $field, $instance, $l
     foreach ($items as $delta => $item) {
       $files[$item['fid']] = $item['file'];
     }
-    $element = file_view_multiple($files, $display['settings']['file_view_mode'], 0, $langcode);
+
+    if (!empty($files)) {
+      $element = file_view_multiple($files, $display['settings']['file_view_mode'], 0, $langcode);
+    }
   }
 
   return $element;
@@ -409,18 +412,14 @@ function media_field_update($entity_type, $entity, $field, $instance, $langcode,
     $current_fids[] = $item['fid'];
   }
 
-  // Create a bare-bones entity so that we can load its previous values.
-  $original = entity_create_stub_entity($entity_type, array($id, $vid, $bundle));
-  field_attach_load($entity_type, array($id => $original), FIELD_LOAD_CURRENT, array('field_id' => $field['id']));
-
   // Compare the original field values with the ones that are being saved.
   $original_fids = array();
-  if (!empty($original->{$field['field_name']}[$langcode])) {
-    foreach ($original->{$field['field_name']}[$langcode] as $original_item) {
+  if (!empty($entity->original->{$field['field_name']}[$langcode])) {
+    foreach ($entity->original->{$field['field_name']}[$langcode] as $original_item) {
       $original_fids[] = $original_item['fid'];
       if (isset($original_item['fid']) && !in_array($original_item['fid'], $current_fids)) {
         // Decrement the file usage count by 1.
-        $file = (object)$original_item;
+        $file = (object) $original_item;
         file_usage_delete($file, 'media', $entity_type, $id, 1);
       }
     }

@@ -45,12 +45,7 @@ function bg_image_settings_form($form, &$form_state) {
   $node_types = array('' => 'choose...');
   $node_fields = array('' => 'Choose a node type first...');
   // Options for repeating the image
-  $repeat_options = array(
-    'no-repeat' => t('No Repeat'),
-    'repeat' => t('Tiled (repeat)'),
-    'repeat-x' => t('Repeat Horizontally (repeat-x)'),
-    'repeat-y' => t('Repeat Vertically (repeat-y)'),
-  );
+  $repeat_options = bg_image_css_repeat_options();
   // Make an option list of node types
   foreach (node_type_get_types() as $id => $node_type) {
     $node_types[$id] = $node_type->name;
@@ -69,7 +64,7 @@ function bg_image_settings_form($form, &$form_state) {
   $form['node'] = array(
     '#type' => 'fieldset',
     '#title' => t('Node Settings'),
-    '#description' => t('The background image is applied by referencing a specific field on a particular node. You will need to create a content type that has an image or media field and then specify the type and the field name below. Then, in the context reaction, you can reference the node that has the image to use for the background.'),
+    '#description' => t('The background images can be added using nodes as the interface to upload and manage the images. In order to use this feature you need to specify the node type and field name here. Some modules may require this to be done before they will work.'),
   );
   
   // Select a node type
@@ -77,10 +72,9 @@ function bg_image_settings_form($form, &$form_state) {
   $form['node']['bg_image_node_type'] = array(
     '#type' => 'select',
     '#title' => t('Node Type'),
-    '#description' => t('The node type that holds the image for the background. Only nodes of this type will be available in the context reaction.'),
+    '#description' => t('The node type that holds the image for use with background image.'),
     '#options' => $node_types,
     '#default_value' => variable_get('bg_image_node_type', ''),
-    '#required' => TRUE,
     '#ajax' => array(
       'callback' => 'bg_image_node_type_ajax_callback',
       'wrapper' => 'bg-image-node-field',
@@ -94,7 +88,6 @@ function bg_image_settings_form($form, &$form_state) {
     '#description' => t('The field within the node type specified above to use as the image'),
     '#options' => $node_fields,
     '#default_value' => variable_get('bg_image_node_field', ''),
-    '#required' => TRUE,
     '#prefix' => '<div id="bg-image-node-field">',
     '#suffix' => '</div>',
   );
@@ -119,7 +112,7 @@ function bg_image_settings_form($form, &$form_state) {
   $form['css_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Default CSS Settings'),
-    '#description' => t('Default Basic CSS settings for outputting the background properties. For more information on css background properties see http://www.w3schools.com/css/css_background.asp"'),
+    '#description' => t('Default CSS settings for outputting the background property. These settings will be concatenated to form a complete css statement that uses the "background" property. For more information on the css background property see http://www.w3schools.com/css/css_background.asp"'),
   );
   // The selector for the background property
   $form['css_settings']['bg_image_selector'] = array(
@@ -165,6 +158,12 @@ function bg_image_settings_form($form, &$form_state) {
     '#options' => $repeat_options,
     '#default_value' => variable_get('bg_image_repeat', 'no-repeat'),
   );
+  $form['css_settings']['bg_image_important'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Add "!important" to the background property.'),
+    '#description' => t('This can be helpful to override any existing background image or color properties added by the theme.'),
+    '#default_value' => variable_get('bg_image_important', 1),
+  );
   
   return system_settings_form($form);
 }
@@ -202,102 +201,88 @@ function bg_image_get_fields_for_node_type($node_type) {
 
 
 /*****************************************************************************
-* CONTEXT HOOKS
-*****************************************************************************/
-
-/**
- * Implements hook_ctools_plugin_api().
- */
-function bg_image_ctools_plugin_api($module, $api) {
-  if ($module == 'context' && $api == 'plugins') {
-    return array('version' => 3);
-  }
-}
-
-
-/**
- * Implements hook_context_plugins
- * 
- * Defines the plugin handler for conditions and reactions
- */
-function bg_image_context_plugins() {
-  $plugins = array();
-  $plugins['bg_image_context_reaction_bg_image'] = array(
-    'handler' => array(
-      'path' => drupal_get_path('module', 'bg_image') .'/plugins',
-      'file' => 'bg_image_context_reaction_bg_image.inc',
-      'class' => 'bg_image_context_reaction_bg_image',
-      'parent' => 'context_reaction',
-    ),
-  );
-  return $plugins;
-}
-
-/**
- * Implements hook_context_registry
- * 
- * Registers a condition or reaction with Context.
- * Once registered, it will also appear in the context ui
- */
-function bg_image_context_registry() {
-  $registry = array();
-  $registry['reactions']['bg_image'] = array(
-    'title' => t('Background Image'),
-    'description' => t('Set the background image for the site.'),
-    'plugin' => 'bg_image_context_reaction_bg_image',
-  );
-  return $registry;
-}
-
-/**
- * Implementation of hook_context_page_reaction().
- * 
- * We need to actually call the reaction at some point
- * or nothing will happen.
- */
-function bg_image_context_page_reaction() {
-  if ($plugin = context_get_plugin('reaction', 'bg_image')) {
-    $plugin->execute();
-  }
-}
-
-
-/*****************************************************************************
 * API FUNCTIONS
 *****************************************************************************/
 
 /**
-* Changes the background image for the page using the nid
-* passed in as well as the settings defined on the settings 
-* page to format the css
+* Adds a background image to the page using the 
+* css 'background' property.
 * 
-* @param $nid
+* @param $image_path
+*    The path of the image to use 
+* 
+* @param $css_settings
+*    An array of css settings to use. Possible values are:
+*      - bg_image_selector: The css selector to use
+*      - bg_image_color: The background color
+*      - bg_image_x: The x offset
+*      - bg_image_y: The y offset
+*      - bg_image_attachment: The attachment property (scroll or fixed)
+*      - bg_image_repeat: The repeat settings
+*    Default settings will be used for any values not provided.
+* 
+* @return
+*   Returns TRUE if successful or FALSE otherwise
 */
-function bg_image_change_background_image($nid, $css_settings = array()) {
+function bg_image_add_background_image($image_path, $css_settings = array()) {
   
-  $node = node_load($nid);
-  
-  // All our parts of the background property
+  // Pull the default css setting if not provided.
   $selector = isset($css_settings['bg_image_selector']) ? $css_settings['bg_image_selector'] : variable_get('bg_image_selector', '');
   $bg_color = isset($css_settings['bg_image_color']) ? $css_settings['bg_image_color'] : variable_get('bg_image_color', '#FFFFFF');
   $bg_x = isset($css_settings['bg_image_x']) ? $css_settings['bg_image_x'] : variable_get('bg_image_x', 'left');
   $bg_y = isset($css_settings['bg_image_y']) ? $css_settings['bg_image_y'] : variable_get('bg_image_y', 'top');
   $attachment = isset($css_settings['bg_image_attachment']) ? $css_settings['bg_image_attachment'] : variable_get('bg_image_attachment', 'scroll');
   $repeat = isset($css_settings['bg_image_repeat']) ? $css_settings['bg_image_repeat'] : variable_get('bg_image_repeat', 'no-repeat');
-  
-  $field_name = variable_get('bg_image_node_field', '');
+  $important = isset($css_settings['bg_image_important']) ? $css_settings['bg_image_important'] : variable_get('bg_image_important', 1);
+
+  // If important is true, we turn it into a string for css output
+  if ($important) {
+    $important = ' !important';
+  }
+  else {
+    $important = '';
+  }
+
+  // See if admin pages are excluded from bg images
   $admin = variable_get('bg_image_exclude_admin', 0) ? !path_is_admin($_GET['q']) : TRUE;
   
-  $image_path = '';
-  
-  if ($node && $selector && $field_name && $admin) {
-    $fields = field_info_fields();
+  // Add the css if we have everything we need.
+  if ($selector && $image_path && $admin) {
+    $style = $selector.'{background: ' . $bg_color . ' url('.$image_path.') ' . $repeat . ' '.$attachment.' '.$bg_x.' '.$bg_y.$important.';}';
+    drupal_add_css($style, array('type' => 'inline', 'media' => 'all', 'group' => CSS_THEME));
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Determines the path of an image on the configured image
+ * field on a node and returns it.
+ *
+ * @param $nid
+ *   The nid of the node to check for an image
+ *
+ * @param $build_url
+ *   Optional parameter to return the full URL
+ *   of the image rather than just the uri
+ *
+ * @return
+ *   The path of the image if the node has it, or FALSE.
+ */
+function bg_image_get_image_path_from_node($nid, $build_url = TRUE) {
+  $fields = field_info_fields();
+  $field_name = variable_get('bg_image_node_field', '');
+  $node = node_load($nid);
+  $image_path = FALSE;
+  if ($node && $field_name) {
     if (isset($fields[$field_name]) && $fields[$field_name]['type'] == 'media') {
       if ($node->{$field_name}) {
         $items = field_get_items('node', $node, $field_name);
         $file = file_load($items[0]['fid']);
         if ($file && $file->type == 'image') {
-          $image_path = file_create_url($file->uri);
+          $image_path = $file->uri;
         }
       }
     }
@@ -305,15 +290,54 @@ function bg_image_change_background_image($nid, $css_settings = array()) {
       if ($node->{$field_name}) {
         $items = field_get_items('node', $node, $field_name);
         if (isset($items[0]['uri'])) {
-          $image_path = file_create_url($items[0]['uri']);
+          $image_path = $items[0]['uri'];
         }
       }
     }
-    if ($image_path) {
-      $style = $selector.'{background: ' . $bg_color . ' url('.$image_path.') ' . $repeat . ' '.$attachment.' '.$bg_x.' '.$bg_y.' !important;}';
-      drupal_add_css($style, array('type' => 'inline', 'media' => 'all', 'group' => CSS_THEME));
+  }
+  if ($image_path && $build_url) {
+    $image_path = file_create_url($image_path);
+  }
+  return $image_path;
+}
+
+/**
+* Adds a background image to the page using an image from
+* a node. The node must have an image (or media) field and 
+* the field must be configured on the bg_image configuration
+* page for this to work.
+* 
+* @param $nid
+*    The nid of the node that has the image to use for the
+*    background. Use 0 to generate a random image from the
+*    configured node type.
+* 
+* @param $css_settings
+*    An array of css settings to use. See bg_image_add_background_image()
+*    for more detailed description of possible values.
+*/
+function bg_image_add_background_image_from_node($nid, $css_settings = array()) {
+  
+  if ($nid == 0) {
+    $type = variable_get('bg_image_node_type', '');
+    if ($type) {
+      // Generate a random nid of the configured node type
+      $nid = db_select('node')
+        ->fields('node', array('nid'))
+        ->condition('node.type', $type)
+        ->orderRandom()
+        ->execute()
+        ->fetchField();
+    }
+    else {
+      return FALSE;
     }
   }
+  // Get the path of the image on the node
+  $image_path = bg_image_get_image_path_from_node($nid);
+  // Add the background image
+  return bg_image_add_background_image($image_path, $css_settings);
+
 }
 
 /**
@@ -338,24 +362,50 @@ function bg_image_field_has_image($nid) {
 }
 
 /**
- * Returns all the active contexts with
- * bg_image reactions
+ * Returns an array of nids to node titles for the
+ * configured node type. Useful for select lists.
+ *
+ * @param $include_nid
+ *    Include the nid as text after the title. TRUE
+ *    or FALSE. e.g.: array(1 => 'node title [nid: 1]')
  */
-function bg_image_get_contexts() {
-  $contexts = array();
-  foreach (context_enabled_contexts() as $context) {
-    if (array_key_exists('bg_image', $context->reactions)) {
-      $contexts[] = $context;
+function bg_image_node_options($include_nid = TRUE, $include_random = TRUE) {
+  $node_type = variable_get('bg_image_node_type', '');
+  // Our query
+  $sql = "SELECT nid, title FROM {node} WHERE type = :node_type";
+  $result = db_query($sql, array(':node_type' => $node_type));
+  foreach ($result as $record) {
+    if ($include_nid) {
+      $node_options[$record->nid] = $record->title . ' [nid:' . $record->nid. ']';
+    }
+    else {
+      $node_options[$record->nid] = $record->title;
     }
   }
-  return $contexts;
+  if (!$node_options) {
+    return FALSE;
+  }
+  else {
+    if ($include_random) {
+      return array(0 => '- Random -') + $node_options;;
+    }
+    else {
+      return $node_options;
+    }
+  }
 }
 
-
-/*****************************************************************************
-* BLOCK CONTENTS
-*****************************************************************************/
-
+/**
+ * Checks if a node (and field) is configured.
+ */
+function bg_image_node_is_configured() {
+  if (variable_get('bg_image_node_type', '') && variable_get('bg_image_node_field', '')) {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
+}
 
 /**
  * Returns an options list of css repeat options
@@ -368,5 +418,3 @@ function bg_image_css_repeat_options() {
     'repeat-y' => t('Repeat Vertically (repeat-y)'),
   );
 }
-
-

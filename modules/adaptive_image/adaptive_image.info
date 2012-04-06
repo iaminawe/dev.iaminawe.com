@@ -1,0 +1,11 @@
+name = Adaptive Image
+description = Support for adaptive images.
+core = 7.x
+
+dependencies[] = image
+; Information added by drupal.org packaging script on 2011-11-26
+version = "7.x-1.3"
+core = "7.x"
+project = "adaptive_image"
+datestamp = "1322330436"
+

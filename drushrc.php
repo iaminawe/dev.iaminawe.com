@@ -13,8 +13,8 @@ $options['packages'] = array (
     'drupal' => 
     array (
       'short_name' => 'drupal',
-      'version' => '7.8',
-      'description' => 'This platform is running Drupal 7.8',
+      'version' => '7.10',
+      'description' => 'This platform is running Drupal 7.10',
     ),
   ),
   'profiles' => 
@@ -22,14 +22,13 @@ $options['packages'] = array (
     'minimal' => 
     array (
       'name' => 'minimal',
-      'filename' => '/data/all/003/drupal-7.8-prod/profiles/minimal/minimal.profile',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/profiles/minimal/minimal.profile',
       'project' => 'drupal',
       'info' => 
       array (
-        'name' => 'Drupal 7 Minimal',
-        'old_short_name' => 'testing',
+        'name' => 'Minimal',
         'description' => 'Start with only a few modules enabled.',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -41,14 +40,14 @@ $options['packages'] = array (
           0 => 'minimal.profile',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
         'languages' => 
         array (
           0 => 'en',
         ),
       ),
-      'version' => '7.8',
+      'version' => '7.10',
       'status' => 1,
     ),
   ),
@@ -56,7 +55,7 @@ $options['packages'] = array (
   array (
     'aaa_update_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/update/tests/aaa_update_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/update/tests/aaa_update_test.module',
       'name' => 'aaa_update_test',
       'type' => 'module',
       'owner' => '',
@@ -71,20 +70,20 @@ $options['packages'] = array (
         'package' => 'Testing',
         'core' => '7.x',
         'hidden' => true,
-        'version' => '7.8',
+        'version' => '7.10',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'actions_loop_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/actions_loop_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/actions_loop_test.module',
       'name' => 'actions_loop_test',
       'type' => 'module',
       'owner' => '',
@@ -97,18 +96,18 @@ $options['packages'] = array (
         'name' => 'Actions loop test',
         'description' => 'Support module for action loop testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'admin' => 
     array (
@@ -119,7 +118,7 @@ $options['packages'] = array (
       'status' => '0',
       'bootstrap' => '0',
       'schema_version' => 0,
-      'weight' => '1',
+      'weight' => '0',
       'info' => 
       array (
         'name' => 'Admin',
@@ -150,7 +149,7 @@ $options['packages'] = array (
     ),
     'aggregator' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/aggregator/aggregator.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/aggregator/aggregator.module',
       'name' => 'aggregator',
       'type' => 'module',
       'owner' => '',
@@ -163,7 +162,7 @@ $options['packages'] = array (
         'name' => 'Aggregator',
         'description' => 'Aggregates syndicated content (RSS, RDF, and Atom feeds).',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -178,18 +177,18 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'aggregator_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/aggregator/tests/aggregator_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/aggregator/tests/aggregator_test.module',
       'name' => 'aggregator_test',
       'type' => 'module',
       'owner' => '',
@@ -202,18 +201,18 @@ $options['packages'] = array (
         'name' => 'Aggregator module tests',
         'description' => 'Support module for aggregator related testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'agrcache' => 
     array (
@@ -243,7 +242,7 @@ $options['packages'] = array (
     ),
     'ajax_forms_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/ajax_forms_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/ajax_forms_test.module',
       'name' => 'ajax_forms_test',
       'type' => 'module',
       'owner' => '',
@@ -257,21 +256,21 @@ $options['packages'] = array (
         'description' => 'Test for AJAX form calls.',
         'core' => '7.x',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'ajax_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/ajax_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/ajax_test.module',
       'name' => 'ajax_test',
       'type' => 'module',
       'owner' => '',
@@ -284,18 +283,18 @@ $options['packages'] = array (
         'name' => 'AJAX Test',
         'description' => 'Support module for AJAX framework tests.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'automodal' => 
     array (
@@ -321,7 +320,7 @@ $options['packages'] = array (
     ),
     'batch_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/batch_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/batch_test.module',
       'name' => 'batch_test',
       'type' => 'module',
       'owner' => '',
@@ -334,22 +333,22 @@ $options['packages'] = array (
         'name' => 'Batch API test',
         'description' => 'Support module for Batch API tests.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'bbb_update_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/update/tests/bbb_update_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/update/tests/bbb_update_test.module',
       'name' => 'bbb_update_test',
       'type' => 'module',
       'owner' => '',
@@ -364,16 +363,16 @@ $options['packages'] = array (
         'package' => 'Testing',
         'core' => '7.x',
         'hidden' => true,
-        'version' => '7.8',
+        'version' => '7.10',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'better_perms' => 
     array (
@@ -399,7 +398,7 @@ $options['packages'] = array (
     ),
     'block' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/block/block.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/block/block.module',
       'name' => 'block',
       'type' => 'module',
       'owner' => '',
@@ -412,7 +411,7 @@ $options['packages'] = array (
         'name' => 'Block',
         'description' => 'Controls the visual building blocks a page is constructed with. Blocks are boxes of content rendered into an area, or region, of a web page.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -420,14 +419,14 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/structure/block',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'blockcache_alter' => 
     array (
@@ -458,7 +457,7 @@ $options['packages'] = array (
     ),
     'block_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/block/tests/block_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/block/tests/block_test.module',
       'name' => 'block_test',
       'type' => 'module',
       'owner' => '',
@@ -471,26 +470,26 @@ $options['packages'] = array (
         'name' => 'Block test',
         'description' => 'Provides test blocks.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'blog' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/blog/blog.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/blog/blog.module',
       'name' => 'blog',
       'type' => 'module',
       'owner' => '',
-      'status' => '1',
+      'status' => '0',
       'bootstrap' => '0',
       'schema_version' => '0',
       'weight' => '0',
@@ -499,25 +498,25 @@ $options['packages'] = array (
         'name' => 'Blog',
         'description' => 'Enables multi-user blogs.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
           0 => 'blog.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'book' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/book/book.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/book/book.module',
       'name' => 'book',
       'type' => 'module',
       'owner' => '',
@@ -530,7 +529,7 @@ $options['packages'] = array (
         'name' => 'Book',
         'description' => 'Allows users to create and organize related content in an outline.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -545,14 +544,14 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'boost' => 
     array (
@@ -589,7 +588,7 @@ $options['packages'] = array (
     ),
     'ccc_update_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/update/tests/ccc_update_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/update/tests/ccc_update_test.module',
       'name' => 'ccc_update_test',
       'type' => 'module',
       'owner' => '',
@@ -604,20 +603,20 @@ $options['packages'] = array (
         'package' => 'Testing',
         'core' => '7.x',
         'hidden' => true,
-        'version' => '7.8',
+        'version' => '7.10',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'color' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/color/color.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/color/color.module',
       'name' => 'color',
       'type' => 'module',
       'owner' => '',
@@ -630,25 +629,25 @@ $options['packages'] = array (
         'name' => 'Color',
         'description' => 'Allows administrators to change the color scheme of compatible themes.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
           0 => 'color.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'comment' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/comment/comment.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/comment/comment.module',
       'name' => 'comment',
       'type' => 'module',
       'owner' => '',
@@ -661,7 +660,7 @@ $options['packages'] = array (
         'name' => 'Comment',
         'description' => 'Allows users to comment on and discuss published content.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -681,15 +680,15 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'common_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/common_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/common_test.module',
       'name' => 'common_test',
       'type' => 'module',
       'owner' => '',
@@ -702,7 +701,7 @@ $options['packages'] = array (
         'name' => 'Common Test',
         'description' => 'Support module for Common tests.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'stylesheets' => 
         array (
@@ -717,18 +716,18 @@ $options['packages'] = array (
         ),
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'common_test_cron_helper' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/common_test_cron_helper.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/common_test_cron_helper.module',
       'name' => 'common_test_cron_helper',
       'type' => 'module',
       'owner' => '',
@@ -741,22 +740,22 @@ $options['packages'] = array (
         'name' => 'Common Test Cron Helper',
         'description' => 'Helper module for CronRunTestCase::testCronExceptions().',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'contact' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/contact/contact.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/contact/contact.module',
       'name' => 'contact',
       'type' => 'module',
       'owner' => '',
@@ -769,7 +768,7 @@ $options['packages'] = array (
         'name' => 'Contact',
         'description' => 'Enables the use of both personal and site-wide contact forms.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -777,14 +776,14 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/structure/contact',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'contemplate' => 
     array (
@@ -880,7 +879,7 @@ $options['packages'] = array (
       'name' => 'content_type_overview',
       'type' => 'module',
       'owner' => '',
-      'status' => '1',
+      'status' => '0',
       'bootstrap' => '0',
       'schema_version' => '6100',
       'weight' => '99',
@@ -908,7 +907,7 @@ $options['packages'] = array (
     ),
     'contextual' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/contextual/contextual.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/contextual/contextual.module',
       'name' => 'contextual',
       'type' => 'module',
       'owner' => '',
@@ -921,17 +920,17 @@ $options['packages'] = array (
         'name' => 'Contextual links',
         'description' => 'Provides contextual links to perform actions related to elements on a page.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'context_contrib' => 
     array (
@@ -1077,7 +1076,7 @@ $options['packages'] = array (
     ),
     'dashboard' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/dashboard/dashboard.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/dashboard/dashboard.module',
       'name' => 'dashboard',
       'type' => 'module',
       'owner' => '',
@@ -1091,7 +1090,7 @@ $options['packages'] = array (
         'description' => 'Provides a dashboard page in the administrative interface for organizing administrative tasks and tracking information within your site.',
         'core' => '7.x',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'files' => 
         array (
           0 => 'dashboard.test',
@@ -1102,15 +1101,15 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/dashboard/customize',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'database_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/database_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/database_test.module',
       'name' => 'database_test',
       'type' => 'module',
       'owner' => '',
@@ -1124,48 +1123,48 @@ $options['packages'] = array (
         'description' => 'Support module for Database layer tests.',
         'core' => '7.x',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'dblog' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/dblog/dblog.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/dblog/dblog.module',
       'name' => 'dblog',
       'type' => 'module',
       'owner' => '',
-      'status' => '0',
-      'bootstrap' => '0',
-      'schema_version' => 0,
+      'status' => '1',
+      'bootstrap' => '1',
+      'schema_version' => '7001',
       'weight' => '0',
       'info' => 
       array (
         'name' => 'Database logging',
         'description' => 'Logs and records system events to the database.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
           0 => 'dblog.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'default' => 
     array (
@@ -1191,7 +1190,7 @@ $options['packages'] = array (
     ),
     'drupal_system_listing_compatible_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/drupal_system_listing_compatible_test/drupal_system_listing_compatible_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/drupal_system_listing_compatible_test/drupal_system_listing_compatible_test.module',
       'name' => 'drupal_system_listing_compatible_test',
       'type' => 'module',
       'owner' => '',
@@ -1204,22 +1203,22 @@ $options['packages'] = array (
         'name' => 'Drupal system listing compatible test',
         'description' => 'Support module for testing the drupal_system_listing function.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'drupal_system_listing_incompatible_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/drupal_system_listing_incompatible_test/drupal_system_listing_incompatible_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/drupal_system_listing_incompatible_test/drupal_system_listing_incompatible_test.module',
       'name' => 'drupal_system_listing_incompatible_test',
       'type' => 'module',
       'owner' => '',
@@ -1232,18 +1231,18 @@ $options['packages'] = array (
         'name' => 'Drupal system listing incompatible test',
         'description' => 'Support module for testing the drupal_system_listing function.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'elysia_cron' => 
     array (
@@ -1321,9 +1320,148 @@ $options['packages'] = array (
       'project' => '',
       'version' => NULL,
     ),
+    'enterprise_blog' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/enterprise_blog/enterprise_blog.module',
+      'name' => 'enterprise_blog',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'core' => '7.x',
+        'dependencies' => 
+        array (
+          0 => 'features',
+          1 => 'image',
+          2 => 'overlay',
+          3 => 'realname',
+          4 => 'save_draft',
+          5 => 'scheduler',
+          6 => 'strongarm',
+          7 => 'taxonomy',
+          8 => 'toolbar',
+          9 => 'views',
+        ),
+        'description' => 'A multi-user full featured blog app. Has many of the features of wordpress.',
+        'features' => 
+        array (
+          'ctools' => 
+          array (
+            0 => 'strongarm:strongarm:1',
+            1 => 'views:views_default:3.0',
+          ),
+          'field' => 
+          array (
+            0 => 'node-enterprise_blog-body',
+            1 => 'node-enterprise_blog-field_enterprise_blog_category',
+            2 => 'node-enterprise_blog-field_enterprise_blog_image',
+            3 => 'node-enterprise_blog-field_enterprise_blog_tags',
+            4 => 'user-user-field_enterprise_blog_firstname',
+            5 => 'user-user-field_enterprise_blog_lastname',
+            6 => 'user-user-field_enterprise_blog_picture',
+          ),
+          'image' => 
+          array (
+            0 => 'enterprise_blog_medium',
+            1 => 'enterprise_blog_thumbnail',
+          ),
+          'node' => 
+          array (
+            0 => 'enterprise_blog',
+          ),
+          'taxonomy' => 
+          array (
+            0 => 'enterprise_blog_category',
+            1 => 'enterprise_blog_tags',
+          ),
+          'user_permission' => 
+          array (
+            0 => 'access content overview',
+            1 => 'access overlay',
+            2 => 'access toolbar',
+            3 => 'administer blogs',
+            4 => 'create enterprise_blog content',
+            5 => 'delete any enterprise_blog content',
+            6 => 'delete own enterprise_blog content',
+            7 => 'edit any enterprise_blog content',
+            8 => 'edit own enterprise_blog content',
+            9 => 'view the administration theme',
+          ),
+          'user_role' => 
+          array (
+            0 => 'blog admin',
+            1 => 'blogger',
+          ),
+          'variable' => 
+          array (
+            0 => 'comment_anonymous_enterprise_blog',
+            1 => 'comment_default_mode_enterprise_blog',
+            2 => 'comment_default_per_page_enterprise_blog',
+            3 => 'comment_enterprise_blog',
+            4 => 'comment_form_location_enterprise_blog',
+            5 => 'comment_preview_enterprise_blog',
+            6 => 'comment_subject_field_enterprise_blog',
+            7 => 'node_options_enterprise_blog',
+            8 => 'pathauto_node_enterprise_blog_pattern',
+            9 => 'realname_pattern',
+            10 => 'scheduler_publish_enable_enterprise_blog',
+          ),
+          'views_view' => 
+          array (
+            0 => 'blog',
+            1 => 'blog_admin',
+          ),
+        ),
+        'name' => 'OpenEnterprise Blog',
+        'package' => 'Other',
+        'php' => '5.2.4',
+        'version' => NULL,
+      ),
+      'project' => '',
+      'version' => NULL,
+    ),
+    'enterprise_blog_content' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/enterprise_blog/enterprise_blog_content/enterprise_blog_content.module',
+      'name' => 'enterprise_blog_content',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Enterprise Blog Content',
+        'description' => 'Default Content for Enterprise Blog',
+        'core' => '7.x',
+        'dependencies' => 
+        array (
+          0 => 'enterprise_blog',
+        ),
+        'package' => 'Features',
+        'features' => 
+        array (
+          'content' => 
+          array (
+            0 => 'blog1',
+            1 => 'blog2',
+            2 => 'blog3',
+          ),
+        ),
+        'version' => NULL,
+        'php' => '5.2.4',
+      ),
+      'project' => '',
+      'version' => NULL,
+    ),
     'entity_cache_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/entity_cache_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/entity_cache_test.module',
       'name' => 'entity_cache_test',
       'type' => 'module',
       'owner' => '',
@@ -1336,7 +1474,7 @@ $options['packages'] = array (
         'name' => 'Entity cache test',
         'description' => 'Support module for testing entity cache.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -1344,15 +1482,15 @@ $options['packages'] = array (
         ),
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'entity_cache_test_dependency' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/entity_cache_test_dependency.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/entity_cache_test_dependency.module',
       'name' => 'entity_cache_test_dependency',
       'type' => 'module',
       'owner' => '',
@@ -1365,22 +1503,22 @@ $options['packages'] = array (
         'name' => 'Entity cache test dependency',
         'description' => 'Support dependency module for testing entity cache.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'entity_crud_hook_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/entity_crud_hook_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/entity_crud_hook_test.module',
       'name' => 'entity_crud_hook_test',
       'type' => 'module',
       'owner' => '',
@@ -1394,21 +1532,21 @@ $options['packages'] = array (
         'description' => 'Support module for CRUD hook tests.',
         'core' => '7.x',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'error_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/error_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/error_test.module',
       'name' => 'error_test',
       'type' => 'module',
       'owner' => '',
@@ -1421,22 +1559,22 @@ $options['packages'] = array (
         'name' => 'Error test',
         'description' => 'Support module for error and exception testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'field' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/field/field.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/field/field.module',
       'name' => 'field',
       'type' => 'module',
       'owner' => '',
@@ -1449,7 +1587,7 @@ $options['packages'] = array (
         'name' => 'Field',
         'description' => 'Field API to add fields to entities like nodes and users.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -1470,11 +1608,11 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'fieldgroup' => 
     array (
@@ -1522,7 +1660,7 @@ $options['packages'] = array (
     ),
     'field_sql_storage' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/field/modules/field_sql_storage/field_sql_storage.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/field/modules/field_sql_storage/field_sql_storage.module',
       'name' => 'field_sql_storage',
       'type' => 'module',
       'owner' => '',
@@ -1535,7 +1673,7 @@ $options['packages'] = array (
         'name' => 'Field SQL storage',
         'description' => 'Stores field data in an SQL database.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -1547,15 +1685,15 @@ $options['packages'] = array (
         ),
         'required' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'field_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/field/tests/field_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/field/tests/field_test.module',
       'name' => 'field_test',
       'type' => 'module',
       'owner' => '',
@@ -1573,21 +1711,21 @@ $options['packages'] = array (
         array (
           0 => 'field_test.entity.inc',
         ),
-        'version' => '7.8',
+        'version' => '7.10',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'field_ui' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/field_ui/field_ui.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/field_ui/field_ui.module',
       'name' => 'field_ui',
       'type' => 'module',
       'owner' => '',
@@ -1600,7 +1738,7 @@ $options['packages'] = array (
         'name' => 'Field UI',
         'description' => 'User interface for the Field API.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -1611,15 +1749,15 @@ $options['packages'] = array (
           0 => 'field_ui.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'file' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/file/file.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/file/file.module',
       'name' => 'file',
       'type' => 'module',
       'owner' => '',
@@ -1632,7 +1770,7 @@ $options['packages'] = array (
         'name' => 'File',
         'description' => 'Defines a file field type.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -1643,11 +1781,11 @@ $options['packages'] = array (
           0 => 'tests/file.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'filefield' => 
     array (
@@ -1677,7 +1815,7 @@ $options['packages'] = array (
       'name' => 'filefield_nginx_progress',
       'type' => 'module',
       'owner' => '',
-      'status' => '1',
+      'status' => '0',
       'bootstrap' => '0',
       'schema_version' => '7100',
       'weight' => '20',
@@ -1706,7 +1844,7 @@ $options['packages'] = array (
     ),
     'file_module_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/file/tests/file_module_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/file/tests/file_module_test.module',
       'name' => 'file_module_test',
       'type' => 'module',
       'owner' => '',
@@ -1719,22 +1857,22 @@ $options['packages'] = array (
         'name' => 'File test',
         'description' => 'Provides hooks for testing File module functionality.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'file_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/file_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/file_test.module',
       'name' => 'file_test',
       'type' => 'module',
       'owner' => '',
@@ -1747,7 +1885,7 @@ $options['packages'] = array (
         'name' => 'File test',
         'description' => 'Support module for file handling tests.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -1755,18 +1893,18 @@ $options['packages'] = array (
         ),
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'filter' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/filter/filter.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/filter/filter.module',
       'name' => 'filter',
       'type' => 'module',
       'owner' => '',
@@ -1779,7 +1917,7 @@ $options['packages'] = array (
         'name' => 'Filter',
         'description' => 'Filters content in preparation for display.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -1788,18 +1926,18 @@ $options['packages'] = array (
         'required' => true,
         'configure' => 'admin/config/content/formats',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'filter_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/filter_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/filter_test.module',
       'name' => 'filter_test',
       'type' => 'module',
       'owner' => '',
@@ -1812,18 +1950,18 @@ $options['packages'] = array (
         'name' => 'Filter test module',
         'description' => 'Tests filter hooks and functions.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'flood_control' => 
     array (
@@ -1854,7 +1992,7 @@ $options['packages'] = array (
     ),
     'form_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/form_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/form_test.module',
       'name' => 'form_test',
       'type' => 'module',
       'owner' => '',
@@ -1867,22 +2005,22 @@ $options['packages'] = array (
         'name' => 'FormAPI Test',
         'description' => 'Support module for Form API tests.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'forum' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/forum/forum.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/forum/forum.module',
       'name' => 'forum',
       'type' => 'module',
       'owner' => '',
@@ -1900,7 +2038,7 @@ $options['packages'] = array (
           1 => 'comment',
         ),
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -1915,11 +2053,11 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'fpa' => 
     array (
@@ -1927,7 +2065,7 @@ $options['packages'] = array (
       'name' => 'fpa',
       'type' => 'module',
       'owner' => '',
-      'status' => '1',
+      'status' => '0',
       'bootstrap' => '0',
       'schema_version' => '0',
       'weight' => '0',
@@ -1947,9 +2085,40 @@ $options['packages'] = array (
       'project' => 'fpa',
       'version' => '7.x-2.0',
     ),
+    'globalredirect' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/globalredirect/globalredirect.module',
+      'name' => 'globalredirect',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => '6101',
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Global Redirect',
+        'description' => 'Searches for an alias of the current URL and 301 redirects if found. Stops duplicate content arising when path module is enabled.',
+        'core' => '7.x',
+        'files' => 
+        array (
+          0 => 'globalredirect.test',
+        ),
+        'configure' => 'admin/config/system/globalredirect',
+        'version' => '7.x-1.4',
+        'project' => 'globalredirect',
+        'datestamp' => '1324428083',
+        'dependencies' => 
+        array (
+        ),
+        'php' => '5.2.4',
+      ),
+      'project' => 'globalredirect',
+      'version' => '7.x-1.4',
+    ),
     'help' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/help/help.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/help/help.module',
       'name' => 'help',
       'type' => 'module',
       'owner' => '',
@@ -1962,25 +2131,25 @@ $options['packages'] = array (
         'name' => 'Help',
         'description' => 'Manages the display of online help.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
           0 => 'help.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'image' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/image/image.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/image/image.module',
       'name' => 'image',
       'type' => 'module',
       'owner' => '',
@@ -1993,7 +2162,7 @@ $options['packages'] = array (
         'name' => 'Image',
         'description' => 'Provides image manipulation tools.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -2005,11 +2174,11 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/config/media/image-styles',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'imageapi' => 
     array (
@@ -2123,7 +2292,7 @@ $options['packages'] = array (
     ),
     'image_module_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/image/tests/image_module_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/image/tests/image_module_test.module',
       'name' => 'image_module_test',
       'type' => 'module',
       'owner' => '',
@@ -2136,7 +2305,7 @@ $options['packages'] = array (
         'name' => 'Image test',
         'description' => 'Provides hook implementations for testing Image module functionality.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -2144,18 +2313,18 @@ $options['packages'] = array (
         ),
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'image_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/image_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/image_test.module',
       'name' => 'image_test',
       'type' => 'module',
       'owner' => '',
@@ -2168,18 +2337,18 @@ $options['packages'] = array (
         'name' => 'Image test',
         'description' => 'Support module for image toolkit tests.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'jquery_plugin' => 
     array (
@@ -2293,7 +2462,7 @@ $options['packages'] = array (
     ),
     'list' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/field/modules/list/list.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/field/modules/list/list.module',
       'name' => 'list',
       'type' => 'module',
       'owner' => '',
@@ -2306,7 +2475,7 @@ $options['packages'] = array (
         'name' => 'List',
         'description' => 'Defines list field types. Use with Options to create selection lists.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -2318,15 +2487,15 @@ $options['packages'] = array (
           0 => 'tests/list.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'list_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/field/modules/list/tests/list_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/field/modules/list/tests/list_test.module',
       'name' => 'list_test',
       'type' => 'module',
       'owner' => '',
@@ -2340,21 +2509,21 @@ $options['packages'] = array (
         'description' => 'Support module for the List module tests.',
         'core' => '7.x',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'locale' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/locale/locale.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/locale/locale.module',
       'name' => 'locale',
       'type' => 'module',
       'owner' => '',
@@ -2367,7 +2536,7 @@ $options['packages'] = array (
         'name' => 'Locale',
         'description' => 'Adds language handling functionality and enables the translation of the user interface to languages other than English.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -2375,18 +2544,18 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/config/regional/language',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'locale_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/locale/tests/locale_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/locale/tests/locale_test.module',
       'name' => 'locale_test',
       'type' => 'module',
       'owner' => '',
@@ -2400,21 +2569,21 @@ $options['packages'] = array (
         'description' => 'Support module for the locale layer tests.',
         'core' => '7.x',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'menu' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/menu/menu.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/menu/menu.module',
       'name' => 'menu',
       'type' => 'module',
       'owner' => '',
@@ -2427,7 +2596,7 @@ $options['packages'] = array (
         'name' => 'Menu',
         'description' => 'Allows administrators to customize the site navigation menu.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -2435,18 +2604,18 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/structure/menu',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'menu_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/menu_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/menu_test.module',
       'name' => 'menu_test',
       'type' => 'module',
       'owner' => '',
@@ -2459,22 +2628,113 @@ $options['packages'] = array (
         'name' => 'Hook menu tests',
         'description' => 'Support module for menu hook testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
+    ),
+    'metatag' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/metatag/metatag.module',
+      'name' => 'metatag',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => '7001',
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Meta tags',
+        'description' => 'Adds support and an API to implement meta tags.',
+        'package' => 'Meta tags',
+        'core' => '7.x',
+        'dependencies' => 
+        array (
+          0 => 'token',
+          1 => 'ctools',
+        ),
+        'configure' => 'admin/config/search/metatags',
+        'files' => 
+        array (
+          0 => 'metatag.inc',
+          1 => 'metatag.test',
+        ),
+        'version' => '7.x-1.0-alpha4',
+        'project' => 'metatag',
+        'datestamp' => '1324568442',
+        'php' => '5.2.4',
+      ),
+      'project' => 'metatag',
+      'version' => '7.x-1.0-alpha4',
+    ),
+    'metatag_opengraph' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/metatag/metatag_opengraph/metatag_opengraph.module',
+      'name' => 'metatag_opengraph',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Open Graph meta tags',
+        'description' => 'Provides support for open graph meta tags.',
+        'package' => 'Meta tags',
+        'core' => '7.x',
+        'dependencies' => 
+        array (
+          0 => 'metatag',
+        ),
+        'version' => '7.x-1.0-alpha4',
+        'project' => 'metatag',
+        'datestamp' => '1324568442',
+        'php' => '5.2.4',
+      ),
+      'project' => 'metatag',
+      'version' => '7.x-1.0-alpha4',
+    ),
+    'metatag_test' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/metatag/tests/metatag_test.module',
+      'name' => 'metatag_test',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Meta Tag Test',
+        'description' => 'Testing module for metatag.module',
+        'core' => '7.x',
+        'dependencies' => 
+        array (
+          0 => 'metatag',
+        ),
+        'hidden' => true,
+        'version' => '7.x-1.0-alpha4',
+        'project' => 'metatag',
+        'datestamp' => '1324568442',
+        'php' => '5.2.4',
+      ),
+      'project' => 'metatag',
+      'version' => '7.x-1.0-alpha4',
     ),
     'minimal' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/profiles/minimal/minimal.profile',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/profiles/minimal/minimal.profile',
       'name' => 'minimal',
       'type' => 'module',
       'owner' => '',
@@ -2484,10 +2744,9 @@ $options['packages'] = array (
       'weight' => '1000',
       'info' => 
       array (
-        'name' => 'Drupal 7 Minimal',
-        'old_short_name' => 'testing',
+        'name' => 'Minimal',
         'description' => 'Start with only a few modules enabled.',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -2499,11 +2758,11 @@ $options['packages'] = array (
           0 => 'minimal.profile',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'modalframe' => 
     array (
@@ -2573,7 +2832,7 @@ $options['packages'] = array (
     ),
     'module_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/module_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/module_test.module',
       'name' => 'module_test',
       'type' => 'module',
       'owner' => '',
@@ -2586,22 +2845,22 @@ $options['packages'] = array (
         'name' => 'Module test',
         'description' => 'Support module for module system testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'node' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/node/node.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/node/node.module',
       'name' => 'node',
       'type' => 'module',
       'owner' => '',
@@ -2614,7 +2873,7 @@ $options['packages'] = array (
         'name' => 'Node',
         'description' => 'Allows content to be submitted to the site and displayed on pages.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -2631,14 +2890,14 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'nodereference' => 
     array (
@@ -2686,7 +2945,7 @@ $options['packages'] = array (
     ),
     'node_access_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/node/tests/node_access_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/node/tests/node_access_test.module',
       'name' => 'node_access_test',
       'type' => 'module',
       'owner' => '',
@@ -2699,22 +2958,22 @@ $options['packages'] = array (
         'name' => 'Node module access tests',
         'description' => 'Support module for node permission testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'node_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/node/tests/node_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/node/tests/node_test.module',
       'name' => 'node_test',
       'type' => 'module',
       'owner' => '',
@@ -2727,22 +2986,22 @@ $options['packages'] = array (
         'name' => 'Node module tests',
         'description' => 'Support module for node related testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'node_test_exception' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/node/tests/node_test_exception.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/node/tests/node_test_exception.module',
       'name' => 'node_test_exception',
       'type' => 'module',
       'owner' => '',
@@ -2755,22 +3014,22 @@ $options['packages'] = array (
         'name' => 'Node module exception tests',
         'description' => 'Support module for node related exception testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'number' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/field/modules/number/number.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/field/modules/number/number.module',
       'name' => 'number',
       'type' => 'module',
       'owner' => '',
@@ -2783,7 +3042,7 @@ $options['packages'] = array (
         'name' => 'Number',
         'description' => 'Defines numeric field types.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -2794,15 +3053,15 @@ $options['packages'] = array (
           0 => 'number.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'openid' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/openid/openid.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/openid/openid.module',
       'name' => 'openid',
       'type' => 'module',
       'owner' => '',
@@ -2814,7 +3073,7 @@ $options['packages'] = array (
       array (
         'name' => 'OpenID',
         'description' => 'Allows users to log into your site using OpenID.',
-        'version' => '7.8',
+        'version' => '7.10',
         'package' => 'Core',
         'core' => '7.x',
         'files' => 
@@ -2822,18 +3081,18 @@ $options['packages'] = array (
           0 => 'openid.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'openid_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/openid/tests/openid_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/openid/tests/openid_test.module',
       'name' => 'openid_test',
       'type' => 'module',
       'owner' => '',
@@ -2846,7 +3105,7 @@ $options['packages'] = array (
         'name' => 'OpenID dummy provider',
         'description' => 'OpenID provider used for testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -2854,15 +3113,15 @@ $options['packages'] = array (
         ),
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'options' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/field/modules/options/options.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/field/modules/options/options.module',
       'name' => 'options',
       'type' => 'module',
       'owner' => '',
@@ -2875,7 +3134,7 @@ $options['packages'] = array (
         'name' => 'Options',
         'description' => 'Defines selection, check box and radio button widgets for text and numeric fields.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -2886,11 +3145,11 @@ $options['packages'] = array (
           0 => 'options.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'optionwidgets' => 
     array (
@@ -2916,34 +3175,34 @@ $options['packages'] = array (
     ),
     'overlay' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/overlay/overlay.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/overlay/overlay.module',
       'name' => 'overlay',
       'type' => 'module',
       'owner' => '',
       'status' => '0',
       'bootstrap' => '0',
-      'schema_version' => 0,
+      'schema_version' => '0',
       'weight' => '0',
       'info' => 
       array (
         'name' => 'Overlay',
         'description' => 'Displays the Drupal administration interface in an overlay.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'path' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/path/path.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/path/path.module',
       'name' => 'path',
       'type' => 'module',
       'owner' => '',
@@ -2956,7 +3215,7 @@ $options['packages'] = array (
         'name' => 'Path',
         'description' => 'Allows users to rename URLs.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -2964,18 +3223,18 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/config/search/path',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'php' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/php/php.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/php/php.module',
       'name' => 'php',
       'type' => 'module',
       'owner' => '',
@@ -2988,25 +3247,25 @@ $options['packages'] = array (
         'name' => 'PHP filter',
         'description' => 'Allows embedded PHP code/snippets to be evaluated.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
           0 => 'php.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'poll' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/poll/poll.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/poll/poll.module',
       'name' => 'poll',
       'type' => 'module',
       'owner' => '',
@@ -3019,7 +3278,7 @@ $options['packages'] = array (
         'name' => 'Poll',
         'description' => 'Allows your site to capture votes on different topics in the form of multiple choice questions.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -3033,18 +3292,18 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'profile' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/profile/profile.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/profile/profile.module',
       'name' => 'profile',
       'type' => 'module',
       'owner' => '',
@@ -3057,7 +3316,7 @@ $options['packages'] = array (
         'name' => 'Profile',
         'description' => 'Supports configurable user profiles.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -3066,18 +3325,18 @@ $options['packages'] = array (
         'configure' => 'admin/config/people/profile',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'rdf' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/rdf/rdf.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/rdf/rdf.module',
       'name' => 'rdf',
       'type' => 'module',
       'owner' => '',
@@ -3090,25 +3349,25 @@ $options['packages'] = array (
         'name' => 'RDF',
         'description' => 'Enriches your content with metadata to let other applications (e.g. search engines, aggregators) better understand its relationships and attributes.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
           0 => 'rdf.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'rdf_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/rdf/tests/rdf_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/rdf/tests/rdf_test.module',
       'name' => 'rdf_test',
       'type' => 'module',
       'owner' => '',
@@ -3121,22 +3380,100 @@ $options['packages'] = array (
         'name' => 'RDF module tests',
         'description' => 'Support module for RDF module testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
+    ),
+    'realname' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/realname/realname.module',
+      'name' => 'realname',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '1',
+      'bootstrap' => '0',
+      'schema_version' => '7000',
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Real name',
+        'description' => 'Provides token-based name displays for users.',
+        'core' => '7.x',
+        'dependencies' => 
+        array (
+          0 => 'token',
+        ),
+        'files' => 
+        array (
+          0 => 'realname.module',
+          1 => 'realname.admin.inc',
+          2 => 'realname.pages.inc',
+          3 => 'realname.tokens.inc',
+          4 => 'realname.test',
+          5 => 'realname.install',
+        ),
+        'configure' => 'admin/config/people/realname',
+        'version' => '7.x-1.0-rc2',
+        'project' => 'realname',
+        'datestamp' => '1311541321',
+        'php' => '5.2.4',
+      ),
+      'project' => 'realname',
+      'version' => '7.x-1.0-rc2',
+    ),
+    'redirect' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/redirect/redirect.module',
+      'name' => 'redirect',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '1',
+      'bootstrap' => '1',
+      'schema_version' => '6',
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Redirect',
+        'description' => 'Allows users to redirect from old URLs to new URLs.',
+        'core' => '7.x',
+        'files' => 
+        array (
+          0 => 'redirect.module',
+          1 => 'redirect.admin.inc',
+          2 => 'redirect.install',
+          3 => 'redirect.test',
+          4 => 'views/redirect.views.inc',
+          5 => 'views/redirect_handler_filter_redirect_type.inc',
+          6 => 'views/redirect_handler_field_redirect_source.inc',
+          7 => 'views/redirect_handler_field_redirect_redirect.inc',
+          8 => 'views/redirect_handler_field_redirect_operations.inc',
+          9 => 'views/redirect_handler_field_redirect_link_edit.inc',
+          10 => 'views/redirect_handler_field_redirect_link_delete.inc',
+        ),
+        'configure' => 'admin/config/search/redirect/settings',
+        'version' => '7.x-1.0-beta4',
+        'project' => 'redirect',
+        'datestamp' => '1323364843',
+        'dependencies' => 
+        array (
+        ),
+        'php' => '5.2.4',
+      ),
+      'project' => 'redirect',
+      'version' => '7.x-1.0-beta4',
     ),
     'requirements1_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/requirements1_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/requirements1_test.module',
       'name' => 'requirements1_test',
       'type' => 'module',
       'owner' => '',
@@ -3149,22 +3486,22 @@ $options['packages'] = array (
         'name' => 'Requirements 1 Test',
         'description' => 'Tests that a module is not installed when it fails hook_requirements(\'install\').',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'requirements2_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/requirements2_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/requirements2_test.module',
       'name' => 'requirements2_test',
       'type' => 'module',
       'owner' => '',
@@ -3182,15 +3519,15 @@ $options['packages'] = array (
           1 => 'comment',
         ),
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'robotstxt' => 
     array (
@@ -3198,7 +3535,7 @@ $options['packages'] = array (
       'name' => 'robotstxt',
       'type' => 'module',
       'owner' => '',
-      'status' => '1',
+      'status' => '0',
       'bootstrap' => '0',
       'schema_version' => '7101',
       'weight' => '0',
@@ -3225,9 +3562,74 @@ $options['packages'] = array (
       'project' => 'robotstxt',
       'version' => '7.x-1.x-dev',
     ),
+    'save_draft' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/save_draft/save_draft.module',
+      'name' => 'save_draft',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '1',
+      'bootstrap' => '0',
+      'schema_version' => '0',
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Save Draft',
+        'description' => 'Adds a \'Save as Draft\' button to content types',
+        'core' => '7.x',
+        'files' => 
+        array (
+          0 => 'save_draft.module',
+          1 => 'save_draft.test',
+        ),
+        'version' => '7.x-1.4',
+        'project' => 'save_draft',
+        'datestamp' => '1303860116',
+        'dependencies' => 
+        array (
+        ),
+        'php' => '5.2.4',
+      ),
+      'project' => 'save_draft',
+      'version' => '7.x-1.4',
+    ),
+    'scheduler' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/scheduler/scheduler.module',
+      'name' => 'scheduler',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '1',
+      'bootstrap' => '0',
+      'schema_version' => '6101',
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Scheduler',
+        'description' => 'This module allows nodes to be published and unpublished on specified dates and time.',
+        'core' => '7.x',
+        'files' => 
+        array (
+          0 => 'scheduler.install',
+          1 => 'scheduler.module',
+          2 => 'scheduler.views.inc',
+          3 => 'scheduler.test',
+          4 => 'scheduler_handler_field_scheduler_countdown.inc',
+        ),
+        'version' => '7.x-1.0',
+        'project' => 'scheduler',
+        'datestamp' => '1299939069',
+        'dependencies' => 
+        array (
+        ),
+        'php' => '5.2.4',
+      ),
+      'project' => 'scheduler',
+      'version' => '7.x-1.0',
+    ),
     'search' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/search/search.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/search/search.module',
       'name' => 'search',
       'type' => 'module',
       'owner' => '',
@@ -3240,7 +3642,7 @@ $options['packages'] = array (
         'name' => 'Search',
         'description' => 'Enables site-wide keyword searching.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -3256,18 +3658,18 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'search_embedded_form' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/search/tests/search_embedded_form.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/search/tests/search_embedded_form.module',
       'name' => 'search_embedded_form',
       'type' => 'module',
       'owner' => '',
@@ -3280,22 +3682,22 @@ $options['packages'] = array (
         'name' => 'Search embedded form',
         'description' => 'Support module for search module testing of embedded forms.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'search_extra_type' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/search/tests/search_extra_type.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/search/tests/search_extra_type.module',
       'name' => 'search_extra_type',
       'type' => 'module',
       'owner' => '',
@@ -3308,22 +3710,62 @@ $options['packages'] = array (
         'name' => 'Test search type',
         'description' => 'Support module for search module testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
+    ),
+    'seo' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/seo/seo.module',
+      'name' => 'seo',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => '0',
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'SEO Essentials',
+        'description' => 'Installs and configures essential Drupal SEO modules',
+        'core' => '7.x',
+        'package' => 'SEO',
+        'php' => '5.2.4',
+        'dependencies' => 
+        array (
+          0 => 'globalredirect',
+          1 => 'metatag',
+          2 => 'pathauto',
+          3 => 'redirect',
+          4 => 'xmlsitemap',
+          5 => 'xmlsitemap_node',
+        ),
+        'features' => 
+        array (
+          'ctools' => 
+          array (
+            0 => 'strongarm:strongarm:1',
+          ),
+        ),
+        'version' => '7.x-1.0-beta1',
+        'project' => 'seo',
+        'datestamp' => '1326565546',
+      ),
+      'project' => 'seo',
+      'version' => '7.x-1.0-beta1',
     ),
     'session_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/session_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/session_test.module',
       'name' => 'session_test',
       'type' => 'module',
       'owner' => '',
@@ -3336,22 +3778,22 @@ $options['packages'] = array (
         'name' => 'Session test',
         'description' => 'Support module for session data testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'shortcut' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/shortcut/shortcut.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/shortcut/shortcut.module',
       'name' => 'shortcut',
       'type' => 'module',
       'owner' => '',
@@ -3364,7 +3806,7 @@ $options['packages'] = array (
         'name' => 'Shortcut',
         'description' => 'Allows users to manage customizable lists of shortcut links.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -3372,18 +3814,18 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/config/user-interface/shortcut',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'simpletest' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/simpletest.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/simpletest.module',
       'name' => 'simpletest',
       'type' => 'module',
       'owner' => '',
@@ -3396,7 +3838,7 @@ $options['packages'] = array (
         'name' => 'Testing',
         'description' => 'Provides a framework for unit and functional testing.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -3445,14 +3887,14 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/config/development/testing/settings',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'site_verify' => 
     array (
@@ -3488,9 +3930,43 @@ $options['packages'] = array (
       'project' => 'site_verify',
       'version' => '7.x-1.0',
     ),
+    'socialmedia' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/socialmedia/socialmedia.module',
+      'name' => 'socialmedia',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '1',
+      'bootstrap' => '0',
+      'schema_version' => '0',
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Social media',
+        'description' => 'Example module to demonstrate module socialmedia.',
+        'package' => 'Social media',
+        'core' => '7.x',
+        'php' => '5.1',
+        'configure' => 'admin/config/media/socialmedia',
+        'files' => 
+        array (
+          0 => 'socialmedia.module',
+          1 => 'socialmedia.admin.inc',
+          2 => 'socialmedia.widgetx_elements.inc',
+        ),
+        'version' => '7.x-1.0-beta5',
+        'project' => 'socialmedia',
+        'datestamp' => '1324420244',
+        'dependencies' => 
+        array (
+        ),
+      ),
+      'project' => 'socialmedia',
+      'version' => '7.x-1.0-beta5',
+    ),
     'standard' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/profiles/standard/standard.profile',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/profiles/standard/standard.profile',
       'name' => 'standard',
       'type' => 'module',
       'owner' => '',
@@ -3500,10 +3976,9 @@ $options['packages'] = array (
       'weight' => '1000',
       'info' => 
       array (
-        'name' => 'Drupal 7 Standard',
-        'old_short_name' => 'minimal',
+        'name' => 'Standard',
         'description' => 'Install with commonly used features pre-configured.',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -3534,15 +4009,15 @@ $options['packages'] = array (
           0 => 'standard.profile',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'statistics' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/statistics/statistics.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/statistics/statistics.module',
       'name' => 'statistics',
       'type' => 'module',
       'owner' => '',
@@ -3555,7 +4030,7 @@ $options['packages'] = array (
         'name' => 'Statistics',
         'description' => 'Logs access statistics for your site.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -3563,23 +4038,23 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/config/system/statistics',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'syslog' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/syslog/syslog.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/syslog/syslog.module',
       'name' => 'syslog',
       'type' => 'module',
       'owner' => '',
-      'status' => '0',
-      'bootstrap' => '0',
+      'status' => '1',
+      'bootstrap' => '1',
       'schema_version' => '0',
       'weight' => '0',
       'info' => 
@@ -3587,25 +4062,25 @@ $options['packages'] = array (
         'name' => 'Syslog',
         'description' => 'Logs and records system events to syslog.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
           0 => 'syslog.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'system' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/system/system.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/system/system.module',
       'name' => 'system',
       'type' => 'module',
       'owner' => '',
@@ -3618,7 +4093,7 @@ $options['packages'] = array (
         'name' => 'System',
         'description' => 'Handles general site configuration for administrators.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -3632,18 +4107,18 @@ $options['packages'] = array (
         'required' => true,
         'configure' => 'admin/config/system',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'system_dependencies_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/system_dependencies_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/system_dependencies_test.module',
       'name' => 'system_dependencies_test',
       'type' => 'module',
       'owner' => '',
@@ -3656,7 +4131,7 @@ $options['packages'] = array (
         'name' => 'System dependency test',
         'description' => 'Support module for testing system dependencies.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'dependencies' => 
@@ -3664,15 +4139,129 @@ $options['packages'] = array (
           0 => '_missing_dependency',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
+    ),
+    'system_incompatible_core_version_dependencies_test' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/system_incompatible_core_version_dependencies_test.module',
+      'name' => 'system_incompatible_core_version_dependencies_test',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'System incompatible core version dependencies test',
+        'description' => 'Support module for testing system dependencies.',
+        'package' => 'Testing',
+        'version' => '7.10',
+        'core' => '7.x',
+        'hidden' => true,
+        'dependencies' => 
+        array (
+          0 => 'system_incompatible_core_version_test',
+        ),
+        'project' => 'drupal',
+        'datestamp' => '1323125439',
+        'php' => '5.2.4',
+      ),
+      'project' => 'drupal',
+      'version' => '7.10',
+    ),
+    'system_incompatible_core_version_test' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/system_incompatible_core_version_test.module',
+      'name' => 'system_incompatible_core_version_test',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'System incompatible core version test',
+        'description' => 'Support module for testing system dependencies.',
+        'package' => 'Testing',
+        'version' => '7.10',
+        'core' => '5.x',
+        'hidden' => true,
+        'project' => 'drupal',
+        'datestamp' => '1323125439',
+        'dependencies' => 
+        array (
+        ),
+        'php' => '5.2.4',
+      ),
+      'project' => 'drupal',
+      'version' => '7.10',
+    ),
+    'system_incompatible_module_version_dependencies_test' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/system_incompatible_module_version_dependencies_test.module',
+      'name' => 'system_incompatible_module_version_dependencies_test',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'System incompatible module version dependencies test',
+        'description' => 'Support module for testing system dependencies.',
+        'package' => 'Testing',
+        'version' => '7.10',
+        'core' => '7.x',
+        'hidden' => true,
+        'dependencies' => 
+        array (
+          0 => 'system_incompatible_module_version_test (>2.0)',
+        ),
+        'project' => 'drupal',
+        'datestamp' => '1323125439',
+        'php' => '5.2.4',
+      ),
+      'project' => 'drupal',
+      'version' => '7.10',
+    ),
+    'system_incompatible_module_version_test' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/system_incompatible_module_version_test.module',
+      'name' => 'system_incompatible_module_version_test',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'System incompatible module version test',
+        'description' => 'Support module for testing system dependencies.',
+        'package' => 'Testing',
+        'version' => '7.10',
+        'core' => '7.x',
+        'hidden' => true,
+        'project' => 'drupal',
+        'datestamp' => '1323125439',
+        'dependencies' => 
+        array (
+        ),
+        'php' => '5.2.4',
+      ),
+      'project' => 'drupal',
+      'version' => '7.10',
     ),
     'system_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/system_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/system_test.module',
       'name' => 'system_test',
       'type' => 'module',
       'owner' => '',
@@ -3685,7 +4274,7 @@ $options['packages'] = array (
         'name' => 'System test',
         'description' => 'Support module for system testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -3693,18 +4282,18 @@ $options['packages'] = array (
         ),
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'taxonomy' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/taxonomy/taxonomy.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/taxonomy/taxonomy.module',
       'name' => 'taxonomy',
       'type' => 'module',
       'owner' => '',
@@ -3717,7 +4306,7 @@ $options['packages'] = array (
         'name' => 'Taxonomy',
         'description' => 'Enables the categorization of content.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -3730,15 +4319,15 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/structure/taxonomy',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'taxonomy_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/taxonomy_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/taxonomy_test.module',
       'name' => 'taxonomy_test',
       'type' => 'module',
       'owner' => '',
@@ -3751,7 +4340,7 @@ $options['packages'] = array (
         'name' => 'Taxonomy test module',
         'description' => '"Tests functions and hooks not used in core".',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'dependencies' => 
@@ -3759,15 +4348,15 @@ $options['packages'] = array (
           0 => 'taxonomy',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'text' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/field/modules/text/text.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/field/modules/text/text.module',
       'name' => 'text',
       'type' => 'module',
       'owner' => '',
@@ -3780,7 +4369,7 @@ $options['packages'] = array (
         'name' => 'Text',
         'description' => 'Defines simple text field types.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'dependencies' => 
         array (
@@ -3792,11 +4381,11 @@ $options['packages'] = array (
         ),
         'required' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'textile' => 
     array (
@@ -3828,7 +4417,7 @@ $options['packages'] = array (
     ),
     'theme_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/theme_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/theme_test.module',
       'name' => 'theme_test',
       'type' => 'module',
       'owner' => '',
@@ -3841,28 +4430,28 @@ $options['packages'] = array (
         'name' => 'Theme test',
         'description' => 'Support module for theme system testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'toolbar' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/toolbar/toolbar.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/toolbar/toolbar.module',
       'name' => 'toolbar',
       'type' => 'module',
       'owner' => '',
       'status' => '0',
       'bootstrap' => '0',
-      'schema_version' => 0,
+      'schema_version' => '0',
       'weight' => '0',
       'info' => 
       array (
@@ -3870,16 +4459,16 @@ $options['packages'] = array (
         'description' => 'Provides a toolbar that shows the top-level administration menu items and links from other modules.',
         'core' => '7.x',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'total_control' => 
     array (
@@ -3905,7 +4494,7 @@ $options['packages'] = array (
     ),
     'tracker' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/tracker/tracker.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/tracker/tracker.module',
       'name' => 'tracker',
       'type' => 'module',
       'owner' => '',
@@ -3922,22 +4511,22 @@ $options['packages'] = array (
           0 => 'comment',
         ),
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
           0 => 'tracker.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'translation' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/translation/translation.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/translation/translation.module',
       'name' => 'translation',
       'type' => 'module',
       'owner' => '',
@@ -3954,22 +4543,22 @@ $options['packages'] = array (
           0 => 'locale',
         ),
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
           0 => 'translation.test',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'translation_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/translation/tests/translation_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/translation/tests/translation_test.module',
       'name' => 'translation_test',
       'type' => 'module',
       'owner' => '',
@@ -3983,21 +4572,21 @@ $options['packages'] = array (
         'description' => 'Support module for the content translation tests.',
         'core' => '7.x',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'trigger' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/trigger/trigger.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/trigger/trigger.module',
       'name' => 'trigger',
       'type' => 'module',
       'owner' => '',
@@ -4010,7 +4599,7 @@ $options['packages'] = array (
         'name' => 'Trigger',
         'description' => 'Enables actions to be fired on certain system events, such as when new content is created.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -4018,18 +4607,18 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/structure/trigger',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'trigger_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/trigger/tests/trigger_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/trigger/tests/trigger_test.module',
       'name' => 'trigger_test',
       'type' => 'module',
       'owner' => '',
@@ -4044,20 +4633,20 @@ $options['packages'] = array (
         'package' => 'Testing',
         'core' => '7.x',
         'hidden' => true,
-        'version' => '7.8',
+        'version' => '7.10',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'update' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/update/update.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/update/update.module',
       'name' => 'update',
       'type' => 'module',
       'owner' => '',
@@ -4069,7 +4658,7 @@ $options['packages'] = array (
       array (
         'name' => 'Update manager',
         'description' => 'Checks for available updates, and can securely install or update modules and themes via a web interface.',
-        'version' => '7.8',
+        'version' => '7.10',
         'package' => 'Core',
         'core' => '7.x',
         'files' => 
@@ -4078,18 +4667,46 @@ $options['packages'] = array (
         ),
         'configure' => 'admin/reports/updates/settings',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
+    ),
+    'update_script_test' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/update_script_test.module',
+      'name' => 'update_script_test',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Update script test',
+        'description' => 'Support module for update script testing.',
+        'package' => 'Testing',
+        'version' => '7.10',
+        'core' => '7.x',
+        'hidden' => true,
+        'project' => 'drupal',
+        'datestamp' => '1323125439',
+        'dependencies' => 
+        array (
+        ),
+        'php' => '5.2.4',
+      ),
+      'project' => 'drupal',
+      'version' => '7.10',
     ),
     'update_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/update/tests/update_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/update/tests/update_test.module',
       'name' => 'update_test',
       'type' => 'module',
       'owner' => '',
@@ -4102,22 +4719,22 @@ $options['packages'] = array (
         'name' => 'Update test',
         'description' => 'Support module for update module testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'update_test_1' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/update_test_1.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/update_test_1.module',
       'name' => 'update_test_1',
       'type' => 'module',
       'owner' => '',
@@ -4130,22 +4747,22 @@ $options['packages'] = array (
         'name' => 'Update test',
         'description' => 'Support module for update testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'update_test_2' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/update_test_2.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/update_test_2.module',
       'name' => 'update_test_2',
       'type' => 'module',
       'owner' => '',
@@ -4158,22 +4775,22 @@ $options['packages'] = array (
         'name' => 'Update test',
         'description' => 'Support module for update testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'update_test_3' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/update_test_3.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/update_test_3.module',
       'name' => 'update_test_3',
       'type' => 'module',
       'owner' => '',
@@ -4186,22 +4803,22 @@ $options['packages'] = array (
         'name' => 'Update test',
         'description' => 'Support module for update testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'url_alter_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/url_alter_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/url_alter_test.module',
       'name' => 'url_alter_test',
       'type' => 'module',
       'owner' => '',
@@ -4215,21 +4832,21 @@ $options['packages'] = array (
         'description' => 'A support modules for url_alter hook testing.',
         'core' => '7.x',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'user' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/user/user.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/user/user.module',
       'name' => 'user',
       'type' => 'module',
       'owner' => '',
@@ -4242,7 +4859,7 @@ $options['packages'] = array (
         'name' => 'User',
         'description' => 'Manages the user registration and login system.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'files' => 
         array (
@@ -4259,14 +4876,14 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'userreference' => 
     array (
@@ -4292,7 +4909,7 @@ $options['packages'] = array (
     ),
     'user_form_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/user/tests/user_form_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/user/tests/user_form_test.module',
       'name' => 'user_form_test',
       'type' => 'module',
       'owner' => '',
@@ -4305,18 +4922,18 @@ $options['packages'] = array (
         'name' => 'User module form tests',
         'description' => 'Support module for user form testing.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'variable_clean' => 
     array (
@@ -4326,7 +4943,7 @@ $options['packages'] = array (
       'owner' => '',
       'status' => '0',
       'bootstrap' => '0',
-      'schema_version' => 0,
+      'schema_version' => '0',
       'weight' => '0',
       'info' => 
       array (
@@ -4534,6 +5151,63 @@ $options['packages'] = array (
       'project' => '',
       'version' => NULL,
     ),
+    'widgets' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/widgets/widgets.module',
+      'name' => 'widgets',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '1',
+      'bootstrap' => '0',
+      'schema_version' => '0',
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Widgets',
+        'description' => 'Enables easy management of code snipets like Twitter, Facebook and Google+ buttons.',
+        'package' => 'Widgets',
+        'core' => '7.x',
+        'configure' => 'admin/structure/widgets-sets',
+        'version' => '7.x-1.0-beta3',
+        'project' => 'widgets',
+        'datestamp' => '1324414544',
+        'dependencies' => 
+        array (
+        ),
+        'php' => '5.2.4',
+      ),
+      'project' => 'widgets',
+      'version' => '7.x-1.0-beta3',
+    ),
+    'widgets_service_links' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/sites/all/modules/widgets/modules/widgets_service_links/widgets_service_links.module',
+      'name' => 'widgets_service_links',
+      'type' => 'module',
+      'owner' => '',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Widgets Service links',
+        'description' => 'Enables links from Service links module to be used as widget elements',
+        'package' => 'Widgets',
+        'dependencies' => 
+        array (
+          0 => 'widgets',
+          1 => 'service_links',
+        ),
+        'core' => '7.x',
+        'version' => '7.x-1.0-beta3',
+        'project' => 'widgets',
+        'datestamp' => '1324414544',
+        'php' => '5.2.4',
+      ),
+      'project' => 'widgets',
+      'version' => '7.x-1.0-beta3',
+    ),
     'wordpress_import' => 
     array (
       'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod',
@@ -4558,7 +5232,7 @@ $options['packages'] = array (
     ),
     'xmlrpc_test' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/modules/simpletest/tests/xmlrpc_test.module',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/modules/simpletest/tests/xmlrpc_test.module',
       'name' => 'xmlrpc_test',
       'type' => 'module',
       'owner' => '',
@@ -4571,25 +5245,25 @@ $options['packages'] = array (
         'name' => 'XML-RPC Test',
         'description' => 'Support module for XML-RPC tests according to the validator1 specification.',
         'package' => 'Testing',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'hidden' => true,
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
   ),
   'themes' => 
   array (
     'bartik' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/themes/bartik/bartik.info',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/themes/bartik/bartik.info',
       'name' => 'bartik',
       'type' => 'theme',
       'owner' => 'themes/engines/phptemplate/phptemplate.engine',
@@ -4602,7 +5276,7 @@ $options['packages'] = array (
         'name' => 'Bartik',
         'description' => 'A flexible, recolorable theme with many regions.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'stylesheets' => 
         array (
@@ -4642,18 +5316,60 @@ $options['packages'] = array (
           'shortcut_module_link' => '0',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
+    ),
+    'block_test_theme' => 
+    array (
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/themes/tests/block_test_theme/block_test_theme.info',
+      'name' => 'block_test_theme',
+      'type' => 'theme',
+      'owner' => 'themes/engines/phptemplate/phptemplate.engine',
+      'status' => '0',
+      'bootstrap' => '0',
+      'schema_version' => 0,
+      'weight' => '0',
+      'info' => 
+      array (
+        'name' => 'Block test theme',
+        'description' => 'Theme for testing the block system',
+        'core' => '7.x',
+        'hidden' => true,
+        'regions' => 
+        array (
+          'sidebar_first' => 'Left sidebar',
+          'sidebar_second' => 'Right sidebar',
+          'content' => 'Content',
+          'header' => 'Header',
+          'footer' => 'Footer',
+          'highlighted' => 'Highlighted',
+          'help' => 'Help',
+        ),
+        'regions_hidden' => 
+        array (
+          0 => 'sidebar_first',
+          1 => 'sidebar_second',
+        ),
+        'version' => '7.10',
+        'project' => 'drupal',
+        'datestamp' => '1323125439',
+        'dependencies' => 
+        array (
+        ),
+        'php' => '5.2.4',
+      ),
+      'project' => 'drupal',
+      'version' => '7.10',
     ),
     'garland' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/themes/garland/garland.info',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/themes/garland/garland.info',
       'name' => 'garland',
       'type' => 'theme',
       'owner' => 'themes/engines/phptemplate/phptemplate.engine',
@@ -4666,7 +5382,7 @@ $options['packages'] = array (
         'name' => 'Garland',
         'description' => 'A multi-column theme which can be configured to modify colors and switch between fixed and fluid width layouts.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'stylesheets' => 
         array (
@@ -4684,18 +5400,18 @@ $options['packages'] = array (
           'garland_width' => 'fluid',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'seven' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/themes/seven/seven.info',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/themes/seven/seven.info',
       'name' => 'seven',
       'type' => 'theme',
       'owner' => 'themes/engines/phptemplate/phptemplate.engine',
@@ -4708,7 +5424,7 @@ $options['packages'] = array (
         'name' => 'Seven',
         'description' => 'A simple one-column, tableless, fluid width administration theme.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'stylesheets' => 
         array (
@@ -4735,18 +5451,18 @@ $options['packages'] = array (
           0 => 'sidebar_first',
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'stark' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/themes/stark/stark.info',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/themes/stark/stark.info',
       'name' => 'stark',
       'type' => 'theme',
       'owner' => 'themes/engines/phptemplate/phptemplate.engine',
@@ -4759,7 +5475,7 @@ $options['packages'] = array (
         'name' => 'Stark',
         'description' => 'This theme demonstrates Drupal\'s default HTML markup and CSS styles. To learn how to build your own theme and override Drupal\'s default code, see the <a href="http://drupal.org/theme-guide">Theming Guide</a>.',
         'package' => 'Core',
-        'version' => '7.8',
+        'version' => '7.10',
         'core' => '7.x',
         'stylesheets' => 
         array (
@@ -4769,18 +5485,18 @@ $options['packages'] = array (
           ),
         ),
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'test_theme' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/themes/tests/test_theme/test_theme.info',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/themes/tests/test_theme/test_theme.info',
       'name' => 'test_theme',
       'type' => 'theme',
       'owner' => 'themes/engines/phptemplate/phptemplate.engine',
@@ -4801,20 +5517,20 @@ $options['packages'] = array (
             0 => 'system.base.css',
           ),
         ),
-        'version' => '7.8',
+        'version' => '7.10',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'update_test_basetheme' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/themes/tests/update_test_basetheme/update_test_basetheme.info',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/themes/tests/update_test_basetheme/update_test_basetheme.info',
       'name' => 'update_test_basetheme',
       'type' => 'theme',
       'owner' => 'themes/engines/phptemplate/phptemplate.engine',
@@ -4828,20 +5544,20 @@ $options['packages'] = array (
         'description' => 'Test theme which acts as a base theme for other test subthemes.',
         'core' => '7.x',
         'hidden' => true,
-        'version' => '7.8',
+        'version' => '7.10',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
     'update_test_subtheme' => 
     array (
-      'filename' => '/data/all/003/drupal-7.8-prod/themes/tests/update_test_subtheme/update_test_subtheme.info',
+      'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod/themes/tests/update_test_subtheme/update_test_subtheme.info',
       'name' => 'update_test_subtheme',
       'type' => 'theme',
       'owner' => 'themes/engines/phptemplate/phptemplate.engine',
@@ -4856,16 +5572,16 @@ $options['packages'] = array (
         'core' => '7.x',
         'base theme' => 'update_test_basetheme',
         'hidden' => true,
-        'version' => '7.8',
+        'version' => '7.10',
         'project' => 'drupal',
-        'datestamp' => '1314817616',
+        'datestamp' => '1323125439',
         'dependencies' => 
         array (
         ),
         'php' => '5.2.4',
       ),
       'project' => 'drupal',
-      'version' => '7.8',
+      'version' => '7.10',
     ),
   ),
 );

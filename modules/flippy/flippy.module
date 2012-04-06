@@ -167,9 +167,9 @@ function template_preprocess_flippy(&$vars) {
   drupal_add_css(drupal_get_path('module', 'flippy') . '/flippy.css');
 
   if ($nav = $vars['list']) {
-    $vars['first_link'] = empty($nav['first']) ? '' : l('‹ ' . t('first'), 'node/' . $nav['first']);
-    $vars['previous_link'] =  empty($nav['prev']) ? '' : l('‹ ' . t('previous'), 'node/' . $nav['prev']);
-    $vars['next_link'] =  empty($nav['next']) ? '' : l(t('next') . ' ›', 'node/' . $nav['next']);
-    $vars['last_link'] =  empty($nav['last']) ? '' : l(t('latest') . ' ›', 'node/' . $nav['last']);
+    $vars['first_link'] = empty($nav['first']) ? '' : l('‹ ' . t('first'), 'node/' . $nav['first']. 'template=modalwindow');
+    $vars['previous_link'] =  empty($nav['prev']) ? '' : l('‹ ' . t('previous'), 'node/' . $nav['prev']. 'template=modalwindow');
+    $vars['next_link'] =  empty($nav['next']) ? '' : l(t('next') . ' ›', 'node/' . $nav['next']. 'template=modalwindow');
+    $vars['last_link'] =  empty($nav['last']) ? '' : l(t('latest') . ' ›', 'node/' . $nav['last']. 'template=modalwindow');
   }
 }

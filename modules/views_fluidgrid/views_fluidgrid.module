@@ -21,10 +21,8 @@ function template_preprocess_views_view_fluidgrid(&$vars) {
   $options = $view->style_plugin->options;
   $vars['views_fluidgrid_id'] = 'views_fluidgrid_'. $view->name .'_'. $view->current_display;
   
-  
-  
   // If we want to use CSS for animation, let's describe them
-  if ($options['animate'] && $options['animation_options']['use_css']) {
+  if ($options['animation_options']['use_css']) {
     $duration_in_seconds = intval($options['animation_options']['duration']) / 1000;
 
     $css = '.masonry, .masonry .masonry-brick {

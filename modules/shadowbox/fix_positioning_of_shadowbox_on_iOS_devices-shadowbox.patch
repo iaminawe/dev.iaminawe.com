@@ -1,0 +1,51 @@
+diff --git a/sites/all/modules/contrib/shadowbox/shadowbox.module b/sites/all/modules/contrib/shadowbox/shadowbox.module
+index 2cb2c90..d401749 100644
+--- a/sites/all/modules/contrib/shadowbox/shadowbox.module
++++ b/sites/all/modules/contrib/shadowbox/shadowbox.module
+@@ -48,8 +48,44 @@ function shadowbox_library() {
+         'scope' => 'footer',
+         'data' => '
+           Shadowbox.path = "' . base_path() . $shadowbox_location . '/";
+-	      Shadowbox.init(Drupal.settings.shadowbox);
+-	    ',
++          
++          // check if the user is using a smart device
++          var isSmartMobile = false;
++          if ((navigator.userAgent.match(/iPhone/i) == "iPhone") || (navigator.userAgent.match(/iPad/i) == "iPad")) {
++            isSmartMobile = true;
++          }
++          
++          // specify our own custom handlers for open and closing
++          var extendedOptions = {
++            onOpen: customOpen,
++            onClose: customClose
++          };
++          
++          // combine the original Drupal options with our extended options
++          jQuery.extend(Drupal.settings.shadowbox, extendedOptions);
++
++          // custom open handler to help with smart devices
++          // note: you must use "jQuery" instead of the $ 
++          function customOpen() {
++            if (isSmartMobile) {
++              var yOffset = window.pageYOffset;
++              jQuery("#sb-container").css("top", jQuery(window).scrollTop()); 
++              jQuery(window).bind("scroll", function() {
++                jQuery("#sb-container").css("top", jQuery(window).scrollTop()); 
++              });
++            }
++          };
++
++          // custom close handler to help with smart devices
++          // note: you must use "jQuery" instead of the $ 
++          function customClose() {
++            if (isSmartMobile) {
++              jQuery(window).unbind("scroll");
++            }
++          };
++
++	        Shadowbox.init(Drupal.settings.shadowbox);
++	      ',
+       )
+     ),
+     'css' => array(
