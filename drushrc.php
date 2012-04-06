@@ -375,33 +375,6 @@ $options['packages'] = array (
       'project' => 'drupal',
       'version' => '7.8',
     ),
-    'better_formats' => 
-    array (
-      'filename' => '/data/all/003/o_contrib_seven/better_formats/better_formats.module',
-      'name' => 'better_formats',
-      'type' => 'module',
-      'owner' => '',
-      'status' => '1',
-      'bootstrap' => '0',
-      'schema_version' => '6110',
-      'weight' => '100',
-      'info' => 
-      array (
-        'name' => 'Better Formats',
-        'description' => 'Enhances the core input format system by managing input format defaults and settings.',
-        'core' => '7.x',
-        'configure' => 'admin/config/content/formats',
-        'version' => '7.x-1.x-dev',
-        'project' => 'better_formats',
-        'datestamp' => '1309219453',
-        'dependencies' => 
-        array (
-        ),
-        'php' => '5.2.4',
-      ),
-      'project' => 'better_formats',
-      'version' => '7.x-1.x-dev',
-    ),
     'better_perms' => 
     array (
       'filename' => '/data/disk/iaminawe/distro/003/drupal-7.8-prod',
@@ -787,9 +760,9 @@ $options['packages'] = array (
       'name' => 'contact',
       'type' => 'module',
       'owner' => '',
-      'status' => '0',
+      'status' => '1',
       'bootstrap' => '0',
-      'schema_version' => 0,
+      'schema_version' => '7003',
       'weight' => '0',
       'info' => 
       array (
@@ -1171,7 +1144,7 @@ $options['packages'] = array (
       'owner' => '',
       'status' => '0',
       'bootstrap' => '0',
-      'schema_version' => '7001',
+      'schema_version' => 0,
       'weight' => '0',
       'info' => 
       array (
@@ -3110,7 +3083,7 @@ $options['packages'] = array (
       'owner' => '',
       'status' => '0',
       'bootstrap' => '0',
-      'schema_version' => '0',
+      'schema_version' => 0,
       'weight' => '0',
       'info' => 
       array (
@@ -3605,8 +3578,8 @@ $options['packages'] = array (
       'name' => 'syslog',
       'type' => 'module',
       'owner' => '',
-      'status' => '1',
-      'bootstrap' => '1',
+      'status' => '0',
+      'bootstrap' => '0',
       'schema_version' => '0',
       'weight' => '0',
       'info' => 
@@ -3889,7 +3862,7 @@ $options['packages'] = array (
       'owner' => '',
       'status' => '0',
       'bootstrap' => '0',
-      'schema_version' => '0',
+      'schema_version' => 0,
       'weight' => '0',
       'info' => 
       array (
@@ -4090,7 +4063,7 @@ $options['packages'] = array (
       'owner' => '',
       'status' => '0',
       'bootstrap' => '0',
-      'schema_version' => 0,
+      'schema_version' => '7001',
       'weight' => '0',
       'info' => 
       array (

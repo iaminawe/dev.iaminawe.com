@@ -15,6 +15,9 @@
 	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lwy562
 	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lwzywe
 	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lx008u
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lx7c1u
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lx7fb0
+	http://dev.iaminawe.com/sites/dev.iaminawe.com/themes/iaminawe_omega/css/global.css?lx7hn8
 */
 
 /* This file will hold the main styles for your website. */
@@ -42,7 +45,31 @@ a{
   margin: none !important;
 }
 .flexslider{
-  background-color: black;
+   border: 8px solid white;
+  -webkit-box-shadow: 0px 3px 4px #888;
+  -moz-box-shadow: 0px 3px 4px #888;
+  box-shadow: 0px 3px 4px #888;
+  width: 98%;
+  padding: 5px;
+}
+#block-views-web-block,
+#block-views-motion-block,
+#block-views-design-block{
+    width: 30%;
+    float: left;
+}  
+
+#flexslider_views_slideshow_main_web-block,
+#flexslider_views_slideshow_main_motion-block,
+#flexslider_views_slideshow_main_design-block{
+  width: 100%;
+}
+.block-views-web-block h2.block-title,
+.block-views-motion-block h2.block-title,
+.block-views-design-block h2.block-title{
+
+  
+    
 }
 
 #superfish-2{
@@ -53,12 +80,12 @@ a{
 body {
   font: 13px/1.5 Verdana, Helvetica, Arial, sans-serif;
 
-  color: white;
+  color: #111;
   font-size: 14px;
 }
 
 a:link, a:visited {
-  color: #b5dffc;
+  color: #009ea3;
   text-decoration: none;
 }
 
@@ -212,10 +239,27 @@ ol ol {
 
 }
 
+.view-mode-full img{
+ border: 8px solid white;
+  -webkit-box-shadow: 0px 2px 4px #888;
+  -moz-box-shadow: 0px 2p 4px #888;
+  box-shadow: 0px 2p 4px #888;
+ margin-bottom: 10px;
+}
+
+.flexslider img{
+  border: none;
+  
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
 .group-header{
-	padding-bottom: 3px;
+  padding-bottom: 3px;
   border-bottom: thin white solid;
   margin-bottom: 30px;
+  
 }
 
 .group-header span{
@@ -232,10 +276,12 @@ ol ol {
 
 .group-header .flippy{
   float: right;
-  position: absolute;
+  position: relative;
   right: 10px;
-  top:20px
-
+  top: -20px;
+  padding:5px;
+  font-weight: bold;
+  background-color: white;
 }
 
 .group-left fieldset{
@@ -260,29 +306,51 @@ height: 20px !important;
 .node-type-website .group-left,
 .node-type-packaging .group-left
 {
+	
   width: 60%;
   margin-right: 20px;
+}
+.node-type-logo .group-left,
+.node-type-business-card .group-left{
+  width: 40%;
+   margin-left: 20px;
+   margin-right: 20px;
+}
+.node-type-logo .group-left img{
+  width: 90%;
+   margin-left: 20px;
+   margin-bottom: 10px;
 }
 
 .node-type-design .group-middle,
 .node-type-website .group-middle,
-.node-type-packaging .group-middle{
+.node-type-packaging .group-middle,
+.node-type-logo .group-middle
+{
   width: 35%;
   margin-left: 20px;
 }
+.node-type-business-card .group-middle{
+   width: 50%;
+  margin-left: 70px;
+}
 
+.node-type-packaging .group-left img{
+ width: 100%;
+}
 .node-type-video .group-left{
-  width: 100%;
+  width: 66%;
 
-  margin: auto;
+  margin-right: 20px;
  
 }
 .node-type-video .group-middle{
-  width: 50%;
+  width: 30%;
 }
 
 .node-type-video .group-right{
-  width: 50%;
+  width: 66%;
+  float: left;
 }
 
 #media-vimeo-1{
@@ -290,10 +358,7 @@ height: 20px !important;
   height: 100% !important;
 }
 
-.media-viemo-preview-wrapper{
-  width: 100% !important;
-  height: 100% !important;
-}
+
 
 .media-vimeo-outer-wrapper{
   width: 100% !important;
@@ -305,11 +370,13 @@ height: 20px !important;
   height: 100% !important;
 }
 .fitvidwrap{
-  width: 98% !important;
+   border: 8px solid white;
+  -webkit-box-shadow: 0px 4px 4px #888;
+  -moz-box-shadow: 0px 4p 4px #888;
+  box-shadow: 0px 4p 4px #888;
   margin-bottom: 20px;
-  margin: auto;
-  padding:20px;
-
+ 
+ 
 }
 
 ul.links{
@@ -324,22 +391,47 @@ ul.links .comment_forbidden{
 }
 
 .masonry-brick{
-   background-color: black;
+   background-color: white;
   padding: 10px;
   margin-bottom: 10px;
+  
+}
+
+.masonry-brick{
+  width: 300px;
+ 
+}
+
+.masonry-brick img{
+  width: 100%;
 }
 
 .masonry-brick h3{
-  font-size: 14px;
+  font-size: 18px;
+}
+
+.masonry-brick h3.nodetype{
+  font-size: 16px;
+  position: absolute;
+  top: 20px;
+  height: 20px;
+  margin: 0;
+  right: 20px;
+  padding: 2px
+}
+
+#block-views-web-block h2.block-title{
+  color: black;
+  
 }
 
 .node-page{
-  background-color: rgba(0,0,0,0.80);
+  background-color: rgba(255,255,255,0.90);
   padding: 10px;
 }
 
 .view-mode-full{
-  background-color: rgba(0,0,0,0.80);
+  background-color: rgba(255,255,255,0.90);
   padding: 10px;
 }
 .node ol,
