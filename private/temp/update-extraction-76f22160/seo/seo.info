@@ -1,0 +1,18 @@
+name = "SEO Essentials"
+description = "Installs and configures essential Drupal SEO modules"
+core = "7.x"
+package = "SEO"
+php = "5.2.4"
+dependencies[] = "globalredirect"
+dependencies[] = "metatag"
+dependencies[] = "pathauto"
+dependencies[] = "redirect"
+dependencies[] = "xmlsitemap"
+dependencies[] = "xmlsitemap_node"
+features[ctools][] = "strongarm:strongarm:1"
+; Information added by drupal.org packaging script on 2012-01-14
+version = "7.x-1.0-beta1"
+core = "7.x"
+project = "seo"
+datestamp = "1326565546"
+

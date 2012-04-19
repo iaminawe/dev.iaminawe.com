@@ -1,0 +1,8 @@
+name = "Enterprise Blog Content"
+description = "Default Content for Enterprise Blog"
+core = "7.x"
+dependencies[] = "enterprise_blog"
+package = "Features"
+features[content][] = "blog1"
+features[content][] = "blog2"
+features[content][] = "blog3"

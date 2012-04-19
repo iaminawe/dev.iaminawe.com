@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * Implements hook_install()
+ *
+ * We are implementing things in install hooks even though they can be placed
+ * in a feature so that they can be customized without breaking the feature.
+ */
+function enterprise_blog_install() {
+  // Add shortcut links.
+  $menu_link = array(
+    'link_path' => 'node/add/enterprise-blog',
+    'link_title' => 'Add Blog Post',
+    'menu_name' => 'shortcut-set-1',
+  );
+  menu_link_save($menu_link);
+  $menu_link = array(
+    'link_path' => 'admin/content/blog',
+    'link_title' => 'Administer Blogs',
+    'menu_name' => 'shortcut-set-1',
+  );
+  menu_link_save($menu_link);
+}
+
+function enterprise_blog_init() {
+  if (!variable_get('enterprise_blog_installed', FALSE) && taxonomy_vocabulary_machine_name_load('enterprise_blog_category')) {
+    // Add in Uncategorized taxonomy term.
+    $vocab = taxonomy_vocabulary_machine_name_load('enterprise_blog_category');
+    $term = new stdClass;
+    $term->vid = $vocab->vid;
+    $term->name = 'Uncategorized';
+    $term->vocabulary_machine_name = 'enterprise_blog_category';
+    taxonomy_term_save($term);
+    variable_set('enterprise_blog_installed', TRUE);
+    
+    // Create blog menu link.
+    $menu_link = array(
+      'link_path' => 'blog',
+      'link_title' => 'Blog',
+      'menu_name' => 'main-menu',
+      'weight' => 1,
+    );
+    menu_link_save($menu_link);
+  }
+}
+
+function enterprise_blog_uninstall() {
+  db_delete('menu_links')
+    ->condition('link_path', array('admin/content/blog', 'node/add/enterprise-blog', 'blog'))
+    ->execute();
+}
