@@ -1,0 +1,36 @@
+diff --git a/apps.installer.inc b/apps.installer.inc
+index f44fb43..4ca81b8 100755
+--- a/apps.installer.inc
++++ b/apps.installer.inc
+@@ -158,13 +158,12 @@ function apps_install_downloads() {
+     // credentials and invoke update_authorize_run_update() indirectly with
+     // whatever FileTransfer object authorize.php creates for us.
+     else {
+-      drupal_set_message("For the App Store to install apps, the web server needs access to the drupal sites dir", 'error');
++      // Set the $_SESSION variables so that authorize form knows what to do after authorization.
+       system_authorized_init('apps_run_install', drupal_get_path('module', 'apps') . '/apps.installer.inc', array($updates), t('Update manager'));
+       require_once DRUPAL_ROOT . '/includes/authorize.inc';
++      // Get the authorize form.
+       $form = drupal_get_form('authorize_filetransfer_form');
+-      array_unshift($form['#submit'], 'apps_authorize_filetransfer_form_submit');
+-      //unset($_SESSION['update_manager_update_projects']);
+-      //return $form;
++      return $form;
+     }
+   }
+ }
+diff --git a/apps.pages.inc b/apps.pages.inc
+index 2f456e3..cee1ae4 100755
+--- a/apps.pages.inc
++++ b/apps.pages.inc
+@@ -157,10 +157,6 @@ function apps_app_install($server_name, $app_name) {
+   $action = arg(APPSERVER_BASEPATH_DEPTH + 5);
+   $apps = apps_apps($server_name , array('machine_name' => $app_name)) ;
+   $app = $apps[$app_name];
+-  if (!is_writeable(conf_path())) {
+-      drupal_set_message("To install an app, web server needs write access to the Drupal sites folder. Please adjust and try again.", 'error');
+-      drupal_goto(apps_app_page_path($app));
+-  }
+   switch ($action) {
+     case FALSE:
+       $next = apps_app_page_path($app, 'install/install');

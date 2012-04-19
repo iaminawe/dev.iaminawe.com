@@ -3,9 +3,9 @@ description = Integrates actions with the permission system.
 package = Administration
 core = 7.x
 
-; Information added by drupal.org packaging script on 2011-12-14
-version = "7.x-3.x-dev"
+; Information added by drupal.org packaging script on 2012-01-17
+version = "7.x-3.0-beta3+8-dev"
 core = "7.x"
 project = "views_bulk_operations"
-datestamp = "1323865841"
+datestamp = "1326761868"
 

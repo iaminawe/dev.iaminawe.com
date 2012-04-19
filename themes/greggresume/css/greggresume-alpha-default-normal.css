@@ -1,0 +1,16 @@
+/* @override http://dev.gregg.iaminawe.com/sites/dev.iaminawe.com/themes/greggresume/css/greggresume-alpha-default-normal.css?m0lm31 */
+
+/* This file will hold styles that are loaded using the same media query as the normal grid. */
+#logo{
+  margin-left: -30px;
+}
+.masonry-brick{
+  width: 220px !important;
+}
+
+.group-left{
+  width: 60% !important;
+}
+.group-middle{
+  width: 32% !important;
+}

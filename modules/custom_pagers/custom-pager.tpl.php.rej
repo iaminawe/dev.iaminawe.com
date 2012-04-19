@@ -1,0 +1,8 @@
+--- custom-pager.tpl.php
++++ custom-pager.tpl.php
+@@ -1,5 +1,4 @@
+ <?php
+-
+ /**
+  * @file
+  * custom-pager.tpl.php

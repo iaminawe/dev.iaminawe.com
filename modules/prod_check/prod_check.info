@@ -1,0 +1,22 @@
+name = Production check
+description = Check a site to see if it's properly setup for production use.
+package = Monitoring
+core = 7.x
+configure = admin/config/system/prod-check
+files[] = css/prod-check.css
+files[] = includes/prod_check.admin.inc
+files[] = includes/prod_check.apc.inc
+files[] = includes/prod_check.theme.inc
+files[] = includes/prod_check.update.inc
+files[] = js/jquery.equalheights.js
+files[] = js/jquery.maskedinput.min.js
+files[] = js/prod-check.js
+files[] = prod_check.install
+files[] = prod_check.module
+
+; Information added by drupal.org packaging script on 2012-02-24
+version = "7.x-1.3"
+core = "7.x"
+project = "prod_check"
+datestamp = "1330116646"
+

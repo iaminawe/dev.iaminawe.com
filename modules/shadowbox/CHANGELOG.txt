@@ -3,6 +3,16 @@ Shadowbox x.x-x.x, xxxx-xx-xx
 -----------------------------
 
 
+Shadowbox 7.x-3.0-beta8, 2011-11-03
+-----------------------------------
+Fixed #1392232 by manfer: doesn't work with views infinite scroll.
+
+
+Shadowbox 7.x-3.0-beta7, 2011-11-03
+-----------------------------------
+by manfer: Enable shadowbox globally by default.
+
+
 Shadowbox 7.x-3.0-beta6, 2011-06-27
 -----------------------------------
 Issue #1187974 by szaszg: Fixed dont add rel attribute when it exits.
